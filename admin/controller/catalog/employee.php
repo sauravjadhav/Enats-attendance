@@ -230,15 +230,13 @@ class ControllerCatalogEmployee extends Controller {
 				'name'        => $result['name'],
 				'numbers'            => $result['numbers'],
 				'email'            => $result['email'],
-				'status'      => $result['status'],
-				'city'      => $result['city'],
+				'address'      => $result['address'],
 				'edit'            => $this->url->link('catalog/employee/edit', 'token=' . $this->session->data['token'] . '&employee_id=' . $result['employee_id'] . $url, true)
 			);
 		}
 
 		$filter_data = array(
 			'filter_name'	  => $filter_name,
-			'filter_numbers'	  => $filter_numbers,
 			'filter_numbers'  => $filter_numbers,
 			'filter_email'	  => $filter_email,
 			'sort'            => $sort,
@@ -259,8 +257,7 @@ class ControllerCatalogEmployee extends Controller {
 		$data['column_address'] = $this->language->get('column_address');
 		$data['column_numbers'] = $this->language->get('column_numbers');
 		$data['column_email'] = $this->language->get('column_email');
-		$data['column_status'] = $this->language->get('column_status');
-		$data['column_city'] = $this->language->get('column_city');
+		$data['column_address'] = $this->language->get('column_address');
 
 		$data['entry_name'] = $this->language->get('entry_name');
 		$data['entry_numbers'] = $this->language->get('entry_numbers');
@@ -368,6 +365,8 @@ class ControllerCatalogEmployee extends Controller {
 		$data['entry_pan'] = $this->language->get('entry_pan');
 		$data['entry_adhaar'] = $this->language->get('entry_adhaar');
 		$data['entry_bank_details'] = $this->language->get('entry_bank_details');
+		$data['entry_emergency_contact_person_details'] = $this->language->get('entry_emergency_contact_person_details');
+		$data['entry_laptop_model'] = $this->language->get('entry_laptop_model');
 		
 	
 
@@ -378,33 +377,7 @@ class ControllerCatalogEmployee extends Controller {
 		$data['button_filter'] = $this->language->get('button_filter');
 		$data['button_upload'] = $this->language->get('button_upload');
 
-		$months = array(
-			'1' => '1 Month',
-			'2' => '2 Months',
-			'3' => '3 Months',
-			'4' => '4 Months',
-			'5' => '5 Months',
-			'6' => '6 Months',
-			'7' => '7 Months',
-			'8' => '8 Months',
-			'9' => '9 Months',
-			'10' => '10 Months',
-		);
-		$data['Months']=$months;
-
-		$years = array(
-			'1' => '1 year',
-			'2' => '2 years',
-			'3' => '3 years',
-			'4' => '4 years',
-			'5' => '5 years',
-			'6' => '6 years',
-			'7' => '7 years',
-			'8' => '8 years',
-			'9' => '9 years',
-			'10' => '10 years',
-		);
-		$data['Years']=$years;
+		
 
 		if (isset($this->error['warning'])) {
 			$data['error_warning'] = $this->error['warning'];
@@ -418,10 +391,25 @@ class ControllerCatalogEmployee extends Controller {
 			$data['error_name'] = '';
 		}
 
+        if (isset($this->error['login'])) {
+			$data['error_login'] = $this->error['login'];
+		} else {
+			$data['error_login'] = '';
+		}
+		 if (isset($this->error['father_name'])) {
+			$data['error_father_name'] = $this->error['father_name'];
+		} else {
+			$data['error_father_name'] = '';
+		}
 		if (isset($this->error['email'])) {
 			$data['error_email'] = $this->error['email'];
 		} else {
 			$data['error_email'] = '';
+		}
+		if (isset($this->error['surname'])) {
+			$data['error_surname'] = $this->error['surname'];
+		} else {
+			$data['error_surname'] = '';
 		}
 
 		if (isset($this->error['password'])) {
@@ -436,16 +424,31 @@ class ControllerCatalogEmployee extends Controller {
 			$data['error_numbers'] = '';
 		}
 
-		if (isset($this->error['city'])) {
-			$data['error_city'] = $this->error['city'];
+		if (isset($this->error['address'])) {
+			$data['error_address'] = $this->error['address'];
 		} else {
-			$data['error_city'] = '';
+			$data['error_address'] = '';
 		}
 
-		if (isset($this->error['filename'])) {
-			$data['error_filename'] = $this->error['filename'];
+		if (isset($this->error['doje'])) {
+			$data['error_doje'] = $this->error['doje'];
 		} else {
-			$data['error_filename'] = '';
+			$data['error_doje'] = '';
+		}
+		if (isset($this->error['dob'])) {
+			$data['error_dob'] = $this->error['dob'];
+		} else {
+			$data['error_dob'] = '';
+		}
+		if (isset($this->error['pan'])) {
+			$data['error_pan'] = $this->error['pan'];
+		} else {
+			$data['error_pan'] = '';
+		}
+		if (isset($this->error['adhaar'])) {
+			$data['error_adhaar'] = $this->error['adhaar'];
+		} else {
+			$data['error_adhaar'] = '';
 		}
 
 		$url = '';
@@ -488,12 +491,28 @@ class ControllerCatalogEmployee extends Controller {
 		// echo "<pre>";print_r($manufacturer_info);exit;
 		$data['token'] = $this->session->data['token'];
 
+		if (isset($this->request->post['login'])) {
+			$data['login'] = $this->request->post['login'];
+		} elseif (!empty($manufacturer_info)) {
+			$data['login'] = $manufacturer_info['login'];
+		} else {
+			$data['login'] = '';
+		}
+
 		if (isset($this->request->post['name'])) {
 			$data['name'] = $this->request->post['name'];
 		} elseif (!empty($manufacturer_info)) {
 			$data['name'] = $manufacturer_info['name'];
 		} else {
 			$data['name'] = '';
+		}
+
+		if (isset($this->request->post['father_name'])) {
+			$data['father_name'] = $this->request->post['father_name'];
+		} elseif (!empty($manufacturer_info)) {
+			$data['father_name'] = $manufacturer_info['father_name'];
+		} else {
+			$data['father_name'] = '';
 		}	
 		
 		if (isset($this->request->post['email'])) {
@@ -504,12 +523,12 @@ class ControllerCatalogEmployee extends Controller {
 			$data['email'] = '';
 		}
 
-		if (isset($this->request->post['status'])) {
-			$data['status'] = $this->request->post['status'];
+		if (isset($this->request->post['surname'])) {
+			$data['surname'] = $this->request->post['surname'];
 		} elseif (!empty($manufacturer_info)) {
-			$data['status'] = $manufacturer_info['status'];
+			$data['surname'] = $manufacturer_info['surname'];
 		} else {
-			$data['status'] = '';
+			$data['surname'] = '';
 		}
 
 		if (isset($this->request->post['password'])) {
@@ -528,210 +547,71 @@ class ControllerCatalogEmployee extends Controller {
 			$data['numbers'] = '';
 		}
 
-		if (isset($this->request->post['city'])) {
-			$data['city'] = $this->request->post['city'];
+		if (isset($this->request->post['address'])) {
+			$data['address'] = $this->request->post['address'];
 		} elseif (!empty($manufacturer_info)) {
-			$data['city'] = $manufacturer_info['city'];
+			$data['address'] = $manufacturer_info['address'];
 		} else {
-			$data['city'] = '';
+			$data['address'] = '';
 		}
 
-		if (isset($this->request->post['company'])) {
-			$data['company'] = $this->request->post['company'];
+		if (isset($this->request->post['dob'])) {
+			$data['dob'] = $this->request->post['dob'];
 		} elseif (!empty($manufacturer_info)) {
-			$data['company'] = $manufacturer_info['company'];
+			$data['dob'] = $manufacturer_info['dob'];
 		} else {
-			$data['company'] = '';
+			$data['dob'] = '';
 		}
 
-		if (isset($this->request->post['employed'])) {
-			$data['employed'] = $this->request->post['employed'];
+		if (isset($this->request->post['doje'])) {
+			$data['doje'] = $this->request->post['doje'];
 		} elseif (!empty($manufacturer_info)) {
-			$data['employed'] = $manufacturer_info['employed'];
+			$data['doje'] = $manufacturer_info['doje'];
 		} else {
-			$data['employed'] = '';
+			$data['doje'] = '';
 		}
 
-		if (isset($this->request->post['job_title'])) {
-			$data['job_title'] = $this->request->post['job_title'];
+		if (isset($this->request->post['pan'])) {
+			$data['pan'] = $this->request->post['pan'];
 		} elseif (!empty($manufacturer_info)) {
-			$data['job_title'] = $manufacturer_info['job_title'];
+			$data['pan'] = $manufacturer_info['pan'];
 		} else {
-			$data['job_title'] = '';
+			$data['pan'] = '';
 		}
 
-		if (isset($this->request->post['current_city'])) {
-			$data['current_city'] = $this->request->post['current_city'];
+		if (isset($this->request->post['adhaar'])) {
+			$data['adhaar'] = $this->request->post['adhaar'];
 		} elseif (!empty($manufacturer_info)) {
-			$data['current_city'] = $manufacturer_info['current_city'];
+			$data['adhaar'] = $manufacturer_info['adhaar'];
 		} else {
-			$data['current_city'] = '';
+			$data['adhaar'] = '';
 		}
 
-		if (isset($this->request->post['working_since'])) {
-			$data['working_since'] = $this->request->post['working_since'];
+		if (isset($this->request->post['bank_details'])) {
+			$data['bank_details'] = $this->request->post['bank_details'];
 		} elseif (!empty($manufacturer_info)) {
-			$data['working_since'] = $manufacturer_info['working_since'];
+			$data['bank_details'] = $manufacturer_info['bank_details'];
 		} else {
-			$data['working_since'] = '';
+			$data['bank_details'] = '';
 		}
 
-		if (isset($this->request->post['annual_salary'])) {
-			$data['annual_salary'] = $this->request->post['annual_salary'];
+		if (isset($this->request->post['emergency_contact_person_details'])) {
+			$data['emergency_contact_person_details'] = $this->request->post['emergency_contact_person_details'];
 		} elseif (!empty($manufacturer_info)) {
-			$data['annual_salary'] = $manufacturer_info['annual_salary'];
+			$data['emergency_contact_person_details'] = $manufacturer_info['emergency_contact_person_details'];
 		} else {
-			$data['annual_salary'] = '';
+			$data['emergency_contact_person_details'] = '';
 		}
 
-		if (isset($this->request->post['notice_period'])) {
-			$data['notice_period'] = $this->request->post['notice_period'];
+		if (isset($this->request->post['laptop_model'])) {
+			$data['laptop_model'] = $this->request->post['laptop_model'];
 		} elseif (!empty($manufacturer_info)) {
-			$data['notice_period'] = $manufacturer_info['noticed_period'];
+			$data['laptop_model'] = $manufacturer_info['laptop_model'];
 		} else {
-			$data['notice_period'] = '';
+			$data['laptop_model'] = '';
 		}
 
-		if (isset($this->request->post['type_of_quailification'])) {
-			$data['type_of_quailification'] = $this->request->post['type_of_quailification'];
-		} elseif (!empty($manufacturer_info)) {
-			$data['type_of_quailification'] = $manufacturer_info['type_of_qualification'];
-		} else {
-			$data['type_of_quailification'] = '';
-		}
-
-		if (isset($this->request->post['field_of_study'])) {
-			$data['field_of_study'] = $this->request->post['field_of_study'];
-		} elseif (!empty($manufacturer_info)) {
-			$data['field_of_study'] = $manufacturer_info['field_of_study'];
-		} else {
-			$data['field_of_study'] = '';
-		}
-
-		if (isset($this->request->post['quailification_id'])) {
-			$data['quailification_id'] = $this->request->post['quailification_id'];
-		} elseif (!empty($manufacturer_info)) {
-			$data['quailification_id'] = $manufacturer_info['quailification_id'];
-		} else {
-			$data['quailification_id'] = '';
-		}
-
-		if (isset($this->request->post['institution_name'])) {
-			$data['institution_name'] = $this->request->post['institution_name'];
-		} elseif (!empty($manufacturer_info)) {
-			$data['institution_name'] = $manufacturer_info['institution_name'];
-		} else {
-			$data['institution_name'] = '';
-		}
-
-		if (isset($this->request->post['institution_location'])) {
-			$data['institution_location'] = $this->request->post['institution_location'];
-		} elseif (!empty($manufacturer_info)) {
-			$data['institution_location'] = $manufacturer_info['institution_location'];
-		} else {
-			$data['institution_location'] = '';
-		}
-
-		if (isset($this->request->post['graduation_date'])) {
-			$data['graduation_date'] = $this->request->post['graduation_date'];
-		} elseif (!empty($manufacturer_info)) {
-			$data['graduation_date'] = $manufacturer_info['graduation_date'];
-		} else {
-			$data['graduation_date'] = '';
-		}
-
-		if (isset($this->request->post['gpa'])) {
-			$data['gpa'] = $this->request->post['gpa'];
-		} elseif (!empty($manufacturer_info)) {
-			$data['gpa'] = $manufacturer_info['gpa_grade'];
-		} else {
-			$data['gpa'] = '';
-		}
-
-		if (isset($this->request->post['certifications'])) {
-			$data['certifications'] = $this->request->post['certifications'];
-		} elseif (!empty($manufacturer_info)) {
-			$data['certifications'] = $manufacturer_info['relevant_courses_or_certifications'];
-		} else {
-			$data['certifications'] = '';
-		}
-
-		if (isset($this->request->post['awards'])) {
-			$data['awards'] = $this->request->post['awards'];
-		} elseif (!empty($manufacturer_info)) {
-			$data['awards'] = $manufacturer_info['academic_honors_or_awards'];
-		} else {
-			$data['awards'] = '';
-		}
-
-		if (isset($this->request->post['resume_headline'])) {
-			$data['resume_headline'] = $this->request->post['resume_headline'];
-		} elseif (!empty($manufacturer_info)) {
-			$data['resume_headline'] = $manufacturer_info['resume_headline'];
-		} else {
-			$data['resume_headline'] = '';
-		}
-
-		if (isset($this->request->post['suggestions'])) {
-			$data['suggestions'] = $this->request->post['suggestions'];
-		} elseif (!empty($manufacturer_info)) {
-			$data['suggestions'] = $manufacturer_info['suggestions'];
-		} else {
-			$data['suggestions'] = '';
-		}
-
-		if (isset($this->request->post['preferred_work_locations'])) {
-			$data['preferred_work_locations'] = $this->request->post['preferred_work_locations'];
-		} elseif (!empty($manufacturer_info)) {
-			$data['preferred_work_locations'] = $manufacturer_info['preferred_work_locations'];
-		} else {
-			$data['preferred_work_locations'] = '';
-		}
-
-		if (isset($this->request->post['preferred_salary'])) {
-			$data['preferred_salary'] = $this->request->post['preferred_salary'];
-		} elseif (!empty($manufacturer_info)) {
-			$data['preferred_salary'] = $manufacturer_info['preferred_salary'];
-		} else {
-			$data['preferred_salary'] = '';
-		}
-
-		if (isset($this->request->post['gender'])) {
-			$data['gender'] = $this->request->post['gender'];
-		} elseif (!empty($manufacturer_info)) {
-			$data['gender'] = $manufacturer_info['gender'];
-		} else {
-			$data['gender'] = '';
-		}
-
-		if (isset($this->request->post['work_experience_months'])) {
-			$data['work_experience_months'] = $this->request->post['work_experience_months'];
-		} elseif (!empty($manufacturer_info)) {
-			$data['work_experience_months'] = $manufacturer_info['work_experience_months'];
-		} else {
-			$data['work_experience_months'] = '';
-		}
-
-		if (isset($this->request->post['work_experience_year'])) {
-			$data['work_experience_year'] = $this->request->post['work_experience_year'];
-		} elseif (!empty($manufacturer_info)) {
-			$data['work_experience_year'] = $manufacturer_info['work_experience_year'];
-		} else {
-			$data['work_experience_year'] = '';
-		}
-
-
-	    if (isset($this->request->files['resume'])) {
-			$target_file = DIR_IMAGE . basename($_FILES["resume"]["name"]);
-		    move_uploaded_file($_FILES["resume"]["tmp_name"], $target_file);
-			$data['resume'] = $target_file;
-		} elseif (!empty($manufacturer_info)) {
-			$data['resume'] = $manufacturer_info['resume'];
-			$data['resume_file'] = $manufacturer_info['resume'];
-		} else {
-			$data['resume'] = '';
-			$data['resume_file'] = '';
-		}
+		
 
 
 
