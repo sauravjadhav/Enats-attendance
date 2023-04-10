@@ -33,13 +33,12 @@ class ModelCatalogProject extends Model {
 	public function getProjects($data = array()) {
 		$sql = "SELECT * FROM " . DB_PREFIX . "project";
 
-		if (!empty($data['filter_name'])) {
-			$sql .= " WHERE project_name LIKE '" . $this->db->escape($data['filter_name']) . "%'";
+		if (!empty($data['filter_project_name'])) {
+			$sql .= " WHERE project_name LIKE '" . $this->db->escape($data['filter_project_name']) . "%'";
 		}
 
 		$sort_data = array(
 			'project_name',
-			'sort_order'
 		);
 
 		if (isset($data['sort']) && in_array($data['sort'], $sort_data)) {
@@ -68,19 +67,10 @@ class ModelCatalogProject extends Model {
 
 		$query = $this->db->query($sql);
 
+		// echo "<pre>";print_r($query->rows);exit;
+
 		return $query->rows;
-	}
 
-	public function getManufacturerStores($manufacturer_id) {
-		$manufacturer_store_data = array();
-
-		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "manufacturer_to_store WHERE manufacturer_id = '" . (int)$manufacturer_id . "'");
-
-		foreach ($query->rows as $result) {
-			$manufacturer_store_data[] = $result['store_id'];
-		}
-
-		return $manufacturer_store_data;
 	}
 
 	public function getTotalProjects() {
