@@ -16,6 +16,7 @@ class ControllerCommonMenu extends Controller {
 		$data['text_attendance'] = $this->language->get('text_attendance');
 		$data['text_category'] = $this->language->get('text_category');
 		$data['text_project'] = $this->language->get('text_project');
+		$data['text_employee'] = $this->language->get('text_employee');
 		$data['text_confirm'] = $this->language->get('text_confirm');
 		$data['text_contact'] = $this->language->get('text_contact');
 		$data['text_country'] = $this->language->get('text_country');
@@ -143,6 +144,7 @@ class ControllerCommonMenu extends Controller {
 		$data['modification'] = $this->url->link('extension/modification', 'token=' . $this->session->data['token'], true);
 		$data['manufacturer'] = $this->url->link('catalog/manufacturer', 'token=' . $this->session->data['token'], true);
 		$data['project'] = $this->url->link('catalog/project', 'token=' . $this->session->data['token'], true);
+		$data['employee'] = $this->url->link('catalog/employee', 'token=' . $this->session->data['token'], true);
 		$data['marketing'] = $this->url->link('marketing/marketing', 'token=' . $this->session->data['token'], true);
 		$data['module'] = $this->url->link('extension/module', 'token=' . $this->session->data['token'], true);
 		$data['option'] = $this->url->link('catalog/option', 'token=' . $this->session->data['token'], true);
