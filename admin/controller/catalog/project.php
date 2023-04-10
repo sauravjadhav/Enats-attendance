@@ -114,6 +114,13 @@ class ControllerCatalogProject extends Controller {
 	}
 
 	protected function getList() {
+
+		if (isset($this->request->get['filter_project_name'])) {
+			$filter_project_name = $this->request->get['filter_project_name'];
+		} else {
+			$filter_project_name = null;
+		}
+
 		if (isset($this->request->get['sort'])) {
 			$sort = $this->request->get['sort'];
 		} else {
@@ -133,6 +140,10 @@ class ControllerCatalogProject extends Controller {
 		}
 
 		$url = '';
+
+		if (isset($this->request->get['filter_project_name'])) {
+			$url .= '&filter_project_name=' . urlencode(html_entity_decode($this->request->get['filter_project_name'], ENT_QUOTES, 'UTF-8'));
+		}
 
 		if (isset($this->request->get['sort'])) {
 			$url .= '&sort=' . $this->request->get['sort'];
@@ -164,6 +175,7 @@ class ControllerCatalogProject extends Controller {
 		$data['projects'] = array();
 
 		$filter_data = array(
+			'filter_project_name' => $filter_project_name,
 			'sort'  => $sort,
 			'order' => $order,
 			'start' => ($page - 1) * $this->config->get('config_limit_admin'),
@@ -204,9 +216,15 @@ class ControllerCatalogProject extends Controller {
 		$data['column_project_end_date'] = $this->language->get('column_project_end_date');
 		$data['column_action'] = $this->language->get('column_action');
 
+		$data['entry_project_name'] = $this->language->get('entry_project_name');
+
 		$data['button_add'] = $this->language->get('button_add');
 		$data['button_edit'] = $this->language->get('button_edit');
 		$data['button_delete'] = $this->language->get('button_delete');
+		$data['button_filter'] = $this->language->get('button_filter');
+
+		$data['token'] = $this->session->data['token'];
+
 
 		if (isset($this->error['warning'])) {
 			$data['error_warning'] = $this->error['warning'];
@@ -229,6 +247,10 @@ class ControllerCatalogProject extends Controller {
 		}
 
 		$url = '';
+
+		if (isset($this->request->get['filter_name'])) {
+			$url .= '&filter_name=' . urlencode(html_entity_decode($this->request->get['filter_name'], ENT_QUOTES, 'UTF-8'));
+		}
 
 		if ($order == 'ASC') {
 			$url .= '&order=DESC';
@@ -265,6 +287,8 @@ class ControllerCatalogProject extends Controller {
 
 		$data['sort'] = $sort;
 		$data['order'] = $order;
+
+		$data['filter_project_name'] = $filter_project_name;
 
 		$data['header'] = $this->load->controller('common/header');
 		$data['column_left'] = $this->load->controller('common/column_left');
@@ -417,23 +441,25 @@ class ControllerCatalogProject extends Controller {
 	}
 
 	public function autocomplete() {
+
 		$json = array();
 
-		if (isset($this->request->get['filter_name'])) {
+		if (isset($this->request->get['filter_project_name'])) {
 			$this->load->model('catalog/project');
 
 			$filter_data = array(
-				'filter_name' => $this->request->get['filter_name'],
+				'filter_project_name' => $this->request->get['filter_project_name'],
 				'start'       => 0,
 				'limit'       => 5
 			);
 
-			$results = $this->model_catalog_project->getManufacturers($filter_data);
+			$results = $this->model_catalog_project->getProjects($filter_data);
+		// echo "<pre>";print_r($results);exit;
 
 			foreach ($results as $result) {
 				$json[] = array(
 					'project_id' => $result['project_id'],
-					'name'            => strip_tags(html_entity_decode($result['name'], ENT_QUOTES, 'UTF-8'))
+					'project_name'            => strip_tags(html_entity_decode($result['project_name'], ENT_QUOTES, 'UTF-8'))
 				);
 			}
 		}
@@ -441,7 +467,7 @@ class ControllerCatalogProject extends Controller {
 		$sort_order = array();
 
 		foreach ($json as $key => $value) {
-			$sort_order[$key] = $value['name'];
+			$sort_order[$key] = $value['project_name'];
 		}
 
 		array_multisort($sort_order, SORT_ASC, $json);
