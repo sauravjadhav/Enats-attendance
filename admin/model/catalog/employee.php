@@ -2,22 +2,15 @@
 class ModelCatalogEmployee extends Model {
 	public function addEmployee($data,$data1) {
 
-		$target_file = DIR_IMAGE .'catalog/'.basename($_FILES["resume"]["name"]);
-        move_uploaded_file($_FILES["resume"]["tmp_name"], $target_file);
-	    $file_name = 'catalog/' . basename($_FILES["resume"]["name"]);
 		// echo "<pre>";print_r($file_name);exit;
 		
-		$this->db->query("INSERT INTO " . DB_PREFIX . "employee SET name = '" . $this->db->escape($data['name']) . "', email = '" . $this->db->escape($data['email']) . "',password = '" . $this->db->escape($data['password']) . "',numbers = '" . $this->db->escape($data['numbers']) . "',status = '" . $this->db->escape($data['status']) . "',city = '" . $this->db->escape($data['city']) . "',work_experience_months = '" . $this->db->escape($data['work_experience_months']) . "',work_experience_year = '" . $this->db->escape($data['work_experience_year']) . "',company = '" . $this->db->escape($data['company']) . "',working_since = '" . $this->db->escape($data['working_since']) . "',annual_salary = '" . $this->db->escape($data['annual_salary']) . "',noticed_period = '" . $this->db->escape($data['notice_period']) . "',job_title = '" . $this->db->escape($data['job_title']) . "',current_city = '" . $this->db->escape($data['current_city']) . "',field_of_study = '" . $this->db->escape($data['field_of_study']) . "',quailification_id = '" . $this->db->escape($data['quailification_id']) . "',type_of_qualification = '" . $this->db->escape($data['type_of_quailification']) . "',institution_name = '" . $this->db->escape($data['institution_name']) . "',institution_location = '" . $this->db->escape($data['institution_location']) . "',graduation_date = '" . $this->db->escape($data['graduation_date']) . "',gpa_grade = '" . $this->db->escape($data['gpa']) . "',relevant_courses_or_certifications = '" . $this->db->escape($data['certifications']) . "',academic_honors_or_awards = '" . $this->db->escape($data['awards']) . "',resume_headline = '" . $this->db->escape($data['resume_headline']) . "',suggestions = '" . $this->db->escape($data['suggestions']) . "', preferred_salary = '" . $this->db->escape($data['preferred_salary']) . "',preferred_work_locations = '" . $this->db->escape($data['preferred_work_locations']) . "',gender = '" . $this->db->escape($data['gender']) . "',employed = '" . $this->db->escape($data['employed']) . "', resume = '" . $file_name . "'");
+		$this->db->query("INSERT INTO " . DB_PREFIX . "employee SET name = '" . $this->db->escape($data['name']) . "', email = '" . $this->db->escape($data['email']) . "',password = '" . $this->db->escape($data['password']) . "',numbers = '" . $this->db->escape($data['numbers']) . "',login = '" . $this->db->escape($data['login']) . "',address = '" . $this->db->escape($data['address']) . "',father_name = '" . $this->db->escape($data['father_name']) . "',surname = '" . $this->db->escape($data['surname']) . "',dob = '" . $this->db->escape($data['dob']) . "',doje = '" . $this->db->escape($data['doje']) . "',pan = '" . $this->db->escape($data['pan']) . "',adhaar = '" . $this->db->escape($data['adhaar']) . "',bank_details = '" . $this->db->escape($data['bank_details']) . "',emergency_contact_person_details = '" . $this->db->escape($data['emergency_contact_person_details']) . "',laptop_model = '" . $this->db->escape($data['laptop_model']) . "'");
 
 		$employee_id = $this->db->getLastId();
 
-		if (isset($data['image'])) {
-			$this->db->query("UPDATE " . DB_PREFIX . "employee SET image = '" . $this->db->escape($data['image']) . "' WHERE employee_id = '" . (int)$employee_id . "'");
-		}
-
 		if (isset($data['employee_store'])) {
 			foreach ($data['employee_store'] as $store_id) {
-				$this->db->query("INSERT INTO " . DB_PREFIX . "employee_to_store SET employee_id = '" . (int)$employee_id . "', store_id = '" . (int)$store_id . "'");
+				$this->db->query("INSERT INTO " . DB_PREFIX . "employee SET employee_id = '" . (int)$employee_id . "', store_id = '" . (int)$store_id . "'");
 			}
 		}
 
@@ -32,36 +25,15 @@ class ModelCatalogEmployee extends Model {
 
 	public function editEmployee($employee_id, $data) {
 
-		$target_file = DIR_IMAGE .'catalog/'.basename($_FILES["resume"]["name"]);
-        move_uploaded_file($_FILES["resume"]["tmp_name"], $target_file);
-	    $file_name = 'catalog/' . basename($_FILES["resume"]["name"]);
 		// echo "<pre>";print_r($this->request->post);exit;
-		$this->db->query("UPDATE " . DB_PREFIX . "employee SET name = '" . $this->db->escape($data['name']) . "', email = '" . $this->db->escape($data['email']) . "',password = '" . $this->db->escape($data['password']) . "',numbers = '" . $this->db->escape($data['numbers']) . "',status = '" . $this->db->escape($data['status']) . "',city = '" . $this->db->escape($data['city']) . "',work_experience_months = '" . $this->db->escape($data['work_experience_months']) . "',work_experience_year = '" . $this->db->escape($data['work_experience_year']) . "',company = '" . $this->db->escape($data['company']) . "',working_since = '" . $this->db->escape($data['working_since']) . "',annual_salary = '" . $this->db->escape($data['annual_salary']) . "',noticed_period = '" . $this->db->escape($data['notice_period']) . "',job_title = '" . $this->db->escape($data['job_title']) . "',current_city = '" . $this->db->escape($data['current_city']) . "',field_of_study = '" . $this->db->escape($data['field_of_study']) . "',quailification_id = '" . $this->db->escape($data['quailification_id']) . "',type_of_qualification = '" . $this->db->escape($data['type_of_quailification']) . "',institution_name = '" . $this->db->escape($data['institution_name']) . "',institution_location = '" . $this->db->escape($data['institution_location']) . "',graduation_date = '" . $this->db->escape($data['graduation_date']) . "',gpa_grade = '" . $this->db->escape($data['gpa']) . "',relevant_courses_or_certifications = '" . $this->db->escape($data['certifications']) . "',academic_honors_or_awards = '" . $this->db->escape($data['awards']) . "',resume_headline = '" . $this->db->escape($data['resume_headline']) . "',suggestions = '" . $this->db->escape($data['suggestions']) . "', preferred_salary = '" . $this->db->escape($data['preferred_salary']) . "',preferred_work_locations = '" . $this->db->escape($data['preferred_work_locations']) . "',gender = '" . $this->db->escape($data['gender']) . "',employed = '" . $this->db->escape($data['employed']) . "', resume = '" . $file_name . "' WHERE employee_id = '" . (int)$employee_id . "'");
-
-		if (isset($data['image'])) {
-			$this->db->query("UPDATE " . DB_PREFIX . "employee SET image = '" . $this->db->escape($data['image']) . "' WHERE employee_id = '" . (int)$employee_id . "'");
-		}
-
-		$this->db->query("DELETE FROM " . DB_PREFIX . "employee_to_store WHERE employee_id = '" . (int)$employee_id . "'");
-
-		if (isset($data['manufacturer_store'])) {
-			foreach ($data['manufacturer_store'] as $store_id) {
-				$this->db->query("INSERT INTO " . DB_PREFIX . "employee_to_store SET employee_id = '" . (int)$employee_id . "', store_id = '" . (int)$store_id . "'");
-			}
-		}
-
-		$this->db->query("DELETE FROM " . DB_PREFIX . "url_alias WHERE query = 'employee_id=" . (int)$employee_id . "'");
-
-		if ($data['keyword']) {
-			$this->db->query("INSERT INTO " . DB_PREFIX . "url_alias SET query = 'employee_id=" . (int)$employee_id . "', keyword = '" . $this->db->escape($data['keyword']) . "'");
-		}
+		$this->db->query("UPDATE " . DB_PREFIX . "employee SET name = '" . $this->db->escape($data['name']) . "', email = '" . $this->db->escape($data['email']) . "',password = '" . $this->db->escape($data['password']) . "',numbers = '" . $this->db->escape($data['numbers']) . "',login = '" . $this->db->escape($data['login']) . "',address = '" . $this->db->escape($data['address']) . "',father_name = '" . $this->db->escape($data['father_name']) . "',surname = '" . $this->db->escape($data['surname']) . "',dob = '" . $this->db->escape($data['dob']) . "',doje = '" . $this->db->escape($data['doje']) . "',pan = '" . $this->db->escape($data['pan']) . "',adhaar = '" . $this->db->escape($data['adhaar']) . "',bank_details = '" . $this->db->escape($data['bank_details']) . "',emergency_contact_person_details = '" . $this->db->escape($data['emergency_contact_person_details']) . "',laptop_model = '" . $this->db->escape($data['laptop_model'])  . "' WHERE employee_id = '" . (int)$employee_id . "'");
 
 		$this->cache->delete('employee');
 	}
 
 	public function deleteEmployee($employee_id) {
 		$this->db->query("DELETE FROM " . DB_PREFIX . "employee WHERE employee_id = '" . (int)$employee_id . "'");
-		$this->db->query("DELETE FROM " . DB_PREFIX . "employee_to_store WHERE employee_id = '" . (int)$employee_id . "'");
+		$this->db->query("DELETE FROM " . DB_PREFIX . "employee WHERE employee_id = '" . (int)$employee_id . "'");
 		$this->db->query("DELETE FROM " . DB_PREFIX . "url_alias WHERE query = 'employee_id=" . (int)$employee_id . "'");
 
 		$this->cache->delete('employee');
@@ -186,15 +158,15 @@ class ModelCatalogEmployee extends Model {
     }
 
 	public function getEmployeeStores($employee_id) {
-		$employee_store_data = array();
+		$employee = array();
 
-		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "employee_to_store WHERE employee_id = '" . (int)$employee_id . "'");
+		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "employee WHERE employee_id = '" . (int)$employee_id . "'");
 
 		foreach ($query->rows as $result) {
-			$employee_store_data[] = $result['store_id'];
+			$employee[] = $result['store_id'];
 		}
 
-		return $employee_store_data;
+		return $employee;
 	}
 
 

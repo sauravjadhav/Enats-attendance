@@ -18,18 +18,17 @@ $_['text_fresher']       = 'Fresher';
 
 
 // Column
-$_['column_name']        = 'Full Name';
+$_['column_name']        = ' Name';
 $_['column_address']     = 'Address';
 $_['column_numbers']      = 'Contact';
 $_['column_action']      = 'Action';
 $_['column_email']       = 'Email Id';
-$_['column_status']      = 'Status';
-$_['column_city']        = 'City';
+$_['column_address']     = 'Address';
 
 
 // Entry
 $_['entry_login']                         = 'Login';
-$_['entry_name']                         = ' Name';
+$_['entry_name']                         = 'Name';
 $_['entry_father_name'] 	             = 'Father name';
 $_['entry_surname'] 	                 = 'Surname name';
 $_['entry_email'] 	                     = 'Email Id';
@@ -41,6 +40,8 @@ $_['entry_doje'] 	                     = 'Date of Joining ENATTS';
 $_['entry_pan'] 	                     = 'PAN';
 $_['entry_adhaar'] 	                     = 'ADHAAR';
 $_['entry_bank_details'] 	             = 'Entry Bank Details';
+$_['entry_emergency_contact_person_details'] 	             = 'Emergency Contact Person Details';
+$_['entry_laptop_model'] 	                      = 'Laptop Model';
 
 
 // Help

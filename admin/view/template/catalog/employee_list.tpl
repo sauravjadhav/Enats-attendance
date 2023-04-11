@@ -67,8 +67,7 @@
                   <?php } ?></td>
                   <td class="text-left"><?php echo $column_email; ?></td>
                   <td class="text-left"><?php echo $column_numbers; ?></td>
-                  <td class="text-left"><?php echo $column_status; ?></td>
-                  <td class="text-left"><?php echo $column_city; ?></td>
+                  <td class="text-left"><?php echo $column_address; ?></td>
                   <td class="text-right"><?php echo $column_action; ?></td>
                 </tr>
               </thead>
@@ -85,8 +84,7 @@
               <td class="text-left"><?php echo $employee['name']; ?></td>
               <td class="text-left"><?php echo $employee['email']; ?></td>
               <td class="text-left"><?php echo $employee['numbers']; ?></td>
-              <td class="text-left"><?php echo $employee['status']; ?></td>
-              <td class="text-left"><?php echo $employee['city']; ?></td>
+              <td class="text-left"><?php echo $employee['address']; ?></td>
               <td class="text-right"><a href="<?php echo $employee['edit']; ?>" data-toggle="tooltip" title="<?php echo $button_edit; ?>" class="btn btn-primary"><i class="fa fa-pencil"></i></a></td>
               </tr>
               <?php } ?>
