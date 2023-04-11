@@ -48,7 +48,7 @@ class ControllerCatalogEmployee extends Controller {
 	}
 
 	public function edit() {
-		// echo "<pre>";print_r($this->request->files);exit;
+		// echo "<pre>";print_r($this->request->post);exit;
 		$this->load->language('catalog/employee');
 
 		$this->document->setTitle($this->language->get('heading_title'));

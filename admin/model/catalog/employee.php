@@ -28,21 +28,6 @@ class ModelCatalogEmployee extends Model {
 		// echo "<pre>";print_r($this->request->post);exit;
 		$this->db->query("UPDATE " . DB_PREFIX . "employee SET name = '" . $this->db->escape($data['name']) . "', email = '" . $this->db->escape($data['email']) . "',password = '" . $this->db->escape($data['password']) . "',numbers = '" . $this->db->escape($data['numbers']) . "',login = '" . $this->db->escape($data['login']) . "',address = '" . $this->db->escape($data['address']) . "',father_name = '" . $this->db->escape($data['father_name']) . "',surname = '" . $this->db->escape($data['surname']) . "',dob = '" . $this->db->escape($data['dob']) . "',doje = '" . $this->db->escape($data['doje']) . "',pan = '" . $this->db->escape($data['pan']) . "',adhaar = '" . $this->db->escape($data['adhaar']) . "',bank_details = '" . $this->db->escape($data['bank_details']) . "',emergency_contact_person_details = '" . $this->db->escape($data['emergency_contact_person_details']) . "',laptop_model = '" . $this->db->escape($data['laptop_model'])  . "' WHERE employee_id = '" . (int)$employee_id . "'");
 
-
-		$this->db->query("DELETE FROM " . DB_PREFIX . "employee WHERE employee_id = '" . (int)$employee_id . "'");
-
-		if (isset($data['manufacturer_store'])) {
-			foreach ($data['manufacturer_store'] as $store_id) {
-				$this->db->query("INSERT INTO " . DB_PREFIX . "employee_to_store SET employee_id = '" . (int)$employee_id . "', store_id = '" . (int)$store_id . "'");
-			}
-		}
-
-		$this->db->query("DELETE FROM " . DB_PREFIX . "url_alias WHERE query = 'employee_id=" . (int)$employee_id . "'");
-
-		if ($data['keyword']) {
-			$this->db->query("INSERT INTO " . DB_PREFIX . "url_alias SET query = 'employee_id=" . (int)$employee_id . "', keyword = '" . $this->db->escape($data['keyword']) . "'");
-		}
-
 		$this->cache->delete('employee');
 	}
 

@@ -772,3 +772,5 @@
 2023-04-10 15:32:52 - PHP Notice:  Undefined variable: attendance in C:\xampp\htdocs\Enats-attendance\admin\view\template\common\menu.tpl on line 25
 2023-04-10 15:32:57 - PHP Notice:  Undefined variable: attendance in C:\xampp\htdocs\Enats-attendance\admin\view\template\common\menu.tpl on line 25
 2023-04-10 15:33:42 - PHP Notice:  Undefined variable: attendance in C:\xampp\htdocs\Enats-attendance\admin\view\template\common\menu.tpl on line 25
+2023-04-10 13:39:49 - PHP Notice:  Undefined variable: employee in C:\xampp\htdocs\Enats-attendance\admin\view\template\common\menu.tpl on line 6
+2023-04-10 13:39:49 - PHP Notice:  Undefined variable: attendance in C:\xampp\htdocs\Enats-attendance\admin\view\template\common\menu.tpl on line 25
