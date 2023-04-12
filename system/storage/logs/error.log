@@ -936,6 +936,7 @@
 2023-04-12 7:46:26 - PHP Notice:  Undefined variable: attendance in C:\xampp\htdocs\enats_attendance\admin\view\template\common\menu.tpl on line 25
 2023-04-12 7:54:26 - PHP Notice:  Undefined variable: attendance in C:\xampp\htdocs\enats_attendance\admin\view\template\common\menu.tpl on line 25
 
+2023-04-12 9:08:21 - PHP Notice:  Undefined variable: attendance in C:\xampp\htdocs\enats_attendance\admin\view\template\common\menu.tpl on line 25
 2023-04-12 8:05:23 - PHP Notice:  Undefined variable: attendance in C:\xampp\htdocs\enats_attendance\admin\view\template\common\menu.tpl on line 25
 2023-04-12 8:05:37 - PHP Notice:  Undefined variable: attendance in C:\xampp\htdocs\enats_attendance\admin\view\template\common\menu.tpl on line 25
 2023-04-12 8:06:43 - PHP Notice:  Undefined variable: attendance in C:\xampp\htdocs\enats_attendance\admin\view\template\common\menu.tpl on line 25
