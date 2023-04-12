@@ -3,13 +3,25 @@ class ControllerCatalogAttendance extends Controller {
 	private $error = array();
 
 	public function index() {
+
+		$user_id = $this->session->data['user_id'];
+		$user_data = $this->db->query("SELECT * FROM oc_user where user_id = '$user_id'")->rows;
+		foreach ($user_data as $user) {
+			$user_group_id = $user['user_group_id'];
+		}
+		// echo "<pre>";print_r($user_group_id);exit;
+
 		$this->load->language('catalog/attendance');
 
 		$this->document->setTitle($this->language->get('heading_title'));
 
 		$this->load->model('catalog/attendance');
 
-		$this->getList();
+		if ($user_group_id == 11) {
+			$this->getForm();
+		}	else {
+			$this->getList();
+		}
 	}
 
 	public function add() {
@@ -191,9 +203,10 @@ class ControllerCatalogAttendance extends Controller {
 		// echo "<pre>";print_r($results);exit;
 		foreach ($results as $result) {
 			$data['attendances'][] = array(
-				'attendance_id' 	        => $result['attendance_id'],
-				'name'          => $result['name'],
-				'office_in_time'       => $result['office_in_time'],
+				'attendance_id'	  => $result['attendance_id'],
+				'name'            => $result['name'],
+				'office_in_time'  => $result['office_in_time'],
+				'date_time'       => $result['date_time'],
 				'edit'            => $this->url->link('catalog/attendance/edit', 'token=' . $this->session->data['token'] . '&attendance_id=' . $result['attendance_id'] . $url, true)
 			);
 		}
@@ -216,6 +229,7 @@ class ControllerCatalogAttendance extends Controller {
 
 		$data['column_name'] = $this->language->get('column_name');
 		$data['column_office_in_time'] = $this->language->get('column_office_in_time');
+		$data['column_date_time'] = $this->language->get('column_date_time');
 		$data['column_action'] = $this->language->get('column_action');
 
 		$data['entry_name'] = $this->language->get('entry_name');
@@ -388,7 +402,13 @@ class ControllerCatalogAttendance extends Controller {
 			$data['office_in_time'] = '';
 		}
 
-		
+		if (isset($this->request->post['date_time'])) {
+			$data['date_time'] = $this->request->post['date_time'];
+		} elseif (!empty($attendance_info)) {
+			$data['date_time'] = $attendance_info['date_time'];
+		} else {
+			$data['date_time'] = '';
+		}
 
 		$data['header'] = $this->load->controller('common/header');
 		$data['column_left'] = $this->load->controller('common/column_left');
