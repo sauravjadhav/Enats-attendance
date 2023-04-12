@@ -22,19 +22,20 @@
           <div class="form-group required">
             <label class="col-sm-2 control-label" for="input-name"><?php echo $entry_name; ?></label>
                 <div class="col-sm-5">
-                    <input type="text" name="name" value="<?php echo $name; ?>" placeholder="<?php echo $entry_name; ?>" id="input-name" class="form-control" />
+                    <input type="text" name="name" value="<?php echo $name;?>" placeholder="<?php echo $entry_name; ?>" id="input-name" class="form-control" />
                     <?php if ($error_name) { ?>
                         <div class="text-danger"><?php echo $error_name; ?></div>
                     <?php } ?>
                 </div>
                 <div class="col-sm-5">
-                    <input type="text" readonly name="date_time"value="<?php if(!empty($date_time)){echo $date_time;} else{ date_default_timezone_set('Asia/Kolkata'); echo date("d-M-Y, g:i a");}?>" id="input-date-time" class="form-control"/>
+                    <input type="text" readonly name="date_time"value="<?php if(!empty($date_time)){echo $date_time;} else{ date_default_timezone_set('Asia/Kolkata'); echo date("g:i a");}?>" id="input-date-time" class="form-control"/>
+                    <input type="text" readonly name="date_time"value="<?php if(!empty($date_time)){echo $date_time;} else{ date_default_timezone_set('Asia/Kolkata'); echo date("d-m-Y");}?>" id="input-date-time" class="form-control"/>
                 </div>
             </div>
             <div class="form-group required">
                 <label class="col-sm-2 control-label" for="input-time"><?php echo $entry_office_in_time; ?></label>
                 <div class="col-sm-10">
-                    <input type="time" name="office_in_time" value="<?php echo $office_in_time; ?>" placeholder="<?php echo $entry_office_in_time; ?>" id="input-time" class="form-control" />
+                    <input type="time" min='01:00' max= '03:00' name="office_in_time" value="<?php echo $office_in_time; ?>" placeholder="<?php echo $entry_office_in_time; ?>" id="input-time" class="form-control" />
                     <?php if ($error_office_in_time) { ?>
                     <div class="text-danger"><?php echo $error_office_in_time; ?></div>
                     <?php } ?>

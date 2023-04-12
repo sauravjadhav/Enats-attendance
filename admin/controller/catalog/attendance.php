@@ -8,8 +8,9 @@ class ControllerCatalogAttendance extends Controller {
 		$user_data = $this->db->query("SELECT * FROM oc_user where user_id = '$user_id'")->rows;
 		foreach ($user_data as $user) {
 			$user_group_id = $user['user_group_id'];
+			$username = $user['username'];
 		}
-		// echo "<pre>";print_r($user_group_id);exit;
+		// echo "<pre>";print_r($data);exit;
 
 		$this->load->language('catalog/attendance');
 
@@ -390,6 +391,8 @@ class ControllerCatalogAttendance extends Controller {
 			$data['name'] = $this->request->post['name'];
 		} elseif (!empty($attendance_info)) {
 			$data['name'] = $attendance_info['name'];
+		}elseif(!empty($username)){
+
 		} else {
 			$data['name'] = '';
 		}

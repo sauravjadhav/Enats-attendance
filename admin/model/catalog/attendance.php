@@ -2,9 +2,10 @@
 class ModelCatalogAttendance extends Model {
 	public function addattendance($data) {
 
-		// echo "<pre>";print_r($data);exit;
-		
-		$this->db->query("INSERT INTO " . DB_PREFIX . "attendance_record SET name = '" . $this->db->escape($data['name']) . "',date_time = '" . $this->db->escape($data['date_time']) . "', office_in_time = '" . $this->db->escape($data['office_in_time']) . "'");
+		$user_id = $this->session->data['user_id'];
+		// echo "<pre>";print_r($user_id);exit;
+
+		$this->db->query("INSERT INTO " . DB_PREFIX . "attendance_record SET name = '" . $this->db->escape($data['name']) . "',date_time = '" . $this->db->escape($data['date_time']) . "',user_id = '" . $this->db->escape($user_id) . "', office_in_time = '" . $this->db->escape($data['office_in_time']) . "'");
 
 		$attendance_id = $this->db->getLastId();
 
