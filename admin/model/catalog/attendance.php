@@ -1,10 +1,10 @@
 <?php
 class ModelCatalogAttendance extends Model {
-	public function addattendance($data,$data1) {
+	public function addattendance($data) {
 
-		// echo "<pre>";print_r($file_name);exit;
+		// echo "<pre>";print_r($data);exit;
 		
-		$this->db->query("INSERT INTO " . DB_PREFIX . "attendance_record SET name = '" . $this->db->escape($data['name']) . "', office_in_time = '" . $this->db->escape($data['office_in_time']) . "'");
+		$this->db->query("INSERT INTO " . DB_PREFIX . "attendance_record SET name = '" . $this->db->escape($data['name']) . "',date_time = '" . $this->db->escape($data['date_time']) . "', office_in_time = '" . $this->db->escape($data['office_in_time']) . "'");
 
 		$attendance_id = $this->db->getLastId();
 
