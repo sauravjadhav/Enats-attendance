@@ -147,6 +147,7 @@ class ControllerCommonMenu extends Controller {
 		$data['task'] = $this->url->link('catalog/task', 'token=' . $this->session->data['token'], true);
 		$data['project'] = $this->url->link('catalog/project', 'token=' . $this->session->data['token'], true);
 		$data['employee'] = $this->url->link('catalog/employee', 'token=' . $this->session->data['token'], true);
+		$data['attendance'] = $this->url->link('catalog/attendance', 'token=' . $this->session->data['token'], true);
 		$data['marketing'] = $this->url->link('marketing/marketing', 'token=' . $this->session->data['token'], true);
 		$data['module'] = $this->url->link('extension/module', 'token=' . $this->session->data['token'], true);
 		$data['option'] = $this->url->link('catalog/option', 'token=' . $this->session->data['token'], true);

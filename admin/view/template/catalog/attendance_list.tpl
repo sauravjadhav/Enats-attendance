@@ -39,8 +39,8 @@
             </div>
             <div class="col-sm-4">
               <div class="form-group">
-                <label class="control-label" for="input-model"><?php echo $entry_office_in_time; ?></label>
-                <input type="text" name="filter_office_in_time" value="<?php echo $filter_office_in_time; ?>" placeholder="<?php echo $entry_office_in_time; ?>" id="input-model" class="form-control" />
+                <label class="control-label" for="input-time"><?php echo $entry_office_in_time; ?></label>
+                <input type="time" name="filter_office_in_time" value="<?php echo $filter_office_in_time; ?>" placeholder="<?php echo $entry_office_in_time; ?>" id="input-time" class="form-control" />
               </div>
             </div>
              <div class="col-sm-12">
@@ -136,7 +136,7 @@ $('input[name=\'filter_name\']').autocomplete({
     $('input[name=\'filter_name\']').val(item['label']);
   }
 });
-</script>
+--></script>
 <script type="text/javascript"><!--
 $('input[name=\'filter_office_in_time\']').autocomplete({
   'source': function(request, response) {
@@ -158,6 +158,6 @@ $('input[name=\'filter_office_in_time\']').autocomplete({
     $('input[name=\'filter_office_in_time\']').val(item['label']);
   }
 });
-</script>
+--></script>
 
 <?php echo $footer; ?> -->
