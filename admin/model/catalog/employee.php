@@ -64,8 +64,6 @@ class ModelCatalogEmployee extends Model {
 
 		if (!empty($data['filter_numbers'])) {
 			$sql .= " AND numbers LIKE '" . $this->db->escape($data['filter_numbers']) . "%'";
-		if (!empty($data['filter_number'])) {
-			$sql .= " AND numbers LIKE '" . $this->db->escape($data['filter_number']) . "%'";
 		}
 
 		$sql .= " GROUP BY numbers";
@@ -74,7 +72,7 @@ class ModelCatalogEmployee extends Model {
 
 		return $query->rows;
 	}
-}
+
 
     public function autocompleteemp2($data = array()){
 		$sql = "SELECT * FROM oc_employee WHERE 1=1";

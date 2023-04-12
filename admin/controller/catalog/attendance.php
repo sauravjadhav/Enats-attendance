@@ -80,11 +80,11 @@ class ControllerCatalogAttendance extends Controller {
 	}
 
 	public function delete() {
-		$this->load->language('catalog//attendance');
+		$this->load->language('catalog/attendance');
 
 		$this->document->setTitle($this->language->get('heading_title'));
 
-		$this->load->model('catalog//attendance');
+		$this->load->model('catalog/attendance');
 
 		if (isset($this->request->post['selected'])) {
 			foreach ($this->request->post['selected'] as $attendance_id) {
