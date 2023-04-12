@@ -23,6 +23,7 @@
   <li id="extension"><a class="parent"><i class="fa fa-puzzle-piece fa-fw"></i> <span><?php echo $text_extension; ?></span></a>
     <ul>
       <li><a href="<?php echo $attendance; ?>"><?php echo $text_attendance; ?></a></li>
+      <li><a href="<?php echo $task; ?>"><?php echo $text_task; ?></a></li>
       <!-- <li><a href="<?php echo $modification; ?>"><?php echo $text_modification; ?></a></li>
       <li><a href="<?php echo $theme; ?>"><?php echo $text_theme; ?></a></li>
       <li><a href="<?php echo $analytics; ?>"><?php echo $text_analytics; ?></a></li>
