@@ -38,21 +38,22 @@ class ModelCatalogAttendance extends Model {
 	}
 
 	public function autocompleteatt($data = array()){
-		$sql = "SELECT * FROM attendance_record WHERE 1=1";
+		// echo "<pre>";print_r($sql);exit;
+		$sql = "SELECT attendance_id, name FROM oc_attendance_record WHERE 1=1";
+
 
 		if (!empty($data['filter_name'])) {
 			$sql .= " AND name LIKE '" . $this->db->escape($data['filter_name']) . "%'";
 		}
 
 		$sql .= " GROUP BY name";
-		// echo "<pre>";print_r($sql);exit;
 		$query = $this->db->query($sql);
 
 		return $query->rows;
 	}
 
     public function autocompleteatt1($data = array()){
-		$sql = "SELECT * FROM attendance_record WHERE 1=1";
+		$sql = "SELECT * FROM oc_attendance_record WHERE 1=1";
 
 		if (!empty($data['filter_office_in_time'])) {
 			$sql .= " AND office_in_time LIKE '" . $this->db->escape($data['filter_office_in_time']) . "%'";
