@@ -33,8 +33,8 @@
           <div class="row">
             <div class="col-sm-4">
               <div class="form-group">
-                <label class="control-label" for="input-project_name"><?php echo $entry_project_name; ?></label>
-                <input type="text" name="filter_project_name" value="<?php echo $filter_project_name; ?>" placeholder="<?php echo $entry_project_name; ?>" id="input-project_name" class="form-control" />
+                <label class="control-label" for="input-project"><?php echo $entry_project; ?></label>
+                <input type="text" name="filter_project" value="<?php echo $filter_project; ?>" placeholder="<?php echo $entry_project; ?>" id="input-project" class="form-control" />
               </div>
               <button type="button" id="button-filter" class="btn btn-primary pull-right"><i class="fa fa-search"></i> <?php echo $button_filter; ?></button>
             </div>
@@ -47,36 +47,34 @@
                 <tr>
                   <td style="width: 1px;" class="text-center"><input type="checkbox" onclick="$('input[name*=\'selected\']').prop('checked', this.checked);" /></td>
                   <td class="text-left"><?php if ($sort == 'name') { ?>
-                    <a href="<?php echo $sort_name; ?>" class="<?php echo strtolower($order); ?>"><?php echo $column_name; ?></a>
+                    <a href="<?php echo $sort_name; ?>" class="<?php echo strtolower($order); ?>"><?php echo $column_project; ?></a>
                     <?php } else { ?>
-                    <a href="<?php echo $sort_name; ?>"><?php echo $column_name; ?></a>
+                    <a href="<?php echo $sort_name; ?>"><?php echo $column_project; ?></a>
                     <?php } ?></td>
-                  <td class="text-left"><?php echo $column_project_company;?></td>
-                  <td class="text-left"><?php echo $column_contact_person;?></td>
-                  <td class="text-left"><?php echo $column_phone;?></td>
-                  <td class="text-left"><?php echo $column_email;?></td>
-                  <td class="text-left"><?php echo $column_project_start_date;?></td>
-                  <td class="text-left"><?php echo $column_project_end_date;?></td>
+                  <td class="text-left"><?php echo $column_project;?></td>
+                  <td class="text-left"><?php echo $column_project_start_time;?></td>
+                  <td class="text-left"><?php echo $column_project_end_time;?></td>
+                  <td class="text-left"><?php echo $column_task;?></td>
+                  <td class="text-left"><?php echo $column_status;?></td>
                   <td class="text-right"><?php echo $column_action; ?></td>
                 </tr>
               </thead>
               <tbody>
-                <?php if ($projects) { ?>
-                <?php foreach ($projects as $project) { ?>
+                <?php if ($tasks) { ?>
+                <?php foreach ($tasks as $task) { ?>
                 <tr>
-                  <td class="text-center"><?php if (in_array($project['project_id'], $selected)) { ?>
-                    <input type="checkbox" name="selected[]" value="<?php echo $project['project_id']; ?>" checked="checked" />
+                  <td class="text-center"><?php if (in_array($task['task_id'], $selected)) { ?>
+                    <input type="checkbox" name="selected[]" value="<?php echo $task['task_id']; ?>" checked="checked" />
                     <?php } else { ?>
-                    <input type="checkbox" name="selected[]" value="<?php echo $project['project_id']; ?>" />
+                    <input type="checkbox" name="selected[]" value="<?php echo $task['task_id']; ?>" />
                     <?php } ?></td>
-                  <td class="text-left"><?php echo $project['project_name']; ?></td>
-                  <td class="text-left"><?php echo $project['project_company']; ?></td>
-                  <td class="text-left"><?php echo $project['contact_person']; ?></td>
-                  <td class="text-left"><?php echo $project['phone']; ?></td>
-                  <td class="text-left"><?php echo $project['email']; ?></td>
-                  <td class="text-left"><?php echo $project['project_start_date']; ?></td>
-                  <td class="text-left"><?php echo $project['project_end_date']; ?></td>
-                  <td class="text-right"><a href="<?php echo $project['edit']; ?>" data-toggle="tooltip" title="<?php echo $button_edit; ?>" class="btn btn-primary"><i class="fa fa-pencil"></i></a></td>
+                  <td class="text-left"><?php echo $task['project']; ?></td>
+                  <td class="text-left"><?php echo $task['project_start_time']; ?></td>
+                  <td class="text-left"><?php echo $task['project_end_time']; ?></td>
+                  <td class="text-left"><?php echo $task['task']; ?></td>
+                  <td class="text-left"><?php echo $task['status']; ?></td>
+                  <td class="text-left"><?php echo $task['commit_no']; ?></td>
+                  <td class="text-right"><a href="<?php echo $task['edit']; ?>" data-toggle="tooltip" title="<?php echo $button_edit; ?>" class="btn btn-primary"><i class="fa fa-pencil"></i></a></td>
                 </tr>
                 <?php } ?>
                 <?php } else { ?>
@@ -100,33 +98,33 @@
 $('#button-filter').on('click', function() {
   var url = 'index.php?route=catalog/project&token=<?php echo $token; ?>';
 
-  var filter_project_name = $('input[name=\'filter_project_name\']').val();
+  var filter_project = $('input[name=\'filter_project\']').val();
 
-  if (filter_project_name) {
-    url += '&filter_project_name=' + encodeURIComponent(filter_project_name);
+  if (filter_project) {
+    url += '&filter_project=' + encodeURIComponent(filter_project);
   }
 
   location = url;
 });
 //--></script>
 <script type="text/javascript"><!--
-$('input[name=\'filter_project_name\']').autocomplete({
+$('input[name=\'filter_project\']').autocomplete({
   'source': function(request, response) {
     $.ajax({
-      url: 'index.php?route=catalog/project/autocomplete&token=<?php echo $token; ?>&filter_project_name=' +  encodeURIComponent(request),
+      url: 'index.php?route=catalog/project/autocomplete&token=<?php echo $token; ?>&filter_project=' +  encodeURIComponent(request),
       dataType: 'json',
       success: function(json) {
         response($.map(json, function(item) {
           return {
-            label: item['project_name'],
-            value: item['project_id']
+            label: item['project'],
+            value: item['task_id']
           }
         }));
       }
     });
   },
   'select': function(item) {
-    $('input[name=\'filter_project_name\']').val(item['label']);
+    $('input[name=\'filter_project\']').val(item['label']);
   }
 });
 //--></script>

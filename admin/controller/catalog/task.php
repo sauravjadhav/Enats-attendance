@@ -21,7 +21,7 @@ class ControllerCatalogTask extends Controller {
 		$this->load->model('catalog/task');
 
 		if (($this->request->server['REQUEST_METHOD'] == 'POST')) {
-			$this->model_catalog_project->addTask($this->request->post);
+			$this->model_catalog_task->addTask($this->request->post);
 
 			$this->session->data['success'] = $this->language->get('text_success');
 
@@ -55,7 +55,7 @@ class ControllerCatalogTask extends Controller {
 		$this->load->model('catalog/task');
 
 		if (($this->request->server['REQUEST_METHOD'] == 'POST')) {
-			$this->model_catalog_project->editTask($this->request->get['project_id'], $this->request->post);
+			$this->model_catalog_task->editTask($this->request->get['task_id'], $this->request->post);
 
 			$this->session->data['success'] = $this->language->get('text_success');
 
@@ -87,8 +87,8 @@ class ControllerCatalogTask extends Controller {
 		$this->load->model('catalog/task');
 
 		if (isset($this->request->post['selected'])) {
-			foreach ($this->request->post['selected'] as $project_id) {
-				$this->model_catalog_project->deleteTask($project_id);
+			foreach ($this->request->post['selected'] as $task_id) {
+				$this->model_catalog_task->deleteTask($task_id);
 			}
 
 			$this->session->data['success'] = $this->language->get('text_success');
@@ -115,10 +115,10 @@ class ControllerCatalogTask extends Controller {
 
 	protected function getList() {
 
-		if (isset($this->request->get['filter_project_name'])) {
-			$filter_project_name = $this->request->get['filter_project_name'];
+		if (isset($this->request->get['filter_project'])) {
+			$filter_project = $this->request->get['filter_project'];
 		} else {
-			$filter_project_name = null;
+			$filter_project = null;
 		}
 
 		if (isset($this->request->get['sort'])) {
@@ -141,8 +141,8 @@ class ControllerCatalogTask extends Controller {
 
 		$url = '';
 
-		if (isset($this->request->get['filter_project_name'])) {
-			$url .= '&filter_project_name=' . urlencode(html_entity_decode($this->request->get['filter_project_name'], ENT_QUOTES, 'UTF-8'));
+		if (isset($this->request->get['filter_project'])) {
+			$url .= '&filter_project=' . urlencode(html_entity_decode($this->request->get['filter_project_name'], ENT_QUOTES, 'UTF-8'));
 		}
 
 		if (isset($this->request->get['sort'])) {
@@ -175,28 +175,27 @@ class ControllerCatalogTask extends Controller {
 		$data['tasks'] = array();
 
 		$filter_data = array(
-			'filter_project_name' => $filter_project_name,
+			'filter_project' => $filter_project,
 			'sort'  => $sort,
 			'order' => $order,
 			'start' => ($page - 1) * $this->config->get('config_limit_admin'),
 			'limit' => $this->config->get('config_limit_admin')
 		);
 
-		$project_total = $this->model_catalog_project->getTotalTasks();
+		$task_total = $this->model_catalog_task->getTotalTasks();
 
-		$results = $this->model_catalog_project->getTasks($filter_data);
+		$results = $this->model_catalog_task->getTasks($filter_data);
 
 		// echo "<pre>";print_r($results);exit;
 		foreach ($results as $result) {
 			$data['tasks'][] = array(
 				'task_id' 	        => $result['task_id'],
-				'task_name'          => $result['task_name'],
-				'task_company'       => $result['task_company'],
-				'contact_person'        => $result['contact_person'],
-				'phone'   		        => $result['phone'],
-				'email'                 => $result['email'],
-				'project_start_date'    => $result['project_start_date'],
-				'project_end_date'      => $result['project_end_date'],
+				'project'          => $result['project'],
+				'project_start_time'       => $result['project_start_time'],
+				'project_end_time'        => $result['project_end_time'],
+				'task'   		        => $result['task'],
+				'status'                 => $result['status'],
+				'commit_no'    => $result['commit_no'],
 				'edit'            => $this->url->link('catalog/task/edit', 'token=' . $this->session->data['token'] . '&task_id=' . $result['task_id'] . $url, true)
 			);
 		}
@@ -207,16 +206,20 @@ class ControllerCatalogTask extends Controller {
 		$data['text_no_results'] = $this->language->get('text_no_results');
 		$data['text_confirm'] = $this->language->get('text_confirm');
 
-		$data['column_name'] = $this->language->get('column_name');
-		$data['column_project_company'] = $this->language->get('column_project_company');
-		$data['column_contact_person'] = $this->language->get('column_contact_person');
-		$data['column_phone'] = $this->language->get('column_phone');
-		$data['column_email'] = $this->language->get('column_email');
-		$data['column_project_start_date'] = $this->language->get('column_project_start_date');
-		$data['column_project_end_date'] = $this->language->get('column_project_end_date');
+		$data['column_project'] = $this->language->get('column_project');
+		$data['column_project_start_time'] = $this->language->get('column_project_start_time');
+		$data['column_project_end_time'] = $this->language->get('column_project_end_time');
+		$data['column_task'] = $this->language->get('column_task');
+		$data['column_status'] = $this->language->get('column_status');
+		$data['column_commit_no'] = $this->language->get('column_commit_no');
 		$data['column_action'] = $this->language->get('column_action');
 
-		$data['entry_project_name'] = $this->language->get('entry_project_name');
+		$data['entry_project'] = $this->language->get('entry_project');
+		$data['entry_project_start_time'] = $this->language->get('entry_project_start_time');
+		$data['entry_project_end_time'] = $this->language->get('entry_project_end_time');
+		$data['entry_task'] = $this->language->get('entry_task');
+		$data['entry_status'] = $this->language->get('entry_status');
+		$data['entry_commit_no'] = $this->language->get('entry_commit_no');
 
 		$data['button_add'] = $this->language->get('button_add');
 		$data['button_edit'] = $this->language->get('button_edit');
@@ -276,19 +279,19 @@ class ControllerCatalogTask extends Controller {
 		}
 
 		$pagination = new Pagination();
-		$pagination->total = $project_total;
+		$pagination->total = $task_total;
 		$pagination->page = $page;
 		$pagination->limit = $this->config->get('config_limit_admin');
 		$pagination->url = $this->url->link('catalog/task', 'token=' . $this->session->data['token'] . $url . '&page={page}', true);
 
 		$data['pagination'] = $pagination->render();
 
-		$data['results'] = sprintf($this->language->get('text_pagination'), ($project_total) ? (($page - 1) * $this->config->get('config_limit_admin')) + 1 : 0, ((($page - 1) * $this->config->get('config_limit_admin')) > ($project_total - $this->config->get('config_limit_admin'))) ? $project_total : ((($page - 1) * $this->config->get('config_limit_admin')) + $this->config->get('config_limit_admin')), $project_total, ceil($project_total / $this->config->get('config_limit_admin')));
+		$data['results'] = sprintf($this->language->get('text_pagination'), ($task_total) ? (($page - 1) * $this->config->get('config_limit_admin')) + 1 : 0, ((($page - 1) * $this->config->get('config_limit_admin')) > ($task_total - $this->config->get('config_limit_admin'))) ? $task_total : ((($page - 1) * $this->config->get('config_limit_admin')) + $this->config->get('config_limit_admin')), $task_total, ceil($task_total / $this->config->get('config_limit_admin')));
 
 		$data['sort'] = $sort;
 		$data['order'] = $order;
 
-		$data['filter_project_name'] = $filter_project_name;
+		$data['filter_project'] = $filter_project;
 
 		$data['header'] = $this->load->controller('common/header');
 		$data['column_left'] = $this->load->controller('common/column_left');
@@ -300,20 +303,19 @@ class ControllerCatalogTask extends Controller {
 	protected function getForm() {
 		$data['heading_title'] = $this->language->get('heading_title');
 
-		$data['text_form'] = !isset($this->request->get['project_id']) ? $this->language->get('text_add') : $this->language->get('text_edit');
+		$data['text_form'] = !isset($this->request->get['task_id']) ? $this->language->get('text_add') : $this->language->get('text_edit');
 		$data['text_enabled'] = $this->language->get('text_enabled');
 		$data['text_disabled'] = $this->language->get('text_disabled');
 		$data['text_default'] = $this->language->get('text_default');
 		$data['text_percent'] = $this->language->get('text_percent');
 		$data['text_amount'] = $this->language->get('text_amount');
 
-		$data['entry_project_name'] = $this->language->get('entry_project_name');
-		$data['entry_project_company'] = $this->language->get('entry_project_company');
-		$data['entry_contact_person'] = $this->language->get('entry_contact_person');
-		$data['entry_phone'] = $this->language->get('entry_phone');
-		$data['entry_email'] = $this->language->get('entry_email');
-		$data['entry_project_start_date'] = $this->language->get('entry_project_start_date');
-		$data['entry_project_end_date'] = $this->language->get('entry_project_end_date');
+		$data['entry_project'] = $this->language->get('entry_project');
+		$data['entry_project_start_time'] = $this->language->get('entry_project_start_time');
+		$data['entry_project_end_time'] = $this->language->get('entry_project_end_time');
+		$data['entry_task'] = $this->language->get('entry_task');
+		$data['entry_status'] = $this->language->get('entry_status');
+		$data['entry_commit_no'] = $this->language->get('entry_commit_no');
 
 		$data['button_save'] = $this->language->get('button_save');
 		$data['button_cancel'] = $this->language->get('button_cancel');
@@ -362,76 +364,70 @@ class ControllerCatalogTask extends Controller {
 			'href' => $this->url->link('catalog/task', 'token=' . $this->session->data['token'] . $url, true)
 		);
 
-		if (!isset($this->request->get['project_id'])) {
+		if (!isset($this->request->get['task_id'])) {
 			$data['action'] = $this->url->link('catalog/task/add', 'token=' . $this->session->data['token'] . $url, true);
 		} else {
-			$data['action'] = $this->url->link('catalog/task/edit', 'token=' . $this->session->data['token'] . '&project_id=' . $this->request->get['project_id'] . $url, true);
+			$data['action'] = $this->url->link('catalog/task/edit', 'token=' . $this->session->data['token'] . '&task_id=' . $this->request->get['task_id'] . $url, true);
 		}
 
 		$data['cancel'] = $this->url->link('catalog/task', 'token=' . $this->session->data['token'] . $url, true);
 
-		if (isset($this->request->get['project_id']) && ($this->request->server['REQUEST_METHOD'] != 'POST')) {
-			$project_info = $this->model_catalog_project->getProject($this->request->get['project_id']);
+		if (isset($this->request->get['task_id']) && ($this->request->server['REQUEST_METHOD'] != 'POST')) {
+			$task_info = $this->model_catalog_task->gettask($this->request->get['task_id']);
 		}
 
 
 		$data['token'] = $this->session->data['token'];
 
-		if (isset($this->request->post['project_name'])) {
-			$data['project_name'] = $this->request->post['project_name'];
+		if (isset($this->request->post['project'])) {
+			$data['project'] = $this->request->post['project'];
 		} elseif (!empty($project_info)) {
-			$data['project_name'] = $project_info['project_name'];
+			$data['project'] = $project_info['project'];
 		} else {
-			$data['project_name'] = '';
+			$data['project'] = '';
 		}
 
-		if (isset($this->request->post['project_company'])) {
-			$data['project_company'] = $this->request->post['project_company'];
+		if (isset($this->request->post['project_start_time'])) {
+			$data['project_start_time'] = $this->request->post['project_start_time'];
 		} elseif (!empty($project_info)) {
-			$data['project_company'] = $project_info['project_company'];
+			$data['project_start_time'] = $project_info['project_start_time'];
 		} else {
-			$data['project_company'] = '';
+			$data['project_start_time'] = '';
 		}
 
-		if (isset($this->request->post['contact_person'])) {
-			$data['contact_person'] = $this->request->post['contact_person'];
+		if (isset($this->request->post['project_end_time'])) {
+			$data['project_end_time'] = $this->request->post['project_end_time'];
 		} elseif (!empty($project_info)) {
-			$data['contact_person'] = $project_info['contact_person'];
+			$data['project_end_time'] = $project_info['project_end_time'];
 		} else {
-			$data['contact_person'] = '';
+			$data['project_end_time'] = '';
 		}
 
-		if (isset($this->request->post['phone'])) {
-			$data['phone'] = $this->request->post['phone'];
+		if (isset($this->request->post['task'])) {
+			$data['task'] = $this->request->post['task'];
 		} elseif (!empty($project_info)) {
-			$data['phone'] = $project_info['phone'];
+			$data['task'] = $project_info['task'];
 		} else {
-			$data['phone'] = '';
+			$data['task'] = '';
 		}
 
-		if (isset($this->request->post['email'])) {
-			$data['email'] = $this->request->post['email'];
+		if (isset($this->request->post['status'])) {
+			$data['status'] = $this->request->post['status'];
 		} elseif (!empty($project_info)) {
-			$data['email'] = $project_info['email'];
+			$data['status'] = $project_info['status'];
 		} else {
-			$data['email'] = '';
+			$data['status'] = '';
 		}
 
-		if (isset($this->request->post['project_start_date'])) {
-			$data['project_start_date'] = $this->request->post['project_start_date'];
+		if (isset($this->request->post['commit_no'])) {
+			$data['commit_no'] = $this->request->post['commit_no'];
 		} elseif (!empty($project_info)) {
-			$data['project_start_date'] = $project_info['project_start_date'];
+			$data['commit_no'] = $project_info['commit_no'];
 		} else {
-			$data['project_start_date'] = '';
+			$data['commit_no'] = '';
 		}
 
-		if (isset($this->request->post['project_end_date'])) {
-			$data['project_end_date'] = $this->request->post['project_end_date'];
-		} elseif (!empty($project_info)) {
-			$data['project_end_date'] = $project_info['project_end_date'];
-		} else {
-			$data['project_end_date'] = '';
-		}
+	
 
 		$data['header'] = $this->load->controller('common/header');
 		$data['column_left'] = $this->load->controller('common/column_left');
@@ -444,11 +440,11 @@ class ControllerCatalogTask extends Controller {
 
 		$json = array();
 
-		if (isset($this->request->get['filter_project_name'])) {
+		if (isset($this->request->get['filter_project'])) {
 			$this->load->model('catalog/task');
 
 			$filter_data = array(
-				'filter_project_name' => $this->request->get['filter_project_name'],
+				'filter_project' => $this->request->get['filter_project'],
 				'start'       => 0,
 				'limit'       => 5
 			);
@@ -459,7 +455,7 @@ class ControllerCatalogTask extends Controller {
 			foreach ($results as $result) {
 				$json[] = array(
 					'project_id' => $result['project_id'],
-					'project_name'            => strip_tags(html_entity_decode($result['project_name'], ENT_QUOTES, 'UTF-8'))
+					'project'            => strip_tags(html_entity_decode($result['project'], ENT_QUOTES, 'UTF-8'))
 				);
 			}
 		}
@@ -467,7 +463,7 @@ class ControllerCatalogTask extends Controller {
 		$sort_order = array();
 
 		foreach ($json as $key => $value) {
-			$sort_order[$key] = $value['project_name'];
+			$sort_order[$key] = $value['project'];
 		}
 
 		array_multisort($sort_order, SORT_ASC, $json);
