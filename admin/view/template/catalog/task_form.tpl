@@ -26,45 +26,39 @@
       <div class="panel-body">
         <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form-task" class="form-horizontal">
           <div class="form-group">
-            <label class="col-sm-2 control-label" for="input-project_name"><?php echo $entry_project_name; ?></label>
+            <label class="col-sm-2 control-label" for="input-project"><?php echo $entry_project; ?></label>
             <div class="col-sm-10">
-              <input type="text" name="project_name" value="<?php echo $project_name; ?>" placeholder="<?php echo $entry_project_name; ?>" id="input-project_name" class="form-control" />
+              <input type="text" name="project" value="<?php echo $project; ?>" placeholder="<?php echo $entry_project; ?>" id="input-project" class="form-control" />
             </div>
           </div>
           <div class="form-group">
-            <label class="col-sm-2 control-label" for="input-project_company"><?php echo $entry_project_company; ?></label>
+            <label class="col-sm-2 control-label" for="input-project_start_time"><?php echo $entry_project_start_time; ?></label>
             <div class="col-sm-10">
-              <input type="text" name="project_company" value="<?php echo $project_company; ?>" placeholder="<?php echo $entry_project_company; ?>" id="input-project_company" class="form-control" />
+              <input type="time" name="project_start_time" value="<?php echo $project_start_time; ?>" placeholder="<?php echo $entry_project_start_time; ?>" id="input-project_start_time" class="form-control" />
             </div>
           </div>
           <div class="form-group">
-            <label class="col-sm-2 control-label" for="input-contact_person"><?php echo $entry_contact_person; ?></label>
+            <label class="col-sm-2 control-label" for="input-project_end_time"><?php echo $entry_project_end_time; ?></label>
             <div class="col-sm-10">
-              <input type="text" name="contact_person" value="<?php echo $contact_person; ?>" placeholder="<?php echo $entry_contact_person; ?>" id="input-contact_person" class="form-control" />
+              <input type="time" name="project_end_time" value="<?php echo $project_end_time; ?>" placeholder="<?php echo $entry_project_end_time; ?>" id="input-contact_person" class="form-control" />
             </div>
           </div>
           <div class="form-group">
-            <label class="col-sm-2 control-label" for="input-phone"><?php echo $entry_phone; ?></label>
+            <label class="col-sm-2 control-label" for="input-task"><?php echo $entry_task; ?></label>
             <div class="col-sm-10">
-              <input type="tel" name="phone" value="<?php echo $phone; ?>" placeholder="<?php echo $entry_phone; ?>" id="input-phone" class="form-control" />
+              <input type="tel" name="task" value="<?php echo $task; ?>" placeholder="<?php echo $entry_task; ?>" id="input-task" class="form-control" />
             </div>
           </div>
           <div class="form-group">
-            <label class="col-sm-2 control-label" for="input-email"><?php echo $entry_email; ?></label>
+            <label class="col-sm-2 control-label" for="input-status"><?php echo $entry_status; ?></label>
             <div class="col-sm-10">
-              <input type="email" name="email" value="<?php echo $email; ?>" placeholder="<?php echo $entry_email; ?>" id="input-email" class="form-control" />
+              <input type="text" name="status" value="<?php echo $status; ?>" placeholder="<?php echo $entry_status; ?>" id="input-status" class="form-control" />
             </div>
           </div>
           <div class="form-group">
-            <label class="col-sm-2 control-label" for="input-project_start_date"><?php echo $entry_project_start_date; ?></label>
+            <label class="col-sm-2 control-label" for="input-commit_no"><?php echo $entry_commit_no; ?></label>
             <div class="col-sm-10">
-              <input type="date" name="project_start_date" value="<?php echo $project_start_date; ?>" id="input-project_start_date" class="form-control" />
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="col-sm-2 control-label" for="input-project_end_date"><?php echo $entry_project_end_date; ?></label>
-            <div class="col-sm-10">
-              <input type="date" name="project_end_date" value="<?php echo $project_end_date; ?>" id="input-project_end_date" class="form-control" />
+              <input type="text" name="commit_no" value="<?php echo $commit_no; ?>" placeholder="<?php echo $entry_commit_no; ?>" id="input-commit_no" class="form-control" />
             </div>
           </div>
         </form>

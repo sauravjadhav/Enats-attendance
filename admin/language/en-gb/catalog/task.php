@@ -12,23 +12,22 @@ $_['text_percent']       = 'Percentage';
 $_['text_amount']        = 'Fixed Amount';
 
 // Column
-$_['column_name']        			= 'Task Name';
-$_['column_Task_company']        = 'Task Company';
-$_['column_contact_person']         = 'Contact Person';
-$_['column_phone']                  = 'Phone Number';
-$_['column_email']                  = 'Email id';
-$_['column_Task_start_date']     = 'Task Start Date';
-$_['column_Task_end_date']       = 'Task End Date';
+$_['column_project']        			= 'Project Name';
+$_['column_project_start_time']        = 'Project Start time';
+$_['column_project_end_time']         = 'Project end time';
+$_['column_task']                  = 'Given Task';
+$_['column_status']                  = 'Status';
+$_['column_commit_no']     = 'Commit No.';
 $_['column_action']      			= 'Action';
 
 // Entry
-$_['entry_Task_name']            = 'Task Name';
-$_['entry_Task_company']         = 'Task Company Name';
-$_['entry_contact_person']          = 'Contact Person';
-$_['entry_phone']                   = 'Phone No';
-$_['entry_email']                   = 'Email Id';
-$_['entry_Task_start_date']      = 'Task Start Date';
-$_['entry_Task_end_date']        = 'Task End Date';
+$_['entry_project']            = 'Project Name';
+$_['entry_project_start_time']         = 'Project start time';
+$_['entry_project_end_time']          = 'Project end time';
+$_['entry_task']                   = 'Given Task';
+$_['entry_status']                   = 'Status';
+$_['entry_commit_no']      = 'Commit No.';
+
 
 // Help
 $_['help_keyword']       = 'Do not use spaces, instead replace spaces with - and make sure the SEO URL is globally unique.';
