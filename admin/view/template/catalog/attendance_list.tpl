@@ -60,6 +60,7 @@
                   <a href="<?php echo $sort_name; ?>"><?php echo $column_name; ?></a>
                   <?php } ?></td>
                   <td class="text-left"><?php echo $column_office_in_time; ?></td>
+                  <td class="text-left"><?php echo $column_date_time; ?></td>
                   <td class="text-right"><?php echo $column_action; ?></td>
                 </tr>
               </thead>
@@ -75,6 +76,7 @@
               <?php } ?></td>
               <td class="text-left"><?php echo $attendance['name']; ?></td>
               <td class="text-left"><?php echo $attendance['office_in_time']; ?></td>
+              <td class="text-left"><?php echo $attendance['date'] . ' ' . $attendance['time']; ?></td>
               <td class="text-right"><a href="<?php echo $attendance['edit']; ?>" data-toggle="tooltip" title="<?php echo $button_edit; ?>" class="btn btn-primary"><i class="fa fa-pencil"></i></a></td>
               </tr>
               <?php } ?>

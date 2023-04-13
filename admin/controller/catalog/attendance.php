@@ -3,17 +3,31 @@ class ControllerCatalogAttendance extends Controller {
 	private $error = array();
 
 	public function index() {
+
+		$user_id = $this->session->data['user_id'];
+		$user_data = $this->db->query("SELECT * FROM oc_user where user_id = '$user_id'")->rows;
+		foreach ($user_data as $user) {
+			$user_group_id = $user['user_group_id'];
+			$name_of_user = $user['firstname'] . ' ' . $user['lastname'];
+		}
+		// echo "<pre>";print_r($name_of_user);exit;
+
 		$this->load->language('catalog/attendance');
 
 		$this->document->setTitle($this->language->get('heading_title'));
 
 		$this->load->model('catalog/attendance');
 
-		$this->getList();
+		if ($user_group_id == 11) {
+			$this->getForm();
+		}	else {
+			$this->getList();
+		}
 	}
 
 	public function add() {
 		// echo "<pre>";print_r($this->request->post);exit;
+		// echo "<pre>";print_r($this->request->post['date']);exit;
 		$this->load->language('catalog/attendance');
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -191,9 +205,11 @@ class ControllerCatalogAttendance extends Controller {
 		// echo "<pre>";print_r($results);exit;
 		foreach ($results as $result) {
 			$data['attendances'][] = array(
-				'attendance_id' 	        => $result['attendance_id'],
-				'name'          => $result['name'],
-				'office_in_time'       => $result['office_in_time'],
+				'attendance_id'	  => $result['attendance_id'],
+				'name'            => $result['name'],
+				'office_in_time'  => $result['office_in_time'],
+				'time'       => $result['time'],
+				'date'       => $result['date'],
 				'edit'            => $this->url->link('catalog/attendance/edit', 'token=' . $this->session->data['token'] . '&attendance_id=' . $result['attendance_id'] . $url, true)
 			);
 		}
@@ -216,6 +232,7 @@ class ControllerCatalogAttendance extends Controller {
 
 		$data['column_name'] = $this->language->get('column_name');
 		$data['column_office_in_time'] = $this->language->get('column_office_in_time');
+		$data['column_date_time'] = $this->language->get('column_date_time');
 		$data['column_action'] = $this->language->get('column_action');
 
 		$data['entry_name'] = $this->language->get('entry_name');
@@ -225,6 +242,9 @@ class ControllerCatalogAttendance extends Controller {
 		$data['button_filter'] = $this->language->get('button_filter');
 		$data['button_edit'] = $this->language->get('button_edit');
 		$data['button_delete'] = $this->language->get('button_delete');
+
+		$data['token'] = $this->session->data['token'];
+		
 
 		if (isset($this->error['warning'])) {
 			$data['error_warning'] = $this->error['warning'];
@@ -316,6 +336,14 @@ class ControllerCatalogAttendance extends Controller {
 			$data['error_warning'] = '';
 		}
 
+		if (isset($this->session->data['success'])) {
+			$data['success'] = $this->session->data['success'];
+
+			unset($this->session->data['success']);
+		} else {
+			$data['success'] = '';
+		}
+
 		if (isset($this->error['name'])) {
 			$data['error_name'] = $this->error['name'];
 		} else {
@@ -369,10 +397,21 @@ class ControllerCatalogAttendance extends Controller {
 
 		$data['token'] = $this->session->data['token'];
 
+		$user_id = $this->session->data['user_id'];
+		$user_data = $this->db->query("SELECT * FROM oc_user where user_id = '$user_id'")->rows;
+		foreach ($user_data as $user) {
+			$user_group_id = $user['user_group_id'];
+			$data['user_group_id'] = $user['user_group_id'];
+			$name_of_user = $user['firstname'] . ' ' . $user['lastname'];
+		}
+
+		// echo "<pre>";print_r($user_group_id);exit;
 		if (isset($this->request->post['name'])) {
 			$data['name'] = $this->request->post['name'];
 		} elseif (!empty($attendance_info)) {
 			$data['name'] = $attendance_info['name'];
+		}elseif(!empty($name_of_user) && ($user_group_id != 1)){
+			$data['name'] = $name_of_user;
 		} else {
 			$data['name'] = '';
 		}
@@ -385,7 +424,31 @@ class ControllerCatalogAttendance extends Controller {
 			$data['office_in_time'] = '';
 		}
 
-		
+		if (isset($this->request->post['user_id'])) {
+			$data['user_id'] = $this->request->post['user_id'];
+		} elseif (!empty($attendance_info)) {
+			$data['user_id'] = $attendance_info['user_id'];
+		} elseif(!empty($user_id) && ($user_group_id != 1)){
+			$data['user_id'] = $user_id;
+		} else {
+			$data['user_id'] = '';
+		}
+
+		if (isset($this->request->post['date'])) {
+			$data['date'] = $this->request->post['date'];
+		} elseif (!empty($attendance_info)) {
+			$data['date'] = $attendance_info['date'];
+		} else {
+			$data['date'] = '';
+		}
+
+		if (isset($this->request->post['time'])) {
+			$data['time'] = $this->request->post['time'];
+		} elseif (!empty($attendance_info)) {
+			$data['time'] = $attendance_info['time'];
+		} else {
+			$data['time'] = '';
+		}
 
 		$data['header'] = $this->load->controller('common/header');
 		$data['column_left'] = $this->load->controller('common/column_left');
@@ -455,6 +518,41 @@ class ControllerCatalogAttendance extends Controller {
 
 		foreach ($json as $key => $value) {
 			$sort_order[$key] = $value['office_in_time'];
+		}
+
+		array_multisort($sort_order, SORT_ASC, $json);
+
+		$this->response->addHeader('Content-Type: application/json');
+		$this->response->setOutput(json_encode($json));
+	}
+
+	public function autocomplete2() {
+		$json = array();
+
+		if (isset($this->request->get['name'])) {
+			$this->load->model('catalog/attendance');
+
+			$filter_data = array(
+				'name' => $this->request->get['name'],
+				'start'       => 0,
+				'limit'       => 5
+			);
+
+			$results = $this->model_catalog_attendance->autocompleteatt2($filter_data);
+
+			foreach ($results as $result) {
+				$json[] = array(
+					'user_id' => $result['user_id'],
+					'firstname' => $result['firstname'],
+					'name'            => strip_tags(html_entity_decode($result['firstname'], ENT_QUOTES, 'UTF-8'))
+				);
+			}
+		}
+
+		$sort_order = array();
+
+		foreach ($json as $key => $value) {
+			$sort_order[$key] = $value['name'];
 		}
 
 		array_multisort($sort_order, SORT_ASC, $json);

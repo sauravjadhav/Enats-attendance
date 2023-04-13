@@ -2,6 +2,12 @@
 class ControllerCommonMenu extends Controller {
 	public function index() {
 		$this->load->language('common/menu');
+		
+		$user_id = $this->session->data['user_id'];
+		$user_data = $this->db->query("SELECT * FROM oc_user where user_id = '$user_id'")->rows;
+		foreach ($user_data as $user) {
+			$data['user_group_id'] = $user['user_group_id'];
+		}
 
 		$data['text_analytics'] = $this->language->get('text_analytics');
 		$data['text_affiliate'] = $this->language->get('text_affiliate');

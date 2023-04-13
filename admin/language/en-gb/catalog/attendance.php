@@ -3,7 +3,7 @@
 $_['heading_title']      = 'Attendance';
 
 // Text
-$_['text_success']       = 'Success: You have modified Attendance!';
+$_['text_success']       = 'Success: Your Attendance is marked!';
 $_['text_list']          = 'Attendance List';
 $_['text_filter']        = 'Attendance Filter';
 $_['text_add']           = 'Add Attendance';
@@ -14,11 +14,12 @@ $_['text_amount']        = 'Fixed Amount';
 
 // Column
 $_['column_name']        			= 'Name';
-$_['column_office_in_time']        = 'Office in Time';
+$_['column_office_in_time']         = 'Office in Time';
+$_['column_date_time']        		= 'Time and date of Attendance';
 $_['column_action']      			= 'Action';
 
 // Entry
-$_['entry_name']                   = 'Name';
+$_['entry_name']                   = 'Name and current date-time';
 $_['entry_office_in_time']         = 'Office in Time';
 
 // Help
