@@ -27,7 +27,7 @@ $_['column_address']     = 'Address';
 
 
 // Entry
-$_['entry_login']                         = 'Login';
+$_['entry_login']                        = 'Login';
 $_['entry_name']                         = 'Name';
 $_['entry_father_name'] 	             = 'Father name';
 $_['entry_surname'] 	                 = 'Surname name';
@@ -40,7 +40,8 @@ $_['entry_doje'] 	                     = 'Date of Joining ENATTS';
 $_['entry_pan'] 	                     = 'PAN';
 $_['entry_adhaar'] 	                     = 'ADHAAR';
 $_['entry_bank_details'] 	             = 'Entry Bank Details';
-$_['entry_emergency_contact_person_details'] 	             = 'Emergency Contact Person Details';
+$_['entry_emergency_contact_person_details'] 	  = 'Emergency Contact Person Details';
+$_['entry_emergency_contact_person_details1'] 	  = 'Emergency Contact Person Details1';
 $_['entry_laptop_model'] 	                      = 'Laptop Model';
 
 
