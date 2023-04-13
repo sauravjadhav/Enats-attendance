@@ -3,7 +3,7 @@
 $_['heading_title']      = 'Attendance';
 
 // Text
-$_['text_success']       = 'Success: You have modified Attendance!';
+$_['text_success']       = 'Success: Your Attendance is marked!';
 $_['text_list']          = 'Attendance List';
 $_['text_filter']        = 'Attendance Filter';
 $_['text_add']           = 'Add Attendance';

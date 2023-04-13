@@ -2,9 +2,13 @@
 class ModelCatalogAttendance extends Model {
 	public function addattendance($data) {
 
-		// echo "<pre>";print_r($data);exit;
-		
-		$this->db->query("INSERT INTO " . DB_PREFIX . "attendance_record SET name = '" . $this->db->escape($data['name']) . "',date_time = '" . $this->db->escape($data['date_time']) . "', office_in_time = '" . $this->db->escape($data['office_in_time']) . "'");
+		if(!empty($data['user_id'])){
+			$user_id = $data['user_id'];
+		} else {
+			$user_id = $this->session->data['user_id'];
+		}
+
+		$this->db->query("INSERT INTO " . DB_PREFIX . "attendance_record SET name = '" . $this->db->escape($data['name']) . "',date = '" . $this->db->escape($data['date']) . "',time = '" . $this->db->escape($data['time']) . "',user_id = '" . $this->db->escape($user_id) . "', office_in_time = '" . $this->db->escape($data['office_in_time']) . "'");
 
 		$attendance_id = $this->db->getLastId();
 
@@ -66,7 +70,19 @@ class ModelCatalogAttendance extends Model {
 		return $query->rows;
 	}
 
+	public function autocompleteatt2($data = array()){
+		$sql = "SELECT * FROM oc_user WHERE 1=1";
 
+		if (!empty($data['name'])) {
+			$sql .= " AND firstname LIKE '" . $this->db->escape($data['name']) . "%'";
+		}
+
+		$sql .= " GROUP BY firstname";
+		$query = $this->db->query($sql);
+		// echo "<pre>";print_r($query);exit;
+
+		return $query->rows;
+	}
 
 	public function getAttendances($data = array()) {
 		// echo "<pre>"; print_r($data);exit;
