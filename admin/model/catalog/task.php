@@ -20,7 +20,7 @@ class ModelCatalogTask extends Model {
 		$this->cache->delete('task');
 	}
 
-	public function deletetask($task_id) {
+	public function deleteTask($task_id) {
 		$this->db->query("DELETE FROM " . DB_PREFIX . "task WHERE task_id = '" . (int)$task_id . "'");
 
 		$this->cache->delete('task');
@@ -29,6 +29,35 @@ class ModelCatalogTask extends Model {
 	public function gettask($task_id) {
 		$query = $this->db->query("SELECT DISTINCT *, (SELECT keyword FROM " . DB_PREFIX . "url_alias WHERE query = 'task_id=" . (int)$task_id . "') AS keyword FROM " . DB_PREFIX . "task WHERE task_id = '" . (int)$task_id . "'");
 		return $query->row;
+	}
+
+
+	public function autocompletetas($data = array()){
+		// echo "<pre>";print_r($data);exit;
+		$sql = "SELECT * FROM oc_task WHERE 1=1";
+
+		if (!empty($data['filter_project'])) {
+			$sql .= " AND project LIKE '" . $this->db->escape($data['filter_project']) . "%'";
+		}
+
+		$sql .= " GROUP BY project";
+		$query = $this->db->query($sql);
+
+		return $query->rows;
+	}
+
+	public function autocomplete1($data = array()){
+		// echo "<pre>";print_r($data);exit;
+		$sql = "SELECT * FROM oc_project WHERE 1=1";
+
+		if (!empty($data['project'])) {
+			$sql .= " AND project_name LIKE '" . $this->db->escape($data['project']) . "%'";
+		}
+
+		$sql .= " GROUP BY project_name";
+		$query = $this->db->query($sql);
+
+		return $query->rows;
 	}
 
 	public function getTasks($data = array()) {
@@ -71,8 +100,8 @@ class ModelCatalogTask extends Model {
 		// echo "<pre>";print_r($query->rows);exit;
 
 		return $query->rows;
-
 	}
+
 
 	public function getTotalTasks() {
 		$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "task");

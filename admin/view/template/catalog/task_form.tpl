@@ -65,5 +65,27 @@
       </div>
     </div>
   </div>
+    <script type="text/javascript"><!--
+$('input[name=\'project\']').autocomplete({
+  'source': function(request, response) {
+    $.ajax({
+      url: 'index.php?route=catalog/task/autocomplete1&token=<?php echo $token; ?>&project=' +  encodeURIComponent(request),
+      dataType: 'json',     
+      success: function(json) {
+        response($.map(json, function(item) {
+          return {
+            label: item['project_name'],
+            value: item['project_id']
+          }
+        }));
+      }
+    });
+  },
+  'select': function(item) {
+    $('input[name=\'project\']').val(item['label']);
+    $('input[name=\'project_id\']').val(item['value']);   
+  } 
+});
+//--></script>
 </div>
 <?php echo $footer; ?>

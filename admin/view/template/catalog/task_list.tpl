@@ -51,7 +51,7 @@
                     <?php } else { ?>
                     <a href="<?php echo $sort_name; ?>"><?php echo $column_project; ?></a>
                     <?php } ?></td>
-                  <td class="text-left"><?php echo $column_project;?></td>
+                  
                   <td class="text-left"><?php echo $column_project_start_time;?></td>
                   <td class="text-left"><?php echo $column_project_end_time;?></td>
                   <td class="text-left"><?php echo $column_task;?></td>
@@ -73,7 +73,7 @@
                   <td class="text-left"><?php echo $task['project_end_time']; ?></td>
                   <td class="text-left"><?php echo $task['task']; ?></td>
                   <td class="text-left"><?php echo $task['status']; ?></td>
-                  <td class="text-left"><?php echo $task['commit_no']; ?></td>
+                  
                   <td class="text-right"><a href="<?php echo $task['edit']; ?>" data-toggle="tooltip" title="<?php echo $button_edit; ?>" class="btn btn-primary"><i class="fa fa-pencil"></i></a></td>
                 </tr>
                 <?php } ?>
@@ -96,7 +96,7 @@
 </div>
  <script type="text/javascript"><!--
 $('#button-filter').on('click', function() {
-  var url = 'index.php?route=catalog/project&token=<?php echo $token; ?>';
+  var url = 'index.php?route=catalog/task&token=<?php echo $token; ?>';
 
   var filter_project = $('input[name=\'filter_project\']').val();
 
@@ -111,7 +111,7 @@ $('#button-filter').on('click', function() {
 $('input[name=\'filter_project\']').autocomplete({
   'source': function(request, response) {
     $.ajax({
-      url: 'index.php?route=catalog/project/autocomplete&token=<?php echo $token; ?>&filter_project=' +  encodeURIComponent(request),
+      url: 'index.php?route=catalog/task/autocomplete&token=<?php echo $token; ?>&filter_project=' +  encodeURIComponent(request),
       dataType: 'json',
       success: function(json) {
         response($.map(json, function(item) {

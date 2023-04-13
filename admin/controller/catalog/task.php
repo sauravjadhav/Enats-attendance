@@ -27,6 +27,10 @@ class ControllerCatalogTask extends Controller {
 
 			$url = '';
 
+			if (isset($this->request->get['filter_project'])) {
+				$url .= '&filter_project=' . urlencode(html_entity_decode($this->request->get['filter_project'], ENT_QUOTES, 'UTF-8'));
+			}
+
 			if (isset($this->request->get['sort'])) {
 				$url .= '&sort=' . $this->request->get['sort'];
 			}
@@ -61,6 +65,10 @@ class ControllerCatalogTask extends Controller {
 
 			$url = '';
 
+			if (isset($this->request->get['filter_project'])) {
+				$url .= '&filter_project=' . urlencode(html_entity_decode($this->request->get['filter_project'], ENT_QUOTES, 'UTF-8'));
+			}
+
 			if (isset($this->request->get['sort'])) {
 				$url .= '&sort=' . $this->request->get['sort'];
 			}
@@ -94,6 +102,10 @@ class ControllerCatalogTask extends Controller {
 			$this->session->data['success'] = $this->language->get('text_success');
 
 			$url = '';
+
+			if (isset($this->request->get['filter_project'])) {
+				$url .= '&filter_project=' . urlencode(html_entity_decode($this->request->get['filter_project'], ENT_QUOTES, 'UTF-8'));
+			}
 
 			if (isset($this->request->get['sort'])) {
 				$url .= '&sort=' . $this->request->get['sort'];
@@ -142,7 +154,7 @@ class ControllerCatalogTask extends Controller {
 		$url = '';
 
 		if (isset($this->request->get['filter_project'])) {
-			$url .= '&filter_project=' . urlencode(html_entity_decode($this->request->get['filter_project_name'], ENT_QUOTES, 'UTF-8'));
+			$url .= '&filter_project=' . urlencode(html_entity_decode($this->request->get['filter_project'], ENT_QUOTES, 'UTF-8'));
 		}
 
 		if (isset($this->request->get['sort'])) {
@@ -318,6 +330,7 @@ class ControllerCatalogTask extends Controller {
 		$data['entry_commit_no'] = $this->language->get('entry_commit_no');
 
 		$data['button_save'] = $this->language->get('button_save');
+	    $data['button_filter'] = $this->language->get('button_filter');
 		$data['button_cancel'] = $this->language->get('button_cancel');
 
 		if (isset($this->error['warning'])) {
@@ -339,6 +352,11 @@ class ControllerCatalogTask extends Controller {
 		}
 
 		$url = '';
+
+		if (isset($this->request->get['filter_project'])) {
+			$url .= '&filter_project=' . urlencode(html_entity_decode($this->request->get['filter_project'], ENT_QUOTES, 'UTF-8'));
+		}
+
 
 		if (isset($this->request->get['sort'])) {
 			$url .= '&sort=' . $this->request->get['sort'];
@@ -381,53 +399,53 @@ class ControllerCatalogTask extends Controller {
 
 		if (isset($this->request->post['project'])) {
 			$data['project'] = $this->request->post['project'];
-		} elseif (!empty($project_info)) {
-			$data['project'] = $project_info['project'];
+		} elseif (!empty($task_info)) {
+			$data['project'] = $task_info['project'];
 		} else {
 			$data['project'] = '';
 		}
 
 		if (isset($this->request->post['project_start_time'])) {
 			$data['project_start_time'] = $this->request->post['project_start_time'];
-		} elseif (!empty($project_info)) {
-			$data['project_start_time'] = $project_info['project_start_time'];
+		} elseif (!empty($task_info)) {
+			$data['project_start_time'] = $task_info['project_start_time'];
 		} else {
 			$data['project_start_time'] = '';
 		}
 
 		if (isset($this->request->post['project_end_time'])) {
 			$data['project_end_time'] = $this->request->post['project_end_time'];
-		} elseif (!empty($project_info)) {
-			$data['project_end_time'] = $project_info['project_end_time'];
+		} elseif (!empty($task_info)) {
+			$data['project_end_time'] = $task_info['project_end_time'];
 		} else {
 			$data['project_end_time'] = '';
 		}
 
 		if (isset($this->request->post['task'])) {
 			$data['task'] = $this->request->post['task'];
-		} elseif (!empty($project_info)) {
-			$data['task'] = $project_info['task'];
+		} elseif (!empty($task_info)) {
+			$data['task'] = $task_info['task'];
 		} else {
 			$data['task'] = '';
 		}
 
 		if (isset($this->request->post['status'])) {
 			$data['status'] = $this->request->post['status'];
-		} elseif (!empty($project_info)) {
-			$data['status'] = $project_info['status'];
+		} elseif (!empty($task_info)) {
+			$data['status'] = $task_info['status'];
 		} else {
 			$data['status'] = '';
 		}
 
 		if (isset($this->request->post['commit_no'])) {
 			$data['commit_no'] = $this->request->post['commit_no'];
-		} elseif (!empty($project_info)) {
-			$data['commit_no'] = $project_info['commit_no'];
+		} elseif (!empty($task_info)) {
+			$data['commit_no'] = $task_info['commit_no'];
 		} else {
 			$data['commit_no'] = '';
 		}
 
-	
+	// echo"<pre>";print_r($task_info);exit;
 
 		$data['header'] = $this->load->controller('common/header');
 		$data['column_left'] = $this->load->controller('common/column_left');
@@ -449,12 +467,12 @@ class ControllerCatalogTask extends Controller {
 				'limit'       => 5
 			);
 
-			$results = $this->model_catalog_project->getProjects($filter_data);
+			$results = $this->model_catalog_task->autocompletetas($filter_data);
 		// echo "<pre>";print_r($results);exit;
 
 			foreach ($results as $result) {
 				$json[] = array(
-					'project_id' => $result['project_id'],
+					'task_id' => $result['task_id'],
 					'project'            => strip_tags(html_entity_decode($result['project'], ENT_QUOTES, 'UTF-8'))
 				);
 			}
@@ -464,6 +482,42 @@ class ControllerCatalogTask extends Controller {
 
 		foreach ($json as $key => $value) {
 			$sort_order[$key] = $value['project'];
+		}
+
+		array_multisort($sort_order, SORT_ASC, $json);
+
+		$this->response->addHeader('Content-Type: application/json');
+		$this->response->setOutput(json_encode($json));
+	}
+
+	public function autocomplete1() {
+
+		$json = array();
+
+		if (isset($this->request->get['project'])) {
+			$this->load->model('catalog/task');
+
+			$filter_data = array(
+				'project' => $this->request->get['project'],
+				'start'       => 0,
+				'limit'       => 5
+			);
+
+			$results = $this->model_catalog_task->autocomplete1($filter_data);
+		// echo "<pre>";print_r($results);exit;
+
+			foreach ($results as $result) {
+				$json[] = array(
+					'project_id' => $result['project_id'],
+					'project_name'            => strip_tags(html_entity_decode($result['project_name'], ENT_QUOTES, 'UTF-8'))
+				);
+			}
+		}
+
+		$sort_order = array();
+
+		foreach ($json as $key => $value) {
+			$sort_order[$key] = $value['project_name'];
 		}
 
 		array_multisort($sort_order, SORT_ASC, $json);
