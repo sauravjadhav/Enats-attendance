@@ -18,11 +18,11 @@
     </div>
   <div class="panel-body">
     <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form-employee" class="form-horizontal">
-
       <div class="form-group required">
           <label class="col-sm-2 control-label" for="input-name"><?php echo $entry_login; ?></label>
         <div class="col-sm-10">
-          <input type="text" name="login" value="<?php echo $login; ?>" placeholder="<?php echo $entry_login; ?>" id="input-name" class="form-control" />
+          <input type="text" <?php if ($user_group_id != 1) echo "readonly"?> name="login" value="<?php echo $login; ?>" placeholder="<?php echo $entry_login; ?>" id="input-name" class="form-control" />
+          <input type="hidden" name="user_id" value="<?php echo $user_id ?>">
           <?php if ($error_login) { ?>
           <div class="text-danger"><?php echo $error_login; ?></div>
           <?php } ?>
@@ -101,30 +101,27 @@
         </div>
         </div>
       <div class="form-group">
-        <label class="col-sm-2 control-label" for="input-pan"><?php echo $entry_pan; ?></label>
-        <div class="col-sm-10">
-        <input type="file" name="pan" class="form-control"><input type="text" name="pan" value="<?php echo $pan; ?>" placeholder="<?php echo $entry_pan; ?>" id="input-pan" class="form-control" />
+        <label class="col-sm-2 control-label" for="input-pan"><?php echo $entry_pan; ?><br><br>PAN Number</label>
+        <div class="col-sm-3">
+        <input type="file" name="pan_file" class="form-control">
+        <input type="text" name="pan" value="<?php echo $pan; ?>" placeholder="" id="input-pan" class="form-control" />
+        <input type="hidden" name="pan_path" value="<?php echo $pan_path?>">
         <a href="<?php echo HTTPS_CATALOG . 'image/' . $pan_path; ?>" target="blank">View Pan</a>
         <?php if ($error_pan) { ?>
         <div class="text-danger"><?php echo $error_pan; ?></div>
         <?php } ?>
         </div>
       </div>
-       <div class="form-group">
-        <label class="col-sm-2 control-label" for="input-adhaar"><?php echo $entry_adhaar; ?></label>
-        <div class="col-sm-10">
-        <input type="file" name="adhaar" class="form-control"><input type="text" name="adhaar" value="<?php echo $adhaar; ?>" placeholder="<?php echo $entry_adhaar; ?>" id="input-adhaar" class="form-control" />
-        <a href="<?php echo HTTPS_CATALOG . 'image/' . $adhaar_path; ?>" target="blank">View Adhar</a>
+      <div class="form-group">
+        <label class="col-sm-2 control-label" for="input-aadhar"><?php echo $entry_adhaar; ?><br><br>Aadhar Number</label>
+        <div class="col-sm-3">
+        <input type="file" name="aadhar_file" class="form-control">
+        <input type="text" name="aadhar" value="<?php echo $adhaar; ?>" placeholder="" id="input-aadhar" class="form-control" />
+        <input type="hidden" name="aadhar_path" value="<?php echo $adhaar_path?>">
+        <a href="<?php echo HTTPS_CATALOG . 'image/' . $aadhaar_path; ?>" target="blank">View adhaar</a>
         <?php if ($error_adhaar) { ?>
         <div class="text-danger"><?php echo $error_adhaar; ?></div>
         <?php } ?>
-        </div>
-      </div>
-      <div class="form-group ">
-        <label class="col-sm-2 control-label" for="input-bank_details"><?php echo $entry_bank_details; ?></label>
-        <div class="col-sm-10">
-        <input type="file" name="bank_details" class="form-control"><input type="text" name="bank_details" value="<?php echo $bank_details; ?>" placeholder="<?php echo $entry_bank_details; ?>" id="input-name" class="form-control" />
-        <a href="<?php echo HTTPS_CATALOG . 'image/' . $bank_path; ?>" target="blank">View Bank Details</a>
         </div>
       </div>
       <div class="form-group ">
@@ -139,4 +136,29 @@
         <input type="text" name="emergency_contact_person_details1" value="<?php echo $emergency_contact_person_details1; ?>" placeholder="<?php echo "Emergency Contact Person Details 2" ?>" id="input-name" class="form-control" />
         </div>
       </div>
+</form>
+</div>
+</div>
+<script type="text/javascript"><!--
+$('input[name=\'login\']').autocomplete({
+    'source': function(request, response) {
+        $.ajax({
+            url: 'index.php?route=catalog/employee/autocomplete3&token=<?php echo $token; ?>&login=' +  encodeURIComponent(request),
+            dataType: 'json',
+            success: function(json) {
+                response($.map(json, function(item) {
+                    return {
+                        label: item['username'],
+                        value: item['user_id']
+                    }
+                }));
+            }
+        });
+    },
+    'select': function(item) {
+        $('input[name=\'login\']').val(item['label']);
+        $('input[name=\'user_id\']').val(item['value']);
+    }
+});
+//--></script>
 <?php echo $footer; ?>
