@@ -366,6 +366,7 @@ class ControllerCatalogEmployee extends Controller {
 		$data['entry_adhaar'] = $this->language->get('entry_adhaar');
 		$data['entry_bank_details'] = $this->language->get('entry_bank_details');
 		$data['entry_emergency_contact_person_details'] = $this->language->get('entry_emergency_contact_person_details');
+		$data['entry_emergency_contact_person_details1'] = $this->language->get('entry_emergency_contact_person_details1');
 		$data['entry_laptop_model'] = $this->language->get('entry_laptop_model');
 		
 	
@@ -396,7 +397,8 @@ class ControllerCatalogEmployee extends Controller {
 		} else {
 			$data['error_login'] = '';
 		}
-		 if (isset($this->error['father_name'])) {
+
+		if (isset($this->error['father_name'])) {
 			$data['error_father_name'] = $this->error['father_name'];
 		} else {
 			$data['error_father_name'] = '';
@@ -491,20 +493,20 @@ class ControllerCatalogEmployee extends Controller {
 		// echo "<pre>";print_r($manufacturer_info);exit;
 		$data['token'] = $this->session->data['token'];
 
-		if (isset($this->request->post['login'])) {
-			$data['login'] = $this->request->post['login'];
-		} elseif (!empty($manufacturer_info)) {
-			$data['login'] = $manufacturer_info['login'];
-		} else {
-			$data['login'] = '';
-		}
-
 		if (isset($this->request->post['name'])) {
 			$data['name'] = $this->request->post['name'];
 		} elseif (!empty($manufacturer_info)) {
 			$data['name'] = $manufacturer_info['name'];
 		} else {
 			$data['name'] = '';
+		}
+
+		if (isset($this->request->post['login'])) {
+			$data['login'] = $this->request->post['login'];
+		} elseif (!empty($manufacturer_info)) {
+			$data['login'] = $manufacturer_info['login'];
+		} else {
+			$data['login'] = '';
 		}
 
 		if (isset($this->request->post['father_name'])) {
@@ -529,14 +531,6 @@ class ControllerCatalogEmployee extends Controller {
 			$data['surname'] = $manufacturer_info['surname'];
 		} else {
 			$data['surname'] = '';
-		}
-
-		if (isset($this->request->post['password'])) {
-			$data['password'] = $this->request->post['password'];
-		} elseif (!empty($manufacturer_info)) {
-			$data['password'] = $manufacturer_info['password'];
-		} else {
-			$data['password'] = '';
 		}
 
 		if (isset($this->request->post['numbers'])) {
@@ -571,29 +565,66 @@ class ControllerCatalogEmployee extends Controller {
 			$data['doje'] = '';
 		}
 
-		if (isset($this->request->post['pan'])) {
-			$data['pan'] = $this->request->post['pan'];
+		if (isset($this->request->post['adhaar_path'])) {
+			$data['adhaar_path'] = $this->request->post['adhaar_path'];
+		} elseif (!empty($manufacturer_info)) {
+			$data['adhaar_path'] = $manufacturer_info['adhaar_path'];
+		} else {
+			$data['adhaar_path'] = '';
+		}
+
+		if (isset($this->request->post['pan_path'])) {
+			$data['pan_path'] = $this->request->post['pan_path'];
+		} elseif (!empty($manufacturer_info)) {
+			$data['pan_path'] = $manufacturer_info['pan_path'];
+		} else {
+			$data['pan_path'] = '';
+		}
+
+		if (isset($this->request->post['bank_path'])) {
+			$data['bank_path'] = $this->request->post['bank_path'];
+		} elseif (!empty($manufacturer_info)) {
+			$data['bank_path'] = $manufacturer_info['bank_path'];
+		} else {
+			$data['bank_path'] = '';
+		}
+
+		if (isset($this->request->files['pan'])) {
+			$target_file = DIR_IMAGE . basename($_FILES["pan"]["name"]);
+		    move_uploaded_file($_FILES["pan"]["tmp_name"], $target_file);
+			$data['pan'] = $target_file;
 		} elseif (!empty($manufacturer_info)) {
 			$data['pan'] = $manufacturer_info['pan'];
+			$data['pan_file'] = $manufacturer_info['pan'];
 		} else {
 			$data['pan'] = '';
+			$data['pan_file'] = '';
 		}
 
-		if (isset($this->request->post['adhaar'])) {
-			$data['adhaar'] = $this->request->post['adhaar'];
+		if (isset($this->request->files['adhaar'])) {
+			$target_files = DIR_IMAGE . basename($_FILES["adhaar"]["name"]);
+		    move_uploaded_file($_FILES["adhaar"]["tmp_name"], $target_files);
+			$data['adhaar'] = $target_files;
 		} elseif (!empty($manufacturer_info)) {
 			$data['adhaar'] = $manufacturer_info['adhaar'];
+			$data['adhaar_file'] = $manufacturer_info['adhaar'];
 		} else {
 			$data['adhaar'] = '';
+			$data['adhaar_file'] = '';
 		}
 
-		if (isset($this->request->post['bank_details'])) {
-			$data['bank_details'] = $this->request->post['bank_details'];
+		if (isset($this->request->files['bank_details'])) {
+			$target_filess = DIR_IMAGE . basename($_FILES["bank_details"]["name"]);
+		    move_uploaded_file($_FILES["bank_details"]["tmp_name"], $target_filess);
+			$data['bank_details'] = $target_filess;
 		} elseif (!empty($manufacturer_info)) {
 			$data['bank_details'] = $manufacturer_info['bank_details'];
+			$data['bank_details_file'] = $manufacturer_info['bank_details'];
 		} else {
 			$data['bank_details'] = '';
+			$data['bank_details_file'] = '';
 		}
+
 
 		if (isset($this->request->post['emergency_contact_person_details'])) {
 			$data['emergency_contact_person_details'] = $this->request->post['emergency_contact_person_details'];
@@ -603,17 +634,13 @@ class ControllerCatalogEmployee extends Controller {
 			$data['emergency_contact_person_details'] = '';
 		}
 
-		if (isset($this->request->post['laptop_model'])) {
-			$data['laptop_model'] = $this->request->post['laptop_model'];
+		if (isset($this->request->post['emergency_contact_person_details1'])) {
+			$data['emergency_contact_person_details1'] = $this->request->post['emergency_contact_person_details1'];
 		} elseif (!empty($manufacturer_info)) {
-			$data['laptop_model'] = $manufacturer_info['laptop_model'];
+			$data['emergency_contact_person_details1'] = $manufacturer_info['emergency_contact_person_details1'];
 		} else {
-			$data['laptop_model'] = '';
+			$data['emergency_contact_person_details1'] = '';
 		}
-
-		
-
-
 
 		// echo "<pre>";print_r($data);exit;
 
@@ -636,10 +663,6 @@ class ControllerCatalogEmployee extends Controller {
 
 		if ((utf8_strlen($this->request->post['email']) < 2) || (utf8_strlen($this->request->post['email']) > 64)) {
 			$this->error['email'] = $this->language->get('error_email');
-		}
-
-		if ((utf8_strlen($this->request->post['password']) < 2) || (utf8_strlen($this->request->post['password']) > 64)) {
-			$this->error['password'] = $this->language->get('error_password');
 		}
 
 		return !$this->error;

@@ -2,9 +2,21 @@
 class ModelCatalogEmployee extends Model {
 	public function addEmployee($data,$data1) {
 
-		// echo "<pre>";print_r($file_name);exit;
+		$target_file = DIR_IMAGE . basename($_FILES["pan"]["name"]);
+		move_uploaded_file($_FILES["pan"]["tmp_name"], $target_file);
+		$file_name = basename($_FILES["pan"]["name"]);
+        
+        $target_files = DIR_IMAGE . basename($_FILES["adhaar"]["name"]);
+		move_uploaded_file($_FILES["adhaar"]["tmp_name"], $target_files);
+		$file_names = basename($_FILES["adhaar"]["name"]);
 
-		$this->db->query("INSERT INTO " . DB_PREFIX . "employee SET name = '" . $this->db->escape($data['name']) . "', email = '" . $this->db->escape($data['email']) . "',password = '" . $this->db->escape($data['password']) . "',numbers = '" . $this->db->escape($data['numbers']) . "',login = '" . $this->db->escape($data['login']) . "',address = '" . $this->db->escape($data['address']) . "',father_name = '" . $this->db->escape($data['father_name']) . "',surname = '" . $this->db->escape($data['surname']) . "',dob = '" . $this->db->escape($data['dob']) . "',doje = '" . $this->db->escape($data['doje']) . "',pan = '" . $this->db->escape($data['pan']) . "',adhaar = '" . $this->db->escape($data['adhaar']) . "',bank_details = '" . $this->db->escape($data['bank_details']) . "',emergency_contact_person_details = '" . $this->db->escape($data['emergency_contact_person_details']) . "',laptop_model = '" . $this->db->escape($data['laptop_model']) . "'");
+		$target_filess = DIR_IMAGE . basename($_FILES["bank_details"]["name"]);
+		move_uploaded_file($_FILES["bank_details"]["tmp_name"], $target_filess);
+		$file_namess = basename($_FILES["bank_details"]["name"]);
+		
+		// echo "<pre>";print_r($file_name);exit;
+		
+		$this->db->query("INSERT INTO " . DB_PREFIX . "employee SET name = '" . $this->db->escape($data['name']) . "', login = '" . $this->db->escape($data['login']) . "', email = '" . $this->db->escape($data['email']) . "',password = '" . $this->db->escape($data['password']) . "',numbers = '" . $this->db->escape($data['numbers']) . "',address = '" . $this->db->escape($data['address']) . "',father_name = '" . $this->db->escape($data['father_name']) . "',surname = '" . $this->db->escape($data['surname']) . "',dob = '" . $this->db->escape($data['dob']) . "',doje = '" . $this->db->escape($data['doje']) . "',pan = '" . $this->db->escape($data['pan']) . "',pan_path = '" . $this->db->escape($file_name) . "',adhaar_path = '" . $this->db->escape($file_names) . "',adhaar = '" . $this->db->escape($data['adhaar']) . "',bank_details = '" . $this->db->escape($data['bank_details']) . "',bank_path = '" . $this->db->escape($file_namess) . "',emergency_contact_person_details = '" . $this->db->escape($data['emergency_contact_person_details']) . "',emergency_contact_person_details1 = '" . $this->db->escape($data['emergency_contact_person_details1']) . "'");
 
 		$employee_id = $this->db->getLastId();
 
@@ -26,7 +38,7 @@ class ModelCatalogEmployee extends Model {
 	public function editEmployee($employee_id, $data) {
 
 		// echo "<pre>";print_r($this->request->post);exit;
-		$this->db->query("UPDATE " . DB_PREFIX . "employee SET name = '" . $this->db->escape($data['name']) . "', email = '" . $this->db->escape($data['email']) . "',password = '" . $this->db->escape($data['password']) . "',numbers = '" . $this->db->escape($data['numbers']) . "',login = '" . $this->db->escape($data['login']) . "',address = '" . $this->db->escape($data['address']) . "',father_name = '" . $this->db->escape($data['father_name']) . "',surname = '" . $this->db->escape($data['surname']) . "',dob = '" . $this->db->escape($data['dob']) . "',doje = '" . $this->db->escape($data['doje']) . "',pan = '" . $this->db->escape($data['pan']) . "',adhaar = '" . $this->db->escape($data['adhaar']) . "',bank_details = '" . $this->db->escape($data['bank_details']) . "',emergency_contact_person_details = '" . $this->db->escape($data['emergency_contact_person_details']) . "',laptop_model = '" . $this->db->escape($data['laptop_model'])  . "' WHERE employee_id = '" . (int)$employee_id . "'");
+		$this->db->query("UPDATE " . DB_PREFIX . "employee SET name = '" . $this->db->escape($data['name']) . "', login = '" . $this->db->escape($data['login']) . "', email = '" . $this->db->escape($data['email']) . "',numbers = '" . $this->db->escape($data['numbers']) . "',login = '" . $this->db->escape($data['login']) . "',address = '" . $this->db->escape($data['address']) . "',father_name = '" . $this->db->escape($data['father_name']) . "',surname = '" . $this->db->escape($data['surname']) . "',dob = '" . $this->db->escape($data['dob']) . "',doje = '" . $this->db->escape($data['doje']) . "',pan = '" . $this->db->escape($data['pan']) . "',adhaar = '" . $this->db->escape($data['adhaar']) . "',bank_details = '" . $this->db->escape($data['bank_details']) . "',emergency_contact_person_details = '" . $this->db->escape($data['emergency_contact_person_details']) . "',emergency_contact_person_details1 = '" . $this->db->escape($data['emergency_contact_person_details1']) . "' WHERE employee_id = '" . (int)$employee_id . "'");
 
 		$this->cache->delete('employee');
 	}
