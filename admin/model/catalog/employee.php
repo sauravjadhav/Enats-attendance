@@ -2,21 +2,22 @@
 class ModelCatalogEmployee extends Model {
 	public function addEmployee($data,$data1) {
 
-		$target_file = DIR_IMAGE . basename($_FILES["pan"]["name"]);
-		move_uploaded_file($_FILES["pan"]["tmp_name"], $target_file);
-		$file_name = basename($_FILES["pan"]["name"]);
-        
-        $target_files = DIR_IMAGE . basename($_FILES["adhaar"]["name"]);
-		move_uploaded_file($_FILES["adhaar"]["tmp_name"], $target_files);
-		$file_names = basename($_FILES["adhaar"]["name"]);
+		$target_file = DIR_IMAGE .'pan/'.basename($_FILES["pan"]["name"]);
+        move_uploaded_file($_FILES["pan"]["tmp_name"], $target_file);
+	    $file_name = 'pan/' . basename($_FILES["pan"]["name"]);
 
-		$target_filess = DIR_IMAGE . basename($_FILES["bank_details"]["name"]);
-		move_uploaded_file($_FILES["bank_details"]["tmp_name"], $target_filess);
-		$file_namess = basename($_FILES["bank_details"]["name"]);
+	    $target_files = DIR_IMAGE .'adhaar/'.basename($_FILES["adhaar"]["name"]);
+        move_uploaded_file($_FILES["adhaar"]["tmp_name"], $target_files);
+	    $file_names = 'adhaar/' . basename($_FILES["adhaar"]["name"]);
+
+	    $target_filess = DIR_IMAGE .'passbook/'.basename($_FILES["bank"]["name"]);
+        move_uploaded_file($_FILES["bank"]["tmp_name"], $target_filess);
+	    $file_namess = 'passbook/' . basename($_FILES["bank"]["name"]);
 		
-		// echo "<pre>";print_r($file_name);exit;
+		// echo "<pre>";print_r($data);exit;
 		
-		$this->db->query("INSERT INTO " . DB_PREFIX . "employee SET name = '" . $this->db->escape($data['name']) . "', login = '" . $this->db->escape($data['login']) . "', email = '" . $this->db->escape($data['email']) . "',password = '" . $this->db->escape($data['password']) . "',numbers = '" . $this->db->escape($data['numbers']) . "',address = '" . $this->db->escape($data['address']) . "',father_name = '" . $this->db->escape($data['father_name']) . "',surname = '" . $this->db->escape($data['surname']) . "',dob = '" . $this->db->escape($data['dob']) . "',doje = '" . $this->db->escape($data['doje']) . "',pan = '" . $this->db->escape($data['pan']) . "',pan_path = '" . $this->db->escape($file_name) . "',adhaar_path = '" . $this->db->escape($file_names) . "',adhaar = '" . $this->db->escape($data['adhaar']) . "',bank_details = '" . $this->db->escape($data['bank_details']) . "',bank_path = '" . $this->db->escape($file_namess) . "',emergency_contact_person_details = '" . $this->db->escape($data['emergency_contact_person_details']) . "',emergency_contact_person_details1 = '" . $this->db->escape($data['emergency_contact_person_details1']) . "'");
+		$this->db->query("INSERT INTO " . DB_PREFIX . "employee SET name = '" . $this->db->escape($data['name']) . "', login = '" . $this->db->escape($data['login']) . "',
+		user_id = '" . $this->db->escape($data['user_id']) . "', email = '" . $this->db->escape($data['email']) . "',numbers = '" . $this->db->escape($data['numbers']) . "',address = '" . $this->db->escape($data['address']) . "',father_name = '" . $this->db->escape($data['father_name']) . "',surname = '" . $this->db->escape($data['surname']) . "',dob = '" . $this->db->escape($data['dob']) . "',doje = '" . $this->db->escape($data['doje']) . "',pan = '" . $this->db->escape($data['pan_no']) . "',pan_path = '" . $this->db->escape($file_name) . "',adhaar_path = '" . $this->db->escape($file_names) . "',adhaar = '" . $this->db->escape($data['adhaar']) . "',bank_details = '" . $this->db->escape($data['bank_details']) . "',bank_path = '" . $this->db->escape($file_namess) . "',emergency_contact_person_details = '" . $this->db->escape($data['emergency_contact_person_details']) . "',emergency_contact_person_details1 = '" . $this->db->escape($data['emergency_contact_person_details1']) . "'");
 
 		$employee_id = $this->db->getLastId();
 
@@ -36,9 +37,36 @@ class ModelCatalogEmployee extends Model {
 	}
 
 	public function editEmployee($employee_id, $data) {
+		// echo "<pre>";print_r($_FILES);exit;
 
-		// echo "<pre>";print_r($this->request->post);exit;
-		$this->db->query("UPDATE " . DB_PREFIX . "employee SET name = '" . $this->db->escape($data['name']) . "', login = '" . $this->db->escape($data['login']) . "', email = '" . $this->db->escape($data['email']) . "',numbers = '" . $this->db->escape($data['numbers']) . "',login = '" . $this->db->escape($data['login']) . "',address = '" . $this->db->escape($data['address']) . "',father_name = '" . $this->db->escape($data['father_name']) . "',surname = '" . $this->db->escape($data['surname']) . "',dob = '" . $this->db->escape($data['dob']) . "',doje = '" . $this->db->escape($data['doje']) . "',pan = '" . $this->db->escape($data['pan']) . "',adhaar = '" . $this->db->escape($data['adhaar']) . "',bank_details = '" . $this->db->escape($data['bank_details']) . "',emergency_contact_person_details = '" . $this->db->escape($data['emergency_contact_person_details']) . "',emergency_contact_person_details1 = '" . $this->db->escape($data['emergency_contact_person_details1']) . "' WHERE employee_id = '" . (int)$employee_id . "'");
+		if(isset($_FILES["pan"]["name"]) && $_FILES["pan"]["name"] != ''){	
+			$target_file = DIR_IMAGE . "pan/" .basename($_FILES["pan"]["name"]);
+			move_uploaded_file($_FILES["pan"]["tmp_name"], $target_file);
+			$file_name = "pan/" . basename($_FILES["pan"]["name"]);
+			$pan = $file_name;
+		} else {
+			$pan = $data['pan_path'];
+		}
+
+		if(isset($_FILES["adhaar"]["name"]) && $_FILES["adhaar"]["name"] != ''){	
+			$target_files = DIR_IMAGE . "adhaar/" .basename($_FILES["adhaar"]["name"]);
+			move_uploaded_file($_FILES["adhaar"]["tmp_name"], $target_files);
+			$file_names = "adhaar/" . basename($_FILES["adhaar"]["name"]);
+			$adhaar = $file_names;
+		} else {
+			$adhaar = $data['adhaar_path'];
+		}
+
+		if(isset($_FILES["bank"]["name"]) && $_FILES["bank"]["name"] != ''){	
+			$target_filess = DIR_IMAGE . "passbook/" .basename($_FILES["bank"]["name"]);
+			move_uploaded_file($_FILES["bank"]["tmp_name"], $target_filess);
+			$file_namess = "passbook/" . basename($_FILES["bank"]["name"]);
+			$bank = $file_namess;
+		} else {
+			$bank = $data['bank_path'];
+		}
+
+		$this->db->query("UPDATE " . DB_PREFIX . "employee SET name = '" . $this->db->escape($data['name']) . "', login = '" . $this->db->escape($data['login']) . "',user_id = '" . $this->db->escape($data['user_id']) . "', email = '" . $this->db->escape($data['email']) . "',numbers = '" . $this->db->escape($data['numbers']) . "',address = '" . $this->db->escape($data['address']) . "',father_name = '" . $this->db->escape($data['father_name']) . "',surname = '" . $this->db->escape($data['surname']) . "',dob = '" . $this->db->escape($data['dob']) . "',doje = '" . $this->db->escape($data['doje']) . "',pan = '" . $this->db->escape($data['pan_no']) . "',bank_details = '" . $this->db->escape($data['bank_details']) . "',pan_path = '" . $pan . "',adhaar_path = '" . $adhaar . "',bank_path = '" . $bank . "',emergency_contact_person_details = '" . $this->db->escape($data['emergency_contact_person_details']) . "',emergency_contact_person_details1 = '" . $this->db->escape($data['emergency_contact_person_details1']) . "' WHERE employee_id = '" . (int)$employee_id . "'");
 
 		$this->cache->delete('employee');
 	}
@@ -101,13 +129,13 @@ class ModelCatalogEmployee extends Model {
 	}
 
 	public function autocompleteemp3($data = array()){
-		$sql = "SELECT * FROM oc_qualification WHERE 1=1";
+		$sql = "SELECT * FROM oc_user WHERE 1=1";
 
-		if (!empty($data['type_of_quailification'])) {
-			$sql .= " AND name LIKE '" . $this->db->escape($data['type_of_quailification']) . "%'";
+		if (!empty($data['login'])) {
+			$sql .= " AND username LIKE '" . $this->db->escape($data['login']) . "%'";
 		}
 
-		$sql .= " GROUP BY name";
+		$sql .= " GROUP BY username";
 		$query = $this->db->query($sql);
 		// echo "<pre>";print_r($query);exit;
 
@@ -116,7 +144,22 @@ class ModelCatalogEmployee extends Model {
 
 	public function getEmployees($data = array()) {
 		// echo "<pre>"; print_r($sort_data);exit;
-		$sql = "SELECT * FROM " . DB_PREFIX . "employee";
+
+		$user_id = $this->session->data['user_id'];
+		$user_data = $this->db->query("SELECT * FROM oc_user where user_id = '$user_id'")->rows;
+		foreach ($user_data as $user) {
+			$user_group_id = $user['user_group_id'];
+			$data['user_group_id'] = $user['user_group_id'];
+			$name_of_user = $user['firstname'] . ' ' . $user['lastname'];
+		}
+
+		// echo "<pre>";print_r($user_group_id);exit;
+		if ($user_group_id != 1) {
+			$sql = "SELECT * FROM " . DB_PREFIX . "employee";
+			$sql .= " WHERE user_id LIKE '" . $user_id . "%'";
+		} else{
+			$sql = "SELECT * FROM " . DB_PREFIX . "employee";
+		}
 
 		if (!empty($data['filter_name'])) {
 			$sql .= " WHERE name LIKE '" . $this->db->escape($data['filter_name']) . "%'";

@@ -3,6 +3,17 @@ class ControllerCatalogEmployee extends Controller {
 	private $error = array();
 
 	public function index() {
+
+		$user_id = $this->session->data['user_id'];
+		$user_data = $this->db->query("SELECT * FROM oc_user where user_id = '$user_id'")->rows;
+		foreach ($user_data as $user) {
+			$user_group_id = $user['user_group_id'];
+			$data['user_group_id'] = $user['user_group_id'];
+			$name_of_user = $user['firstname'] . ' ' . $user['lastname'];
+		}
+
+		// echo "<pre>";print_r($user_group_id);exit;
+
 		$this->load->language('catalog/employee');
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -55,7 +66,7 @@ class ControllerCatalogEmployee extends Controller {
 
 		$this->load->model('catalog/employee');
 
-		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm()) {
+		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm($this->request->get['employee_id'])) {
 			$this->model_catalog_employee->editEmployee($this->request->get['employee_id'], $this->request->post);
 
 			$this->session->data['success'] = $this->language->get('text_success');
@@ -116,6 +127,14 @@ class ControllerCatalogEmployee extends Controller {
 	}
 
 	protected function getList() {
+
+		$user_id = $this->session->data['user_id'];
+		$user_data = $this->db->query("SELECT * FROM oc_user where user_id = '$user_id'")->rows;
+		foreach ($user_data as $user) {
+			$user_group_id = $user['user_group_id'];
+			$data['user_group_id'] = $user['user_group_id'];
+			$name_of_user = $user['firstname'] . ' ' . $user['lastname'];
+		}
 
 		if (isset($this->request->get['filter_name'])) {
 			$filter_name = $this->request->get['filter_name'];
@@ -369,8 +388,6 @@ class ControllerCatalogEmployee extends Controller {
 		$data['entry_emergency_contact_person_details1'] = $this->language->get('entry_emergency_contact_person_details1');
 		$data['entry_laptop_model'] = $this->language->get('entry_laptop_model');
 		
-	
-
 		$data['help_keyword'] = $this->language->get('help_keyword');
 
 		$data['button_save'] = $this->language->get('button_save');
@@ -488,156 +505,180 @@ class ControllerCatalogEmployee extends Controller {
 		$data['cancel'] = $this->url->link('catalog/employee', 'token=' . $this->session->data['token'] . $url, true);
 
 		if (isset($this->request->get['employee_id']) && ($this->request->server['REQUEST_METHOD'] != 'POST')) {
-			$manufacturer_info = $this->model_catalog_employee->getEmployee($this->request->get['employee_id']);
+			$employee_info = $this->model_catalog_employee->getEmployee($this->request->get['employee_id']);
 		}
-		// echo "<pre>";print_r($manufacturer_info);exit;
+		// echo "<pre>";print_r($employee_info);exit;
 		$data['token'] = $this->session->data['token'];
+
+		$user_id = $this->session->data['user_id'];
+		
+		$user_data = $this->db->query("SELECT * FROM oc_user where user_id = '$user_id'")->rows;
+		foreach ($user_data as $user) {
+			$user_group_id = $user['user_group_id'];
+			$data['user_group_id'] = $user['user_group_id'];
+			$name_of_user = $user['firstname'] . ' ' . $user['lastname'];
+		}
+
+		if (isset($this->request->get['employee_id'])) {
+			$data['employee_id'] =	$this->request->get['employee_id'];
+		} else {
+			$data['employee_id'] = '';
+		}
 
 		if (isset($this->request->post['name'])) {
 			$data['name'] = $this->request->post['name'];
-		} elseif (!empty($manufacturer_info)) {
-			$data['name'] = $manufacturer_info['name'];
+		} elseif (!empty($employee_info)) {
+			$data['name'] = $employee_info['name'];
 		} else {
 			$data['name'] = '';
 		}
 
+		if (isset($this->request->post['user_id'])) {
+			$data['user_id'] = $this->request->post['user_id'];
+		} elseif (!empty($employee_info)) {
+			$data['user_id'] = $employee_info['user_id'];
+		} else {
+			$data['user_id'] = '';
+		}
+
 		if (isset($this->request->post['login'])) {
 			$data['login'] = $this->request->post['login'];
-		} elseif (!empty($manufacturer_info)) {
-			$data['login'] = $manufacturer_info['login'];
+		} elseif (!empty($employee_info)) {
+			$data['login'] = $employee_info['login'];
+		}elseif(!empty($name_of_user) && ($user_group_id != 1)){
+			$data['login'] = $name_of_user;
 		} else {
 			$data['login'] = '';
 		}
 
 		if (isset($this->request->post['father_name'])) {
 			$data['father_name'] = $this->request->post['father_name'];
-		} elseif (!empty($manufacturer_info)) {
-			$data['father_name'] = $manufacturer_info['father_name'];
+		} elseif (!empty($employee_info)) {
+			$data['father_name'] = $employee_info['father_name'];
 		} else {
 			$data['father_name'] = '';
 		}	
 		
 		if (isset($this->request->post['email'])) {
 			$data['email'] = $this->request->post['email'];
-		} elseif (!empty($manufacturer_info)) {
-			$data['email'] = $manufacturer_info['email'];
+		} elseif (!empty($employee_info)) {
+			$data['email'] = $employee_info['email'];
 		} else {
 			$data['email'] = '';
 		}
 
 		if (isset($this->request->post['surname'])) {
 			$data['surname'] = $this->request->post['surname'];
-		} elseif (!empty($manufacturer_info)) {
-			$data['surname'] = $manufacturer_info['surname'];
+		} elseif (!empty($employee_info)) {
+			$data['surname'] = $employee_info['surname'];
 		} else {
 			$data['surname'] = '';
 		}
 
 		if (isset($this->request->post['numbers'])) {
 			$data['numbers'] = $this->request->post['numbers'];
-		} elseif (!empty($manufacturer_info)) {
-			$data['numbers'] = $manufacturer_info['numbers'];
+		} elseif (!empty($employee_info)) {
+			$data['numbers'] = $employee_info['numbers'];
 		} else {
 			$data['numbers'] = '';
 		}
 
 		if (isset($this->request->post['address'])) {
 			$data['address'] = $this->request->post['address'];
-		} elseif (!empty($manufacturer_info)) {
-			$data['address'] = $manufacturer_info['address'];
+		} elseif (!empty($employee_info)) {
+			$data['address'] = $employee_info['address'];
 		} else {
 			$data['address'] = '';
 		}
 
 		if (isset($this->request->post['dob'])) {
 			$data['dob'] = $this->request->post['dob'];
-		} elseif (!empty($manufacturer_info)) {
-			$data['dob'] = $manufacturer_info['dob'];
+		} elseif (!empty($employee_info)) {
+			$data['dob'] = $employee_info['dob'];
 		} else {
 			$data['dob'] = '';
 		}
 
 		if (isset($this->request->post['doje'])) {
 			$data['doje'] = $this->request->post['doje'];
-		} elseif (!empty($manufacturer_info)) {
-			$data['doje'] = $manufacturer_info['doje'];
+		} elseif (!empty($employee_info)) {
+			$data['doje'] = $employee_info['doje'];
 		} else {
 			$data['doje'] = '';
 		}
 
-		if (isset($this->request->post['adhaar_path'])) {
-			$data['adhaar_path'] = $this->request->post['adhaar_path'];
-		} elseif (!empty($manufacturer_info)) {
-			$data['adhaar_path'] = $manufacturer_info['adhaar_path'];
+		if (isset($this->request->post['pan_no'])) {
+			$data['pan_no'] = $this->request->post['pan_no'];
+		} elseif (!empty($employee_info)) {
+			$data['pan_no'] = $employee_info['pan'];
 		} else {
-			$data['adhaar_path'] = '';
-		}
-
-		if (isset($this->request->post['pan_path'])) {
-			$data['pan_path'] = $this->request->post['pan_path'];
-		} elseif (!empty($manufacturer_info)) {
-			$data['pan_path'] = $manufacturer_info['pan_path'];
-		} else {
-			$data['pan_path'] = '';
-		}
-
-		if (isset($this->request->post['bank_path'])) {
-			$data['bank_path'] = $this->request->post['bank_path'];
-		} elseif (!empty($manufacturer_info)) {
-			$data['bank_path'] = $manufacturer_info['bank_path'];
-		} else {
-			$data['bank_path'] = '';
+			$data['pan_no'] = '';
 		}
 
 		if (isset($this->request->files['pan'])) {
 			$target_file = DIR_IMAGE . basename($_FILES["pan"]["name"]);
 		    move_uploaded_file($_FILES["pan"]["tmp_name"], $target_file);
 			$data['pan'] = $target_file;
-		} elseif (!empty($manufacturer_info)) {
-			$data['pan'] = $manufacturer_info['pan'];
-			$data['pan_file'] = $manufacturer_info['pan'];
+		} elseif (!empty($employee_info)) {
+			$data['pan'] = $employee_info['pan_path'];
+			$data['pan_path'] = $employee_info['pan_path'];
 		} else {
 			$data['pan'] = '';
-			$data['pan_file'] = '';
+			$data['pan_path'] = '';
+		}
+
+		if (isset($this->request->post['adhaar_no'])) {
+			$data['adhaar_no'] = $this->request->post['adhaar_no'];
+		} elseif (!empty($employee_info)) {
+			$data['adhaar_no'] = $employee_info['adhaar'];
+		} else {
+			$data['adhaar_no'] = '';
 		}
 
 		if (isset($this->request->files['adhaar'])) {
-			$target_files = DIR_IMAGE . basename($_FILES["adhaar"]["name"]);
-		    move_uploaded_file($_FILES["adhaar"]["tmp_name"], $target_files);
-			$data['adhaar'] = $target_files;
-		} elseif (!empty($manufacturer_info)) {
-			$data['adhaar'] = $manufacturer_info['adhaar'];
-			$data['adhaar_file'] = $manufacturer_info['adhaar'];
+			$target_file = DIR_IMAGE . basename($_FILES["adhaar"]["name"]);
+		    move_uploaded_file($_FILES["adhaar"]["tmp_name"], $target_file);
+			$data['adhaar'] = $target_file;
+		} elseif (!empty($employee_info)) {
+			$data['adhaar'] = $employee_info['adhaar_path'];
+			$data['adhaar_path'] = $employee_info['adhaar_path'];
 		} else {
 			$data['adhaar'] = '';
-			$data['adhaar_file'] = '';
+			$data['adhaar_path'] = '';
 		}
 
-		if (isset($this->request->files['bank_details'])) {
-			$target_filess = DIR_IMAGE . basename($_FILES["bank_details"]["name"]);
-		    move_uploaded_file($_FILES["bank_details"]["tmp_name"], $target_filess);
-			$data['bank_details'] = $target_filess;
-		} elseif (!empty($manufacturer_info)) {
-			$data['bank_details'] = $manufacturer_info['bank_details'];
-			$data['bank_details_file'] = $manufacturer_info['bank_details'];
+		if (isset($this->request->post['bank_details'])) {
+			$data['bank_details'] = $this->request->post['bank_details'];
+		} elseif (!empty($employee_info)) {
+			$data['bank_details'] = $employee_info['bank_details'];
 		} else {
 			$data['bank_details'] = '';
-			$data['bank_details_file'] = '';
 		}
 
+		if (isset($this->request->files['bank'])) {
+			$target_file = DIR_IMAGE . basename($_FILES["bank"]["name"]);
+		    move_uploaded_file($_FILES["bank"]["tmp_name"], $target_file);
+			$data['bank'] = $target_file;
+		} elseif (!empty($employee_info)) {
+			$data['bank'] = $employee_info['bank_path'];
+			$data['bank_path'] = $employee_info['bank_path'];
+		} else {
+			$data['bank'] = '';
+			$data['bank_path'] = '';
+		}
 
 		if (isset($this->request->post['emergency_contact_person_details'])) {
 			$data['emergency_contact_person_details'] = $this->request->post['emergency_contact_person_details'];
-		} elseif (!empty($manufacturer_info)) {
-			$data['emergency_contact_person_details'] = $manufacturer_info['emergency_contact_person_details'];
+		} elseif (!empty($employee_info)) {
+			$data['emergency_contact_person_details'] = $employee_info['emergency_contact_person_details'];
 		} else {
 			$data['emergency_contact_person_details'] = '';
 		}
 
 		if (isset($this->request->post['emergency_contact_person_details1'])) {
 			$data['emergency_contact_person_details1'] = $this->request->post['emergency_contact_person_details1'];
-		} elseif (!empty($manufacturer_info)) {
-			$data['emergency_contact_person_details1'] = $manufacturer_info['emergency_contact_person_details1'];
+		} elseif (!empty($employee_info)) {
+			$data['emergency_contact_person_details1'] = $employee_info['emergency_contact_person_details1'];
 		} else {
 			$data['emergency_contact_person_details1'] = '';
 		}
@@ -652,7 +693,8 @@ class ControllerCatalogEmployee extends Controller {
 	}
 
 	protected function validateForm() {
-		
+
+
 		if (!$this->user->hasPermission('modify', 'catalog/employee')) {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
@@ -663,6 +705,14 @@ class ControllerCatalogEmployee extends Controller {
 
 		if ((utf8_strlen($this->request->post['email']) < 2) || (utf8_strlen($this->request->post['email']) > 64)) {
 			$this->error['email'] = $this->language->get('error_email');
+		}
+
+		if(!empty($this->request->get['employee_id'])) {
+			$employee_id = $this->request->get['employee_id'];
+			$validate_user = $this->db->query("SELECT user_id FROM oc_employee WHERE employee_id = '$employee_id'")->row;
+			if ($validate_user['user_id'] != $this->session->data['user_id'] && $this->session->data['user_id'] != 1) {
+				$this->error['warning'] = $this->language->get('error_permission');
+			}
 		}
 
 		return !$this->error;
@@ -789,14 +839,14 @@ class ControllerCatalogEmployee extends Controller {
 		$this->response->setOutput(json_encode($json));
 	}
 	public function autocomplete3() {
-		// echo "<pre>";print_r($this->request->get['type_of_quailification']);exit;
+		// echo "<pre>";print_r($this->request->get['login']);exit;
 		$json = array();
 
-		if (isset($this->request->get['type_of_quailification'])) {
+		if (isset($this->request->get['login'])) {
 			$this->load->model('catalog/employee');
 
 			$filter_data = array(
-				'type_of_quailification' => $this->request->get['type_of_quailification'],
+				'login' => $this->request->get['login'],
 				'start'       => 0,
 				'limit'       => 5
 			);
@@ -805,8 +855,11 @@ class ControllerCatalogEmployee extends Controller {
 			// echo "<pre>";print_r($results);exit;
 			foreach ($results as $result) {
 				$json[] = array(
-					'id' => $result['id'],
-					'name'            => strip_tags(html_entity_decode($result['name'], ENT_QUOTES, 'UTF-8'))
+					'user_id' => $result['user_id'],
+					'firstname' => $result['firstname'],
+					'lastname' => $result['lastname'],
+					'email' => $result['email'],
+					'username'            => strip_tags(html_entity_decode($result['username'], ENT_QUOTES, 'UTF-8'))
 				);
 			}
 		}
@@ -814,7 +867,7 @@ class ControllerCatalogEmployee extends Controller {
 		$sort_order = array();
 
 		foreach ($json as $key => $value) {
-			$sort_order[$key] = $value['name'];
+			$sort_order[$key] = $value['username'];
 		}
 
 		array_multisort($sort_order, SORT_ASC, $json);
