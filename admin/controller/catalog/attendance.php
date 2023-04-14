@@ -34,7 +34,7 @@ class ControllerCatalogAttendance extends Controller {
 
 		$this->load->model('catalog/attendance');
 
-		if (($this->request->server['REQUEST_METHOD'] == 'POST')) {
+		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm()) {
 			$this->model_catalog_attendance->addattendance($this->request->post);
 
 			$this->session->data['success'] = $this->language->get('text_success');
@@ -252,6 +252,12 @@ class ControllerCatalogAttendance extends Controller {
 			$data['error_warning'] = '';
 		}
 
+		if (isset($this->error['office_in_time'])) {
+			$data['error_time'] = $this->error['office_in_time'];
+		} else {
+			$data['error_time'] = '';
+		}
+
 		if (isset($this->session->data['success'])) {
 			$data['success'] = $this->session->data['success'];
 
@@ -351,9 +357,9 @@ class ControllerCatalogAttendance extends Controller {
 		}
 
 		if (isset($this->error['office_in_time'])) {
-			$data['error_office_in_time'] = $this->error['office_in_time'];
+			$data['error_time'] = $this->error['office_in_time'];
 		} else {
-			$data['error_office_in_time'] = '';
+			$data['error_time'] = '';
 		}
 
 		$url = '';
@@ -489,6 +495,23 @@ class ControllerCatalogAttendance extends Controller {
 
 		$this->response->addHeader('Content-Type: application/json');
 		$this->response->setOutput(json_encode($json));
+	}
+
+	protected function validateForm() {
+
+
+		if (!$this->user->hasPermission('modify', 'catalog/employee')) {
+			$this->error['warning'] = $this->language->get('error_permission');
+		}
+
+		// echo "<pre>";print_r($this->request->post['office_in_time']);exit;
+		$office_in_time = date('H:i', strtotime($this->request->post['office_in_time']));
+		if ($office_in_time >= '12:00' && $office_in_time < '24:00') {
+    		$this->error['office_in_time'] = $this->language->get('error_time');
+		}
+
+
+		return !$this->error;
 	}
 
     public function autocomplete1() {
