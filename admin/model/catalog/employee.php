@@ -2,22 +2,22 @@
 class ModelCatalogEmployee extends Model {
 	public function addEmployee($data,$data1) {
 
-		$target_file = DIR_IMAGE . basename($_FILES["pan_file"]["name"]);
-		move_uploaded_file($_FILES["pan_file"]["tmp_name"], $target_file);
-		$file_name = basename($_FILES["pan_file"]["name"]);
-        
-        $target_files = DIR_IMAGE . basename($_FILES["adhaar"]["name"]);
-		move_uploaded_file($_FILES["adhaar"]["tmp_name"], $target_files);
-		$file_names = basename($_FILES["adhaar"]["name"]);
+		$target_file = DIR_IMAGE .'pan/'.basename($_FILES["pan"]["name"]);
+        move_uploaded_file($_FILES["pan"]["tmp_name"], $target_file);
+	    $file_name = 'pan/' . basename($_FILES["pan"]["name"]);
 
-		$target_filess = DIR_IMAGE . basename($_FILES["bank_details"]["name"]);
-		move_uploaded_file($_FILES["bank_details"]["tmp_name"], $target_filess);
-		$file_namess = basename($_FILES["bank_details"]["name"]);
+	    $target_files = DIR_IMAGE .'adhaar/'.basename($_FILES["adhaar"]["name"]);
+        move_uploaded_file($_FILES["adhaar"]["tmp_name"], $target_files);
+	    $file_names = 'adhaar/' . basename($_FILES["adhaar"]["name"]);
+
+	    $target_filess = DIR_IMAGE .'passbook/'.basename($_FILES["bank"]["name"]);
+        move_uploaded_file($_FILES["bank"]["tmp_name"], $target_filess);
+	    $file_namess = 'passbook/' . basename($_FILES["bank"]["name"]);
 		
 		// echo "<pre>";print_r($data);exit;
 		
 		$this->db->query("INSERT INTO " . DB_PREFIX . "employee SET name = '" . $this->db->escape($data['name']) . "', login = '" . $this->db->escape($data['login']) . "',
-		user_id = '" . $this->db->escape($data['user_id']) . "', email = '" . $this->db->escape($data['email']) . "',numbers = '" . $this->db->escape($data['numbers']) . "',address = '" . $this->db->escape($data['address']) . "',father_name = '" . $this->db->escape($data['father_name']) . "',surname = '" . $this->db->escape($data['surname']) . "',dob = '" . $this->db->escape($data['dob']) . "',doje = '" . $this->db->escape($data['doje']) . "',pan = '" . $this->db->escape($data['pan']) . "',pan_path = '" . $this->db->escape($file_name) . "',adhaar_path = '" . $this->db->escape($file_names) . "',adhaar = '" . $this->db->escape($data['adhaar']) . "',bank_details = '" . $this->db->escape($data['bank_details']) . "',bank_path = '" . $this->db->escape($file_namess) . "',emergency_contact_person_details = '" . $this->db->escape($data['emergency_contact_person_details']) . "',emergency_contact_person_details1 = '" . $this->db->escape($data['emergency_contact_person_details1']) . "'");
+		user_id = '" . $this->db->escape($data['user_id']) . "', email = '" . $this->db->escape($data['email']) . "',numbers = '" . $this->db->escape($data['numbers']) . "',address = '" . $this->db->escape($data['address']) . "',father_name = '" . $this->db->escape($data['father_name']) . "',surname = '" . $this->db->escape($data['surname']) . "',dob = '" . $this->db->escape($data['dob']) . "',doje = '" . $this->db->escape($data['doje']) . "',pan = '" . $this->db->escape($data['pan_no']) . "',pan_path = '" . $this->db->escape($file_name) . "',adhaar_path = '" . $this->db->escape($file_names) . "',adhaar = '" . $this->db->escape($data['adhaar']) . "',bank_details = '" . $this->db->escape($data['bank_details']) . "',bank_path = '" . $this->db->escape($file_namess) . "',emergency_contact_person_details = '" . $this->db->escape($data['emergency_contact_person_details']) . "',emergency_contact_person_details1 = '" . $this->db->escape($data['emergency_contact_person_details1']) . "'");
 
 		$employee_id = $this->db->getLastId();
 
@@ -37,30 +37,36 @@ class ModelCatalogEmployee extends Model {
 	}
 
 	public function editEmployee($employee_id, $data) {
+		// echo "<pre>";print_r($_FILES);exit;
 
-
-		if (!empty($data['pan_path'])){
-			$file_name = $data['pan_path'];
-		} else{
-			$target_file = DIR_IMAGE . basename($_FILES["pan_file"]["name"]);
-			move_uploaded_file($_FILES["pan_file"]["tmp_name"], $target_file);
-			$file_name = basename($_FILES["pan_file"]["name"]);
+		if(isset($_FILES["pan"]["name"]) && $_FILES["pan"]["name"] != ''){	
+			$target_file = DIR_IMAGE . "pan/" .basename($_FILES["pan"]["name"]);
+			move_uploaded_file($_FILES["pan"]["tmp_name"], $target_file);
+			$file_name = "pan/" . basename($_FILES["pan"]["name"]);
+			$pan = $file_name;
+		} else {
+			$pan = $data['pan_path'];
 		}
 
-		if (!empty($data['adhaar_path'])){
-			$file_names = $data['adhaar_path'];
-		} else{
-			$target_files = DIR_IMAGE . basename($_FILES["adhaar_file"]["name"]);
-			move_uploaded_file($_FILES["adhaar_file"]["tmp_name"], $target_files);
-			$file_names = basename($_FILES["adhaar_file"]["name"]);
+		if(isset($_FILES["adhaar"]["name"]) && $_FILES["adhaar"]["name"] != ''){	
+			$target_files = DIR_IMAGE . "adhaar/" .basename($_FILES["adhaar"]["name"]);
+			move_uploaded_file($_FILES["adhaar"]["tmp_name"], $target_files);
+			$file_names = "adhaar/" . basename($_FILES["adhaar"]["name"]);
+			$adhaar = $file_names;
+		} else {
+			$adhaar = $data['adhaar_path'];
 		}
 
-		$target_filess = DIR_IMAGE . basename($_FILES["bank_details"]["name"]);
-		move_uploaded_file($_FILES["bank_details"]["tmp_name"], $target_filess);
-		$file_namess = basename($_FILES["bank_details"]["name"]);
+		if(isset($_FILES["bank"]["name"]) && $_FILES["bank"]["name"] != ''){	
+			$target_filess = DIR_IMAGE . "passbook/" .basename($_FILES["bank"]["name"]);
+			move_uploaded_file($_FILES["bank"]["tmp_name"], $target_filess);
+			$file_namess = "passbook/" . basename($_FILES["bank"]["name"]);
+			$bank = $file_namess;
+		} else {
+			$bank = $data['bank_path'];
+		}
 
-		// echo "<pre>";print_r($data);exit;
-		$this->db->query("UPDATE " . DB_PREFIX . "employee SET name = '" . $this->db->escape($data['name']) . "', login = '" . $this->db->escape($data['login']) . "',user_id = '" . $this->db->escape($data['user_id']) . "', email = '" . $this->db->escape($data['email']) . "',numbers = '" . $this->db->escape($data['numbers']) . "',address = '" . $this->db->escape($data['address']) . "',father_name = '" . $this->db->escape($data['father_name']) . "',surname = '" . $this->db->escape($data['surname']) . "',dob = '" . $this->db->escape($data['dob']) . "',doje = '" . $this->db->escape($data['doje']) . "',pan = '" . $this->db->escape($data['pan']) . "',pan_path = '" . $this->db->escape($file_name) . "',adhaar_path = '" . $this->db->escape($file_names) . "',bank_path = '" . $this->db->escape($file_namess) . "',adhaar = '" . $this->db->escape($data['adhaar']) . "',bank_details = '" . $this->db->escape($data['bank_details']) . "',emergency_contact_person_details = '" . $this->db->escape($data['emergency_contact_person_details']) . "',emergency_contact_person_details1 = '" . $this->db->escape($data['emergency_contact_person_details1']) . "' WHERE employee_id = '" . (int)$employee_id . "'");
+		$this->db->query("UPDATE " . DB_PREFIX . "employee SET name = '" . $this->db->escape($data['name']) . "', login = '" . $this->db->escape($data['login']) . "',user_id = '" . $this->db->escape($data['user_id']) . "', email = '" . $this->db->escape($data['email']) . "',numbers = '" . $this->db->escape($data['numbers']) . "',address = '" . $this->db->escape($data['address']) . "',father_name = '" . $this->db->escape($data['father_name']) . "',surname = '" . $this->db->escape($data['surname']) . "',dob = '" . $this->db->escape($data['dob']) . "',doje = '" . $this->db->escape($data['doje']) . "',pan = '" . $this->db->escape($data['pan_no']) . "',bank_details = '" . $this->db->escape($data['bank_details']) . "',pan_path = '" . $pan . "',adhaar_path = '" . $adhaar . "',bank_path = '" . $bank . "',emergency_contact_person_details = '" . $this->db->escape($data['emergency_contact_person_details']) . "',emergency_contact_person_details1 = '" . $this->db->escape($data['emergency_contact_person_details1']) . "' WHERE employee_id = '" . (int)$employee_id . "'");
 
 		$this->cache->delete('employee');
 	}

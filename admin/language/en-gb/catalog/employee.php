@@ -49,7 +49,7 @@ $_['entry_laptop_model'] 	                      = 'Laptop Model';
 $_['help_keyword']       = 'Do not use spaces, instead replace spaces with - and make sure the SEO URL is globally unique.';
 
 // Error
-$_['error_permission']   = 'Warning: You do not have permission to modify Employees!';
+$_['error_permission']   = 'Warning: You do not have permission to modify this employee!';
 $_['error_name']         = 'Employee Name must be between 2 and 64 characters!';
 $_['error_email']        = 'Email must be between 2 and 64 characters!';
 $_['error_password']     = 'Password must be between 2 and 64 characters!';

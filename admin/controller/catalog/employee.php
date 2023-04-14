@@ -66,7 +66,7 @@ class ControllerCatalogEmployee extends Controller {
 
 		$this->load->model('catalog/employee');
 
-		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm()) {
+		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm($this->request->get['employee_id'])) {
 			$this->model_catalog_employee->editEmployee($this->request->get['employee_id'], $this->request->post);
 
 			$this->session->data['success'] = $this->language->get('text_success');
@@ -519,6 +519,12 @@ class ControllerCatalogEmployee extends Controller {
 			$name_of_user = $user['firstname'] . ' ' . $user['lastname'];
 		}
 
+		if (isset($this->request->get['employee_id'])) {
+			$data['employee_id'] =	$this->request->get['employee_id'];
+		} else {
+			$data['employee_id'] = '';
+		}
+
 		if (isset($this->request->post['name'])) {
 			$data['name'] = $this->request->post['name'];
 		} elseif (!empty($employee_info)) {
@@ -601,62 +607,65 @@ class ControllerCatalogEmployee extends Controller {
 			$data['doje'] = '';
 		}
 
-		if (isset($this->request->post['pan'])) {
-			$data['pan'] = $this->request->post['pan'];
+		if (isset($this->request->post['pan_no'])) {
+			$data['pan_no'] = $this->request->post['pan_no'];
 		} elseif (!empty($employee_info)) {
-			$data['pan'] = $employee_info['pan'];
+			$data['pan_no'] = $employee_info['pan'];
 		} else {
-			$data['pan'] = '';
+			$data['pan_no'] = '';
 		}
 
-		if (isset($this->request->post['pan_path'])) {
-			$data['pan_path'] = $this->request->post['pan_path'];
+		if (isset($this->request->files['pan'])) {
+			$target_file = DIR_IMAGE . basename($_FILES["pan"]["name"]);
+		    move_uploaded_file($_FILES["pan"]["tmp_name"], $target_file);
+			$data['pan'] = $target_file;
 		} elseif (!empty($employee_info)) {
+			$data['pan'] = $employee_info['pan_path'];
 			$data['pan_path'] = $employee_info['pan_path'];
 		} else {
+			$data['pan'] = '';
 			$data['pan_path'] = '';
 		}
 
-		if (isset($this->request->files['pan_file'])) {
-			$target_file = DIR_IMAGE . basename($_FILES["pan_file"]["name"]);
-		    move_uploaded_file($_FILES["pan_file"]["tmp_name"], $target_file);
-			$data['pan_file'] = $target_file;
+		if (isset($this->request->post['adhaar_no'])) {
+			$data['adhaar_no'] = $this->request->post['adhaar_no'];
+		} elseif (!empty($employee_info)) {
+			$data['adhaar_no'] = $employee_info['adhaar'];
 		} else {
-			$data['pan_file'] = '';
+			$data['adhaar_no'] = '';
 		}
 
-		if (isset($this->request->post['adhaar'])) {
-			$data['adhaar'] = $this->request->post['adhaar'];
+		if (isset($this->request->files['adhaar'])) {
+			$target_file = DIR_IMAGE . basename($_FILES["adhaar"]["name"]);
+		    move_uploaded_file($_FILES["adhaar"]["tmp_name"], $target_file);
+			$data['adhaar'] = $target_file;
 		} elseif (!empty($employee_info)) {
-			$data['adhaar'] = $employee_info['adhaar'];
-		} else {
-			$data['adhaar'] = '';
-		}
-
-		if (isset($this->request->post['adhaar_path'])) {
-			$data['adhaar_path'] = $this->request->post['adhaar_path'];
-		} elseif (!empty($employee_info)) {
+			$data['adhaar'] = $employee_info['adhaar_path'];
 			$data['adhaar_path'] = $employee_info['adhaar_path'];
 		} else {
+			$data['adhaar'] = '';
 			$data['adhaar_path'] = '';
 		}
 
-		if (isset($this->request->files['adhaar_file'])) {
-			$target_file = DIR_IMAGE . basename($_FILES["adhaar_file"]["name"]);
-		    move_uploaded_file($_FILES["adhaar_file"]["tmp_name"], $target_file);
-			$data['adhaar_file'] = $target_file;
+		if (isset($this->request->post['bank_details'])) {
+			$data['bank_details'] = $this->request->post['bank_details'];
+		} elseif (!empty($employee_info)) {
+			$data['bank_details'] = $employee_info['bank_details'];
 		} else {
-			$data['adhaar_file'] = '';
+			$data['bank_details'] = '';
 		}
 
-		if (isset($this->request->post['bank_path'])) {
-			$data['bank_path'] = $this->request->post['bank_path'];
+		if (isset($this->request->files['bank'])) {
+			$target_file = DIR_IMAGE . basename($_FILES["bank"]["name"]);
+		    move_uploaded_file($_FILES["bank"]["tmp_name"], $target_file);
+			$data['bank'] = $target_file;
 		} elseif (!empty($employee_info)) {
+			$data['bank'] = $employee_info['bank_path'];
 			$data['bank_path'] = $employee_info['bank_path'];
 		} else {
+			$data['bank'] = '';
 			$data['bank_path'] = '';
 		}
-
 
 		if (isset($this->request->post['emergency_contact_person_details'])) {
 			$data['emergency_contact_person_details'] = $this->request->post['emergency_contact_person_details'];
@@ -684,7 +693,8 @@ class ControllerCatalogEmployee extends Controller {
 	}
 
 	protected function validateForm() {
-		
+
+
 		if (!$this->user->hasPermission('modify', 'catalog/employee')) {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
@@ -695,6 +705,14 @@ class ControllerCatalogEmployee extends Controller {
 
 		if ((utf8_strlen($this->request->post['email']) < 2) || (utf8_strlen($this->request->post['email']) > 64)) {
 			$this->error['email'] = $this->language->get('error_email');
+		}
+
+		if(!empty($this->request->get['employee_id'])) {
+			$employee_id = $this->request->get['employee_id'];
+			$validate_user = $this->db->query("SELECT user_id FROM oc_employee WHERE employee_id = '$employee_id'")->row;
+			if ($validate_user['user_id'] != $this->session->data['user_id'] && $this->session->data['user_id'] != 1) {
+				$this->error['warning'] = $this->language->get('error_permission');
+			}
 		}
 
 		return !$this->error;
@@ -838,6 +856,9 @@ class ControllerCatalogEmployee extends Controller {
 			foreach ($results as $result) {
 				$json[] = array(
 					'user_id' => $result['user_id'],
+					'firstname' => $result['firstname'],
+					'lastname' => $result['lastname'],
+					'email' => $result['email'],
 					'username'            => strip_tags(html_entity_decode($result['username'], ENT_QUOTES, 'UTF-8'))
 				);
 			}

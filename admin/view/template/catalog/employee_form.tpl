@@ -6,6 +6,11 @@
       <button type="submit" form="form-employee" data-toggle="tooltip" title="<?php echo $button_save; ?>" class="btn btn-primary"><i class="fa fa-save"></i></button>
       <a href="<?php echo $cancel; ?>" data-toggle="tooltip" title="<?php echo $button_cancel; ?>" class="btn btn-default"><i class="fa fa-reply"></i></a></div>
       <h1><?php echo $heading_title; ?></h1>
+      <?php if ($error_warning) { ?>
+      <div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> <?php echo $error_warning; ?>
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      </div>
+      <?php } ?>
       <ul class="breadcrumb">
       <?php foreach ($breadcrumbs as $breadcrumb) { ?>
       <li><a href="<?php echo $breadcrumb['href']; ?>"><?php echo $breadcrumb['text']; ?></a></li>
@@ -103,24 +108,33 @@
       <div class="form-group">
         <label class="col-sm-2 control-label" for="input-pan"><?php echo $entry_pan; ?><br><br>PAN Number</label>
         <div class="col-sm-3">
-        <input type="file" name="pan_file" class="form-control">
-        <input type="text" name="pan" value="<?php echo $pan; ?>" placeholder="" id="input-pan" class="form-control" />
-        <input type="hidden" name="pan_path" value="<?php echo $pan_path?>">
-        <a href="<?php echo HTTPS_CATALOG . 'image/' . $pan_path; ?>" target="blank">View Pan</a>
-        <?php if ($error_pan) { ?>
-        <div class="text-danger"><?php echo $error_pan; ?></div>
+        <input type="file" style="color:#1e91cf;" name="pan" value="<?php echo $pan; ?>" id="input-pan"/><br>
+        <input type="text" name="pan_no" value="<?php echo $pan_no; ?>" placeholder="" id="input-pan" class="form-control" />
+        <input type="hidden" value="<?php echo $pan_path; ?>" name="pan_path" />
+        <?php if ($employee_id != '') {?>
+        <a href="<?php echo HTTPS_CATALOG . 'image/' . $pan_path; ?>" target="blank">View pan</a>
+        <?php }?>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label" for="input-adhaar"><?php echo $entry_adhaar; ?><br><br>Adhaar Number</label>
+        <div class="col-sm-3">
+        <input type="file" style="color:#1e91cf;" name="adhaar" value="<?php echo $adhaar; ?>" id="input-adhaar"/><br>
+        <input type="text" name="adhaar_no" value="<?php echo $adhaar_no; ?>" placeholder="" id="input-adhaar" class="form-control" />
+        <input type="hidden" value="<?php echo $adhaar_path; ?>" name="adhaar_path" />
+        <?php if ($employee_id != '') {?>
+        <a href="<?php echo HTTPS_CATALOG . 'image/' . $adhaar_path; ?>" target="blank">View adhaar</a>
         <?php } ?>
         </div>
       </div>
       <div class="form-group">
-        <label class="col-sm-2 control-label" for="input-aadhar"><?php echo $entry_adhaar; ?><br><br>Aadhar Number</label>
+        <label class="col-sm-2 control-label" for="input-bank">Bank passbook<br><br>Bank Details</label>
         <div class="col-sm-3">
-        <input type="file" name="aadhar_file" class="form-control">
-        <input type="text" name="aadhar" value="<?php echo $adhaar; ?>" placeholder="" id="input-aadhar" class="form-control" />
-        <input type="hidden" name="aadhar_path" value="<?php echo $adhaar_path?>">
-        <a href="<?php echo HTTPS_CATALOG . 'image/' . $aadhaar_path; ?>" target="blank">View adhaar</a>
-        <?php if ($error_adhaar) { ?>
-        <div class="text-danger"><?php echo $error_adhaar; ?></div>
+        <input type="file" style="color:#1e91cf;" name="bank" value="<?php echo $bank; ?>" id="input-bank"/><br>
+        <input type="text" name="bank_details" value="<?php echo $bank_details; ?>" placeholder="" id="input-bank" class="form-control" />
+        <input type="hidden" value="<?php echo $bank_path; ?>" name="bank_path" />
+        <?php if ($employee_id != '') {?>
+        <a href="<?php echo HTTPS_CATALOG . 'image/' . $bank_path; ?>" target="blank">View bank</a>
         <?php } ?>
         </div>
       </div>
@@ -149,7 +163,10 @@ $('input[name=\'login\']').autocomplete({
                 response($.map(json, function(item) {
                     return {
                         label: item['username'],
-                        value: item['user_id']
+                        value: item['user_id'],
+                        value1: item['firstname'],
+                        value2: item['lastname'],
+                        value3: item['email'],
                     }
                 }));
             }
@@ -158,6 +175,9 @@ $('input[name=\'login\']').autocomplete({
     'select': function(item) {
         $('input[name=\'login\']').val(item['label']);
         $('input[name=\'user_id\']').val(item['value']);
+        $('input[name=\'name\']').val(item['value1']);
+        $('input[name=\'surname\']').val(item['value2']);
+        $('input[name=\'email\']').val(item['value3']);
     }
 });
 //--></script>
