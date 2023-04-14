@@ -52,7 +52,15 @@
           <div class="form-group">
             <label class="col-sm-2 control-label" for="input-status"><?php echo $entry_status; ?></label>
             <div class="col-sm-10">
-              <input type="text" name="status" value="<?php echo $status; ?>" placeholder="<?php echo $entry_status; ?>" id="input-status" class="form-control" />
+              <select name="status" id="input-status" class="form-control">
+                <!-- <option value=""><?php echo $text_select; ?></option> -->
+                <option value="done"<?php if ($status == 'done') { echo ' selected="selected"'; } ?>>Done</option>
+                <option value="left"<?php if ($status == 'left') { echo ' selected="selected"'; } ?>>Left</option>
+                <option value="working"<?php if ($status == 'working') { echo ' selected="selected"'; } ?>>Working</option>
+                <option value="c/f-working"<?php if ($status == 'c/f-working') { echo ' selected="selected"'; } ?>>C/F-Working</option>
+                <option value="c/f-done"<?php if ($status == 'c/f-done') { echo ' selected="selected"'; } ?>>C/F-Done</option>
+                <option value="transfer"<?php if ($status == 'transfer') { echo ' selected="selected"'; } ?>>Transfer</option>
+              </select>
             </div>
           </div>
           <div class="form-group">

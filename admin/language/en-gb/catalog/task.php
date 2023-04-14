@@ -16,7 +16,8 @@ $_['column_project']        			= 'Project Name';
 $_['column_project_start_time']        = 'Project Start time';
 $_['column_project_end_time']         = 'Project end time';
 $_['column_task']                  = 'Given Task';
-$_['column_status']                  = 'Status';
+$_['entry_status'] = 'Status';
+$_['text_select'] = '--- Please Select ---';
 $_['column_commit_no']     = 'Commit No.';
 $_['column_action']      			= 'Action';
 
