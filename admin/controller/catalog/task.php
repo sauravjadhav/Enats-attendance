@@ -153,9 +153,7 @@ class ControllerCatalogTask extends Controller {
 
 		$url = '';
 
-		if (isset($this->request->get['filter_project'])) {
-			$url .= '&filter_project=' . urlencode(html_entity_decode($this->request->get['filter_project'], ENT_QUOTES, 'UTF-8'));
-		}
+		
 
 		if (isset($this->request->get['sort'])) {
 			$url .= '&sort=' . $this->request->get['sort'];
@@ -231,6 +229,8 @@ class ControllerCatalogTask extends Controller {
 		$data['entry_project_end_time'] = $this->language->get('entry_project_end_time');
 		$data['entry_task'] = $this->language->get('entry_task');
 		$data['entry_status'] = $this->language->get('entry_status');
+        $data['text_select'] = $this->language->get('text_select');
+        $data['status'] = ['status'];
 		$data['entry_commit_no'] = $this->language->get('entry_commit_no');
 
 		$data['button_add'] = $this->language->get('button_add');

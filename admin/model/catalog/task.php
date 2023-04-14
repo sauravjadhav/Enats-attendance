@@ -102,6 +102,8 @@ class ModelCatalogTask extends Model {
 		return $query->rows;
 	}
 
+	
+
 
 	public function getTotalTasks() {
 		$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "task");
