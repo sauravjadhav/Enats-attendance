@@ -3,6 +3,7 @@ class ControllerCatalogTask extends Controller {
 	private $error = array();
 
 	public function index() {
+
 		$this->load->language('catalog/task');
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -313,6 +314,9 @@ class ControllerCatalogTask extends Controller {
 	}
 
 	protected function getForm() {
+
+		
+
 		$data['heading_title'] = $this->language->get('heading_title');
 
 		$data['text_form'] = !isset($this->request->get['task_id']) ? $this->language->get('text_add') : $this->language->get('text_edit');
@@ -397,12 +401,49 @@ class ControllerCatalogTask extends Controller {
 
 		$data['token'] = $this->session->data['token'];
 
+		$user_id = $this->session->data['user_id'];
+		$user_data = $this->db->query("SELECT * FROM oc_user where user_id = '$user_id'")->rows;
+		foreach ($user_data as $user) {
+			$user_group_id = $user['user_group_id'];
+			$data['user_group_id'] = $user['user_group_id'];
+			$name_of_user = $user['firstname'] . ' ' . $user['lastname'];
+		}
+
+		if ($user_group_id != 1) {
+			$data['user_id'] = $this->session->data['user_id'];
+			$user_data = $this->db->query("SELECT * FROM oc_user where user_id = '$user_id'")->rows;
+				foreach ($user_data as $user) {
+				$user_group_id = $user['user_group_id'];
+				$data['user_group_id'] = $user['user_group_id'];
+				$name_of_user = $user['firstname'] . ' ' . $user['lastname'];
+				$data['username'] = $user['firstname'] . ' ' . $user['lastname'];
+			}
+		} elseif (!empty($task_info)) {
+			$data['user_id'] = $task_info['user_id'];
+			$user_id = $task_info['user_id'];
+			$user_data = $this->db->query("SELECT * FROM oc_user where user_id = '$user_id'")->rows;
+				foreach ($user_data as $user) {
+				$data['username'] = $user['firstname'] . ' ' . $user['lastname'];
+			}
+		} else {
+			$data['user_id'] = '';
+			$data['username'] = '';
+		}
+
 		if (isset($this->request->post['project'])) {
 			$data['project'] = $this->request->post['project'];
 		} elseif (!empty($task_info)) {
 			$data['project'] = $task_info['project'];
 		} else {
 			$data['project'] = '';
+		}
+
+		if (isset($this->request->post['project_id'])) {
+			$data['project_id'] = $this->request->post['project_id'];
+		} elseif (!empty($task_info)) {
+			$data['project_id'] = $task_info['project_id'];
+		} else {
+			$data['project_id'] = '';
 		}
 
 		if (isset($this->request->post['project_start_time'])) {
@@ -518,6 +559,42 @@ class ControllerCatalogTask extends Controller {
 
 		foreach ($json as $key => $value) {
 			$sort_order[$key] = $value['project_name'];
+		}
+
+		array_multisort($sort_order, SORT_ASC, $json);
+
+		$this->response->addHeader('Content-Type: application/json');
+		$this->response->setOutput(json_encode($json));
+	}
+
+	public function autocomplete2() {
+
+		$json = array();
+
+		if (isset($this->request->get['username'])) {
+			$this->load->model('catalog/task');
+
+			$filter_data = array(
+				'username' => $this->request->get['username'],
+				'start'       => 0,
+				'limit'       => 5
+			);
+
+			$results = $this->model_catalog_task->autocomplete2($filter_data);
+		// echo "<pre>";print_r($results);exit;
+
+			foreach ($results as $result) {
+				$json[] = array(
+					'user_id' => $result['user_id'],
+					'username'            => strip_tags(html_entity_decode($result['username'], ENT_QUOTES, 'UTF-8'))
+				);
+			}
+		}
+
+		$sort_order = array();
+
+		foreach ($json as $key => $value) {
+			$sort_order[$key] = $value['username'];
 		}
 
 		array_multisort($sort_order, SORT_ASC, $json);
