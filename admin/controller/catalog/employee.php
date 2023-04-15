@@ -511,7 +511,14 @@ class ControllerCatalogEmployee extends Controller {
 		$data['token'] = $this->session->data['token'];
 
 		$user_id = $this->session->data['user_id'];
-		
+
+		if ($user_id != 1){
+			$data['user_id'] = $this->session->data['user_id'];
+		} elseif (!empty($employee_info)){
+			$data['user_id'] = $employee_info['user_id'];
+		} else {
+			$data['user_id'] = '';
+		}
 		$user_data = $this->db->query("SELECT * FROM oc_user where user_id = '$user_id'")->rows;
 		foreach ($user_data as $user) {
 			$user_group_id = $user['user_group_id'];
