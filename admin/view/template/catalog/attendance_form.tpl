@@ -13,37 +13,23 @@
                 <?php } ?>
             </ul>
         </div>
-    </div>      
-    <div class="panel-heading">
-        <h3 class="panel-title"><i class="fa fa-pencil"></i> <?php echo $text_form; ?></h3>
     </div>
-    <div class="panel-body">
-        <?php if ($error_warning) { ?>
-        <div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> <?php echo $error_warning; ?>
-          <button type="button" class="close" data-dismiss="alert">&times;</button>
-        </div>
-        <?php } ?>
-        <?php if ($success) { ?>
-        <div class="alert alert-success"><i class="fa fa-check-circle"></i> <?php echo $success; ?>
-          <button type="button" class="close" data-dismiss="alert">&times;</button>
-        </div>
-        <?php } ?>
-        <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form-employee" class="form-horizontal">
-          <div class="form-group required">
-            <label class="col-sm-2 control-label" for="input-name"><?php echo $entry_name; ?></label>
-                <div class="col-sm-5">
-                    <input type="text" name="name" <?php if ($user_group_id != 1) echo "readonly"?> value="<?php echo $name;?>" placeholder="<?php echo $entry_name; ?>" id="input-name" class="form-control" />
-                    <input type="hidden" name="user_id" value="<?php echo $user_id?>">
-                    <?php if ($error_name) { ?>
-                        <div class="text-danger"><?php echo $error_name; ?></div>
-                    <?php } ?>
-                </div>
-                <div class="col-sm-5">
+    <div class="container-fluid">
+        <div class="panel panel-default">
+            <div class="panel-heading mb-5">
+                <h3 class="panel-title"><i class="fa fa-pencil"></i> <?php echo $text_form; ?></h3>
+            </div>
+            <div class="well" style="padding: 50px;">
+                <label class="col-sm-1 control-label" for="input-time">Time:</label>
+                <div class="col-sm-4">
                     <?php if (!empty($time)) { ?>
                     <input type="text" readonly name="time" value="<?php echo $time; ?>" id="input-time" class="form-control"/>
                     <?php } else {?>
                     <input type="text" readonly name="time" value="<?php date_default_timezone_set('Asia/Kolkata'); echo date("g:i A");?>" id="input-time" class="form-control"/>
                     <?php } ?>
+                </div>
+                <label class="col-sm-1 control-label" for="input-date">Date:</label>
+                <div class="col-sm-4">
                     <?php if (!empty($date)) { ?>
                         <input type="date" readonly name="date" value="<?php echo $date?>" id="input-date" class="form-control"/>
                     <?php } else { ?>
@@ -51,16 +37,58 @@
                     <?php } ?>
                 </div>
             </div>
-            <div class="form-group required">
-                <label class="col-sm-2 control-label" for="input-time"><?php echo $entry_office_in_time; ?></label>
-                <div class="col-sm-10">
-                    <input type="time" min='01:00' max= '03:00' name="office_in_time" value="<?php echo $office_in_time; ?>" placeholder="<?php echo $entry_office_in_time; ?>" id="input-time" class="form-control" />
-                    <?php if ($error_office_in_time) { ?>
-                    <div class="text-danger"><?php echo $error_office_in_time; ?></div>
-                    <?php } ?>
+            <div class="panel-body">
+                <?php if ($error_warning) { ?>
+                <div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> <?php echo $error_warning; ?>
+                  <button type="button" class="close" data-dismiss="alert">&times;</button>
                 </div>
+                <?php } ?>
+                <?php if ($success) { ?>
+                <div class="alert alert-success"><i class="fa fa-check-circle"></i> <?php echo $success; ?>
+                  <button type="button" class="close" data-dismiss="alert">&times;</button>
+                </div>
+                <?php } ?>
+                <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form-employee" class="form-horizontal">
+                  <div class="form-group required">
+                    <label class="col-sm-2 control-label" for="input-name"><?php echo $entry_name; ?></label>
+                        <div class="col-sm-5">
+                            <input type="text" name="name" <?php if ($user_group_id != 1) echo "readonly"?> value="<?php echo $name;?>" placeholder="<?php echo $entry_name; ?>" id="input-name" class="form-control" />
+                            <input type="hidden" name="user_id" value="<?php echo $user_id?>">
+                            <?php if ($error_name) { ?>
+                                <div class="text-danger"><?php echo $error_name; ?></div>
+                            <?php } ?>
+                        </div>
+                    </div>
+                    <div class="form-group required">
+                        <label class="col-sm-2 control-label" for="input-time"><?php echo $entry_office_in_time; ?></label>
+                        <div class="col-sm-2">
+                            <input type="time" min='01:00' max= '03:00'name="office_in_time" value="<?php echo $office_in_time; ?>" placeholder="<?php echo $entry_office_in_time; ?>" id="input-time" class="form-control" />
+                            <?php if ($error_time) { ?>
+                            <div class="text-danger"><?php echo $error_time; ?></div>
+                            <?php } ?>
+                        </div>
+                    </div>
+                    <div style="display: none;">
+                        <label class="col-sm-1 control-label" for="input-time">Time:</label>
+                        <div class="col-sm-4">
+                            <?php if (!empty($time)) { ?>
+                            <input type="text" readonly name="time" value="<?php echo $time; ?>" id="input-time" class="form-control"/>
+                            <?php } else {?>
+                            <input type="text" readonly name="time" value="<?php date_default_timezone_set('Asia/Kolkata'); echo date("g:i A");?>" id="input-time" class="form-control"/>
+                            <?php } ?>
+                        </div>
+                        <label class="col-sm-1 control-label" for="input-date">Date:</label>
+                        <div class="col-sm-4">
+                            <?php if (!empty($date)) { ?>
+                                <input type="date" readonly name="date" value="<?php echo $date?>" id="input-date" class="form-control"/>
+                            <?php } else { ?>
+                                <input type="date" readonly name="date" value="<?=date("Y-m-d");?>" id="input-date" class="form-control"/>
+                            <?php } ?>
+                        </div>
+                    </div>
+                </form>
             </div>
-        </form>
+        </div>
     </div>
 </div>
 <script type="text/javascript"><!--
@@ -85,4 +113,9 @@ $('input[name=\'name\']').autocomplete({
     }
 });
 //--></script>
+<style>
+    input[type="time"]::-webkit-calendar-picker-indicator {
+    background: none;
+}
+</style>
 <?php echo $footer; ?>

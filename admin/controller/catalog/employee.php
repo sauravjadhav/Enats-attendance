@@ -533,14 +533,6 @@ class ControllerCatalogEmployee extends Controller {
 			$data['name'] = '';
 		}
 
-		if (isset($this->request->post['user_id'])) {
-			$data['user_id'] = $this->request->post['user_id'];
-		} elseif (!empty($employee_info)) {
-			$data['user_id'] = $employee_info['user_id'];
-		} else {
-			$data['user_id'] = '';
-		}
-
 		if (isset($this->request->post['login'])) {
 			$data['login'] = $this->request->post['login'];
 		} elseif (!empty($employee_info)) {
