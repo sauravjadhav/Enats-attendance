@@ -36,9 +36,21 @@
                 <label class="control-label" for="input-project"><?php echo $entry_project; ?></label>
                 <input type="text" name="filter_project" value="<?php echo $filter_project; ?>" placeholder="<?php echo $entry_project; ?>" id="input-project" class="form-control" />
               </div>
-              <button type="button" id="button-filter" class="btn btn-primary pull-right"><i class="fa fa-search"></i> <?php echo $button_filter; ?></button>
+              <div class="col-sm-12">
+                <button type="button" id="button-filter" class="btn btn-primary pull-right"><i class="fa fa-search"></i> <?php echo $button_filter; ?></button>
+              </div>
             </div>
+            <?php if ($user_group_id == 1){?>
+              <div class="col-sm-4">
+                <div class="form-group">
+                  <label class="control-label" for="input-project">User</label>
+                  <input type="text" name="username" value="<?php echo $username; ?>" placeholder="User" id="input-username" class="form-control" />
+                  <input type="hidden" name="user_id" placeholder="" id="input-user_id" class="form-control" />
+                </div>
+              </div>
+            <?php }?>
           </div>
+        </div>
         </div>
         <form action="<?php echo $delete; ?>" method="post" enctype="multipart/form-data" id="form-project">
           <div class="table-responsive">
@@ -47,11 +59,13 @@
                 <tr>
                   <td style="width: 1px;" class="text-center"><input type="checkbox" onclick="$('input[name*=\'selected\']').prop('checked', this.checked);" /></td>
                   <td class="text-left"><?php if ($sort == 'name') { ?>
-                    <a href="<?php echo $sort_name; ?>" class="<?php echo strtolower($order); ?>"><?php echo $column_project; ?></a>
-                    <?php } else { ?>
-                    <a href="<?php echo $sort_name; ?>"><?php echo $column_project; ?></a>
-                    <?php } ?></td>
-                  
+                  <a href="<?php echo $sort_name; ?>" class="<?php echo strtolower($order); ?>"><?php echo $column_project; ?></a>
+                  <?php } else { ?>
+                  <a href="<?php echo $sort_name; ?>"><?php echo $column_project; ?></a>
+                  <?php } ?></td>
+                  <?php if ($user_group_id == 1) { ?>
+                    <td class="text-left">User</td>
+                  <?php }?>
                   <td class="text-left"><?php echo $column_project_start_time;?></td>
                   <td class="text-left"><?php echo $column_project_end_time;?></td>
                   <td class="text-left"><?php echo $column_task;?></td>
@@ -69,6 +83,11 @@
                     <input type="checkbox" name="selected[]" value="<?php echo $task['task_id']; ?>" />
                     <?php } ?></td>
                   <td class="text-left"><?php echo $task['project']; ?></td>
+                  <?php if ($user_group_id == 1) { ?>
+                    <td class="text-left">
+                        <?php echo $task['username']; ?>
+                    </td>
+                  <?php }?>
                   <td class="text-left"><?php echo $task['project_start_time']; ?></td>
                   <td class="text-left"><?php echo $task['project_end_time']; ?></td>
                   <td class="text-left"><?php echo $task['task']; ?></td>
@@ -94,7 +113,7 @@
     </div>
   </div>
 </div>
- <script type="text/javascript"><!--
+<script type="text/javascript"><!--
 $('#button-filter').on('click', function() {
   var url = 'index.php?route=catalog/task&token=<?php echo $token; ?>';
 
@@ -102,6 +121,12 @@ $('#button-filter').on('click', function() {
 
   if (filter_project) {
     url += '&filter_project=' + encodeURIComponent(filter_project);
+  }
+
+  var user_id = $('input[name=\'user_id\']').val();
+
+  if (user_id) {
+    url += '&user_id=' + encodeURIComponent(user_id);
   }
 
   location = url;
@@ -125,6 +150,28 @@ $('input[name=\'filter_project\']').autocomplete({
   },
   'select': function(item) {
     $('input[name=\'filter_project\']').val(item['label']);
+  }
+});
+//--></script>
+<script type="text/javascript"><!--
+$('input[name=\'username\']').autocomplete({
+  'source': function(request, response) {
+    $.ajax({
+      url: 'index.php?route=catalog/task/autocomplete2&token=<?php echo $token; ?>&username=' +  encodeURIComponent(request),
+      dataType: 'json',
+      success: function(json) {
+        response($.map(json, function(item) {
+          return {
+            label: item['username'],
+            value: item['user_id']
+          }
+        }));
+      }
+    });
+  },
+  'select': function(item) {
+    $('input[name=\'username\']').val(item['label']);
+    $('input[name=\'user_id\']').val(item['value']);
   }
 });
 //--></script>
