@@ -27,7 +27,8 @@ $_['help_keyword']       = 'Do not use spaces, instead replace spaces with - and
 
 // Error
 $_['error_permission']   = 'Warning: You do not have permission to modify Attendance!';
-$_['error_name']         = 'Employee Name must be between 2 and 64 characters!';
+
+$_['error_name']         = 'Please enter employee name!';
 $_['error_time']         = 'Can not mark attendance at this time!';
 $_['error_keyword']      = 'SEO URL already in use!';
 $_['error_product']      = 'Warning: This Attendance cannot be deleted as it is currently assigned to %s products!';
