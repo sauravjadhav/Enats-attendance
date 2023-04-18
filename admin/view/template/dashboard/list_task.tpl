@@ -7,6 +7,9 @@
     <table class="table table-bordered table-hover">
       <thead>
         <tr>
+          <?php if ($user_group_id == 1) {?>
+            <td class="text-left">User</td>
+          <?php }?>
           <td class="text-left">Project</td>
           <td class="text-left">Project Start Time</td>
           <td class="text-left">Project End Time</td>
@@ -18,11 +21,13 @@
         <?php foreach ($tasks as $task) {
         //echo "<pre>";print_r($tasks);exit; ?>
         <tr>
+        <?php if ($user_group_id == 1) {?>
+          <td class="text-left"><?php echo $task['username']; ?></td>
+        <?php }?>
         <td class="text-left"><?php echo $task['project_name']; ?></td>
         <td class="text-left"><?php echo $task['project_start_time']; ?></td>
         <td class="text-left"><?php echo $task['project_end_time']; ?></td>
         <td class="text-left"><?php echo $task['status']; ?></td>
-        
         </tr>
         <?php } ?>
         <?php } else { ?>

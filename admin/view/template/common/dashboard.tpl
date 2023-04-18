@@ -17,8 +17,13 @@
     </div>
     <?php //} ?>
  --> 
-    <div class="col-lg-12 col-md-9 col-sm-9"><?php echo $list_attendance; ?></div>
-    <div class="col-lg-12 col-md-9 col-sm-9"><?php echo $list_task; ?></div>
+    <?php if ($user_group_id == 1) {?>
+      <div class="col-lg-12 col-md-9 col-sm-9"><?php echo $list_attendance; ?></div>
+      <div class="col-lg-12 col-md-9 col-sm-9"><?php echo $list_task; ?></div>
+    <?php } else {?>
+      <div class="col-lg-12 col-md-9 col-sm-9"><?php echo $list_task; ?></div>
+      <div class="col-lg-12 col-md-9 col-sm-9"><?php echo $list_attendance; ?></div>
+    <?php }?>
     <div class="row">
       <!-- <div class="col-lg-3 col-md-3 col-sm-6"><?php //echo $list_attendance; ?></div> -->
       <!-- <div class="col-lg-3 col-md-3 col-sm-6"><?php //echo $sale; ?></div> -->

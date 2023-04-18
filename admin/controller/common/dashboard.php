@@ -3,6 +3,8 @@ class ControllerCommonDashboard extends Controller {
 	public function index() {
 		$this->load->language('common/dashboard');
 
+		$data['user_group_id'] = $this->user->user_group_id;
+
 		$this->document->setTitle($this->language->get('heading_title'));
 
 		$data['heading_title'] = $this->language->get('heading_title');
