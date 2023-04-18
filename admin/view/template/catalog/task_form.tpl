@@ -63,7 +63,6 @@
             <label class="col-sm-2 control-label" for="input-status"><?php echo $entry_status; ?></label>
             <div class="col-sm-10">
               <select name="status" id="input-status" class="form-control">
-                <!-- <option value=""><?php echo $text_select; ?></option> -->
                 <option value="done"<?php if ($status == 'done') { echo ' selected="selected"'; } ?>>Done</option>
                 <option value="left"<?php if ($status == 'left') { echo ' selected="selected"'; } ?>>Left</option>
                 <option value="working"<?php if ($status == 'working') { echo ' selected="selected"'; } ?>>Working</option>

@@ -90,22 +90,24 @@ class ModelCatalogTask extends Model {
 			$sql .= " WHERE user_id LIKE '" . $user_id . "%'";
 
 			if (!empty($data['filter_project'])) {
-			$sql .= " AND project LIKE '" . $this->db->escape($data['filter_project']) . "%'";
+				$sql .= " AND project LIKE '" . $this->db->escape($data['filter_project']) . "%'";
 			}
 
 			if (!empty($data['user_id'])) {
-			$sql .= " AND user_id LIKE '" . $this->db->escape($data['user_id']) . "%'";
+				$sql .= " AND user_id LIKE '" . $this->db->escape($data['user_id']) . "%'";
 			}
 
 		} else {
 			$sql = "SELECT * FROM " . DB_PREFIX . "task";
 
 			if (!empty($data['filter_project'])) {
-			$sql .= " WHERE project LIKE '" . $this->db->escape($data['filter_project']) . "%'";
+				$sql .= " WHERE project LIKE '" . $this->db->escape($data['filter_project']) . "%'";
+			}else{
+				$sql .= " WHERE project LIKE '" . '' . "%'";
 			}
 
 			if (!empty($data['user_id'])) {
-			$sql .= " AND user_id LIKE '" . $this->db->escape($data['user_id']) . "%'";
+				$sql .= " AND user_id LIKE '" . $this->db->escape($data['user_id']) . "%'";
 			}
 		}
 
@@ -113,6 +115,7 @@ class ModelCatalogTask extends Model {
 
 		$sort_data = array(
 			'project',
+			'user_id',
 		);
 
 		if (isset($data['sort']) && in_array($data['sort'], $sort_data)) {

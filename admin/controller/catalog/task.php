@@ -256,7 +256,6 @@ class ControllerCatalogTask extends Controller {
 		$data['entry_project_end_time'] = $this->language->get('entry_project_end_time');
 		$data['entry_task'] = $this->language->get('entry_task');
 		$data['entry_status'] = $this->language->get('entry_status');
-        $data['text_select'] = $this->language->get('text_select');
         $data['status'] = ['status'];
 		$data['entry_commit_no'] = $this->language->get('entry_commit_no');
 
