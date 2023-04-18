@@ -128,10 +128,30 @@ class ControllerCatalogTask extends Controller {
 
 	protected function getList() {
 
+		$user_id = $this->session->data['user_id'];
+		$user_data = $this->db->query("SELECT * FROM oc_user where user_id = '$user_id'")->rows;
+		foreach ($user_data as $user) {
+			$user_group_id = $user['user_group_id'];
+			$data['user_group_id'] = $user['user_group_id'];
+			$name_of_user = $user['firstname'] . ' ' . $user['lastname'];
+		}
+
 		if (isset($this->request->get['filter_project'])) {
 			$filter_project = $this->request->get['filter_project'];
 		} else {
 			$filter_project = null;
+		}
+
+		if (isset($this->request->get['user_id'])) {
+			$user_id = $this->request->get['user_id'];
+		} else {
+			$user_id = null;
+		}
+
+		if (isset($this->request->get['username'])) {
+			$username = $this->request->get['username'];
+		} else {
+			$username = null;
 		}
 
 		if (isset($this->request->get['sort'])) {
@@ -184,9 +204,11 @@ class ControllerCatalogTask extends Controller {
 		$data['delete'] = $this->url->link('catalog/task/delete', 'token=' . $this->session->data['token'] . $url, true);
 
 		$data['tasks'] = array();
+		$data['user_id'] = array();
 
 		$filter_data = array(
 			'filter_project' => $filter_project,
+			'user_id' => $user_id,
 			'sort'  => $sort,
 			'order' => $order,
 			'start' => ($page - 1) * $this->config->get('config_limit_admin'),
@@ -199,17 +221,21 @@ class ControllerCatalogTask extends Controller {
 
 		// echo "<pre>";print_r($results);exit;
 		foreach ($results as $result) {
+			$user_id = $result['user_id'];
+			$user = $this->db->query("SELECT username FROM oc_user WHERE user_id = $user_id")->row;
 			$data['tasks'][] = array(
 				'task_id' 	        => $result['task_id'],
-				'project'          => $result['project'],
-				'project_start_time'       => $result['project_start_time'],
-				'project_end_time'        => $result['project_end_time'],
-				'task'   		        => $result['task'],
-				'status'                 => $result['status'],
+				'project'          	=> $result['project'],
+				'username'          => $user['username'],
+				'project_start_time'      	=> $result['project_start_time'],
+				'project_end_time'        	=> $result['project_end_time'],
+				'task'   		        	=> $result['task'],
+				'status'                	=> $result['status'],
 				'commit_no'    => $result['commit_no'],
 				'edit'            => $this->url->link('catalog/task/edit', 'token=' . $this->session->data['token'] . '&task_id=' . $result['task_id'] . $url, true)
 			);
 		}
+		
 
 		$data['heading_title'] = $this->language->get('heading_title');
 
@@ -268,6 +294,10 @@ class ControllerCatalogTask extends Controller {
 			$url .= '&filter_name=' . urlencode(html_entity_decode($this->request->get['filter_name'], ENT_QUOTES, 'UTF-8'));
 		}
 
+		if (isset($this->request->get['user_id'])) {
+			$url .= '&user_id=' . urlencode(html_entity_decode($this->request->get['user_id'], ENT_QUOTES, 'UTF-8'));
+		}
+
 		if ($order == 'ASC') {
 			$url .= '&order=DESC';
 		} else {
@@ -305,6 +335,8 @@ class ControllerCatalogTask extends Controller {
 		$data['order'] = $order;
 
 		$data['filter_project'] = $filter_project;
+		$data['username'] = $username;
+		$data['user_id'] = $user_id;
 
 		$data['header'] = $this->load->controller('common/header');
 		$data['column_left'] = $this->load->controller('common/column_left');
@@ -361,6 +393,9 @@ class ControllerCatalogTask extends Controller {
 			$url .= '&filter_project=' . urlencode(html_entity_decode($this->request->get['filter_project'], ENT_QUOTES, 'UTF-8'));
 		}
 
+		if (isset($this->request->get['username'])) {
+			$url .= '&username=' . urlencode(html_entity_decode($this->request->get['username'], ENT_QUOTES, 'UTF-8'));
+		}
 
 		if (isset($this->request->get['sort'])) {
 			$url .= '&sort=' . $this->request->get['sort'];
@@ -577,11 +612,11 @@ class ControllerCatalogTask extends Controller {
 			$filter_data = array(
 				'username' => $this->request->get['username'],
 				'start'       => 0,
-				'limit'       => 5
+				'limit'       => 9
 			);
+		// echo "<pre>";print_r($filter_data);exit;
 
 			$results = $this->model_catalog_task->autocomplete2($filter_data);
-		// echo "<pre>";print_r($results);exit;
 
 			foreach ($results as $result) {
 				$json[] = array(

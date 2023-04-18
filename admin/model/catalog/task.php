@@ -64,8 +64,8 @@ class ModelCatalogTask extends Model {
 		// echo "<pre>";print_r($data);exit;
 		$sql = "SELECT * FROM oc_user WHERE 1=1";
 
-		if (!empty($data['user'])) {
-			$sql .= " AND username LIKE '" . $this->db->escape($data['user']) . "%'";
+		if (!empty($data['username'])) {
+			$sql .= " AND username LIKE '" . $this->db->escape($data['username']) . "%'";
 		}
 
 		$sql .= " GROUP BY username";
@@ -92,11 +92,20 @@ class ModelCatalogTask extends Model {
 			if (!empty($data['filter_project'])) {
 			$sql .= " AND project LIKE '" . $this->db->escape($data['filter_project']) . "%'";
 			}
+
+			if (!empty($data['user_id'])) {
+			$sql .= " AND user_id LIKE '" . $this->db->escape($data['user_id']) . "%'";
+			}
+
 		} else {
 			$sql = "SELECT * FROM " . DB_PREFIX . "task";
 
 			if (!empty($data['filter_project'])) {
 			$sql .= " WHERE project LIKE '" . $this->db->escape($data['filter_project']) . "%'";
+			}
+
+			if (!empty($data['user_id'])) {
+			$sql .= " AND user_id LIKE '" . $this->db->escape($data['user_id']) . "%'";
 			}
 		}
 
