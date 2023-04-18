@@ -77,7 +77,7 @@
         <li><a href="http://forum.opencart.com" target="_blank"><?php echo $text_support; ?></a></li>
       </ul>
     </li> -->
-    <li><a href="<?php echo $logout; ?>"><span class="btn btn-primary"><?php echo $text_logout; ?></span> <i class="fa fa-sign-out fa-lg"></i></a></li>
+    <li><a href="<?php echo $logout; ?>"><span class="btn btn-dark"><?php echo $text_logout; ?></span> <i class="fa fa-sign-out fa-lg"></i></a></li>
   </ul>
   <?php } ?>
 </header>

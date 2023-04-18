@@ -2402,6 +2402,7 @@ textarea.input-lg, .input-group-lg > textarea.form-control, .input-group-lg > te
   touch-action: manipulation;
   cursor: pointer;
   background-image: none;
+  background-color: #18A1E7;
   border: 1px solid transparent;
   white-space: nowrap;
   padding: 8px 13px;
