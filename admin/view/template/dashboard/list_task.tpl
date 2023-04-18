@@ -16,9 +16,9 @@
       <tbody>
         <?php if ($tasks) { ?>
         <?php foreach ($tasks as $task) {
-        // echo "<pre>";print_r($manufacturers);exit; ?>
+        //echo "<pre>";print_r($tasks);exit; ?>
         <tr>
-        <td class="text-left"><?php echo $task['project']; ?></td>
+        <td class="text-left"><?php echo $task['project_name']; ?></td>
         <td class="text-left"><?php echo $task['project_start_time']; ?></td>
         <td class="text-left"><?php echo $task['project_end_time']; ?></td>
         <td class="text-left"><?php echo $task['status']; ?></td>
