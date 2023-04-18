@@ -35,6 +35,7 @@
               <div class="form-group">
                 <label class="control-label" for="input-project"><?php echo $entry_project; ?></label>
                 <input type="text" name="filter_project" value="<?php echo $filter_project; ?>" placeholder="<?php echo $entry_project; ?>" id="input-project" class="form-control" />
+                <input type="hidden" name="project_id" value="<?php echo $project_id; ?>" placeholder="<?php echo $entry_project; ?>" id="input-project" class="form-control" />
               </div>
               <div class="col-sm-12">
                 <button type="button" id="button-filter" class="btn btn-primary pull-right"><i class="fa fa-search"></i> <?php echo $button_filter; ?></button>
@@ -117,10 +118,10 @@
 $('#button-filter').on('click', function() {
   var url = 'index.php?route=catalog/task&token=<?php echo $token; ?>';
 
-  var filter_project = $('input[name=\'filter_project\']').val();
+  var project_id = $('input[name=\'project_id\']').val();
 
-  if (filter_project) {
-    url += '&filter_project=' + encodeURIComponent(filter_project);
+  if (project_id) {
+    url += '&project_id=' + encodeURIComponent(project_id);
   }
 
   var user_id = $('input[name=\'user_id\']').val();
@@ -141,8 +142,8 @@ $('input[name=\'filter_project\']').autocomplete({
       success: function(json) {
         response($.map(json, function(item) {
           return {
-            label: item['project'],
-            value: item['task_id']
+            label: item['project_name'],
+            value: item['project_id']
           }
         }));
       }
@@ -150,6 +151,7 @@ $('input[name=\'filter_project\']').autocomplete({
   },
   'select': function(item) {
     $('input[name=\'filter_project\']').val(item['label']);
+    $('input[name=\'project_id\']').val(item['value']);
   }
 });
 //--></script>
