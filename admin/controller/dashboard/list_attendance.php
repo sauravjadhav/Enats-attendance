@@ -16,7 +16,7 @@ class Controllerdashboardlistattendance extends Controller {
 			// echo "<pre>";print_r($current_date);exit;
 			$data['attendances'] = $this->db->query("SELECT * FROM oc_attendance_record WHERE date = '$current_date' ORDER BY attendance_id DESC")->rows;
 		}else {
-			$data['attendances'] = $this->db->query("SELECT * FROM oc_attendance_record WHERE user_id = '$user_id' ORDER BY attendance_id DESC")->rows;
+			$data['attendances'] = $this->db->query("SELECT * FROM oc_attendance_record WHERE user_id = '$user_id' ORDER BY attendance_id DESC LIMIT 8")->rows;
 		}
 
 		return $this->load->view('dashboard/list_attendance', $data);

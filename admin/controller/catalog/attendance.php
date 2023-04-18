@@ -198,6 +198,7 @@ class ControllerCatalogAttendance extends Controller {
 			'limit' => $this->config->get('config_limit_admin')
 		);
 
+
 		$attendance_total = $this->model_catalog_attendance->getTotalattendances();
 
 		$results = $this->model_catalog_attendance->getAttendances($filter_data);
@@ -505,11 +506,13 @@ class ControllerCatalogAttendance extends Controller {
 		}
 
 		// echo "<pre>";print_r($this->request->post['office_in_time']);exit;
-		$office_in_time = date('H:i', strtotime($this->request->post['office_in_time']));
-		if ($office_in_time >= '12:00' && $office_in_time < '24:00') {
-    		$this->error['office_in_time'] = $this->language->get('error_time');
+		if ((utf8_strlen($this->request->post['name']) < 2) || (utf8_strlen($this->request->post['name']) > 64)) {
+			$this->error['name'] = $this->language->get('error_name');
 		}
 
+		if ((utf8_strlen($this->request->post['office_in_time']) < 4) || (utf8_strlen($this->request->post['office_in_time']) > 64)) {
+			$this->error['office_in_time'] = $this->language->get('error_time');
+		}
 
 		return !$this->error;
 	}

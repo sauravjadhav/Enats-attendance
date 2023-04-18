@@ -136,16 +136,22 @@ class ControllerCatalogTask extends Controller {
 			$name_of_user = $user['firstname'] . ' ' . $user['lastname'];
 		}
 
-		if (isset($this->request->get['filter_project'])) {
-			$filter_project = $this->request->get['filter_project'];
-		} else {
-			$filter_project = null;
-		}
-
 		if (isset($this->request->get['user_id'])) {
 			$user_id = $this->request->get['user_id'];
 		} else {
 			$user_id = null;
+		}
+
+		if (isset($this->request->get['project_id'])) {
+			$project_id = $this->request->get['project_id'];
+		} else {
+			$project_id = '';
+		}
+
+		if (isset($this->request->get['filter_project'])) {
+			$filter_project = $this->request->get['filter_project'];
+		} else {
+			$filter_project = null;
 		}
 
 		if (isset($this->request->get['username'])) {
@@ -207,7 +213,7 @@ class ControllerCatalogTask extends Controller {
 		$data['user_id'] = array();
 
 		$filter_data = array(
-			'filter_project' => $filter_project,
+			'project_id' => $project_id,
 			'user_id' => $user_id,
 			'sort'  => $sort,
 			'order' => $order,
@@ -223,9 +229,11 @@ class ControllerCatalogTask extends Controller {
 		foreach ($results as $result) {
 			$user_id = $result['user_id'];
 			$user = $this->db->query("SELECT username FROM oc_user WHERE user_id = $user_id")->row;
+			$project_id = $result['project_id'];
+			$project = $this->db->query("SELECT project_name FROM oc_project WHERE project_id = $project_id")->row;
 			$data['tasks'][] = array(
 				'task_id' 	        => $result['task_id'],
-				'project'          	=> $result['project'],
+				'project'          	=> $project['project_name'],
 				'username'          => $user['username'],
 				'project_start_time'      	=> $result['project_start_time'],
 				'project_end_time'        	=> $result['project_end_time'],
@@ -256,7 +264,6 @@ class ControllerCatalogTask extends Controller {
 		$data['entry_project_end_time'] = $this->language->get('entry_project_end_time');
 		$data['entry_task'] = $this->language->get('entry_task');
 		$data['entry_status'] = $this->language->get('entry_status');
-        $data['text_select'] = $this->language->get('text_select');
         $data['status'] = ['status'];
 		$data['entry_commit_no'] = $this->language->get('entry_commit_no');
 
@@ -290,8 +297,8 @@ class ControllerCatalogTask extends Controller {
 
 		$url = '';
 
-		if (isset($this->request->get['filter_name'])) {
-			$url .= '&filter_name=' . urlencode(html_entity_decode($this->request->get['filter_name'], ENT_QUOTES, 'UTF-8'));
+		if (isset($this->request->get['project_id'])) {
+			$url .= '&project_id=' . urlencode(html_entity_decode($this->request->get['project_id'], ENT_QUOTES, 'UTF-8'));
 		}
 
 		if (isset($this->request->get['user_id'])) {
@@ -335,6 +342,7 @@ class ControllerCatalogTask extends Controller {
 		$data['order'] = $order;
 
 		$data['filter_project'] = $filter_project;
+		$data['project_id'] = $project_id;
 		$data['username'] = $username;
 		$data['user_id'] = $user_id;
 
@@ -436,49 +444,48 @@ class ControllerCatalogTask extends Controller {
 
 		$data['token'] = $this->session->data['token'];
 
-		$user_id = $this->session->data['user_id'];
-		$user_data = $this->db->query("SELECT * FROM oc_user where user_id = '$user_id'")->rows;
-		foreach ($user_data as $user) {
-			$user_group_id = $user['user_group_id'];
-			$data['user_group_id'] = $user['user_group_id'];
-			$name_of_user = $user['firstname'] . ' ' . $user['lastname'];
-		}
+		$user_group_id = $this->user->user_group_id;
+
+		$data['user_group_id'] = $user_group_id;
+		//echo "<pre>";print_r($user_group_id);exit;
 
 		if ($user_group_id != 1) {
 			$data['user_id'] = $this->session->data['user_id'];
-			$user_data = $this->db->query("SELECT * FROM oc_user where user_id = '$user_id'")->rows;
-				foreach ($user_data as $user) {
-				$user_group_id = $user['user_group_id'];
-				$data['user_group_id'] = $user['user_group_id'];
-				$name_of_user = $user['firstname'] . ' ' . $user['lastname'];
-				$data['username'] = $user['firstname'] . ' ' . $user['lastname'];
-			}
 		} elseif (!empty($task_info)) {
 			$data['user_id'] = $task_info['user_id'];
 			$user_id = $task_info['user_id'];
-			$user_data = $this->db->query("SELECT * FROM oc_user where user_id = '$user_id'")->rows;
-				foreach ($user_data as $user) {
-				$data['username'] = $user['firstname'] . ' ' . $user['lastname'];
+			$users = $this->db->query("SELECT * FROM oc_user")->rows;
+			foreach ($users as $val) {
+			    $username[$val['user_id']] = $val['firstname'] . ' ' . $val['lastname'];
 			}
+			$data['username'] = $username;
 		} else {
 			$data['user_id'] = '';
-			$data['username'] = '';
-		}
-
-		if (isset($this->request->post['project'])) {
-			$data['project'] = $this->request->post['project'];
-		} elseif (!empty($task_info)) {
-			$data['project'] = $task_info['project'];
-		} else {
-			$data['project'] = '';
+			$users = $this->db->query("SELECT * FROM oc_user")->rows;
+			foreach ($users as $val) {
+			    $username[$val['user_id']] = $val['firstname'] . ' ' . $val['lastname'];
+			}
+			$data['user_id'] = $val['user_id'];
+			$data['username'] = $username;
 		}
 
 		if (isset($this->request->post['project_id'])) {
 			$data['project_id'] = $this->request->post['project_id'];
 		} elseif (!empty($task_info)) {
+			$projects = $this->db->query("SELECT * FROM oc_project")->rows;
+			foreach ($projects as $val) {
+			    $pro[$val['project_id']] = $val['project_name'];
+			}
 			$data['project_id'] = $task_info['project_id'];
+			$data['project'] = $pro;
 		} else {
-			$data['project_id'] = '';
+			$data['project'] = array();
+			$projects = $this->db->query("SELECT * FROM oc_project")->rows;
+			foreach ($projects as $val) {
+			    $pro[$val['project_id']] = $val['project_name'];
+			}
+			$data['project_id'] = $val['project_id'];
+			$data['project'] = $pro;
 		}
 
 		if (isset($this->request->post['project_start_time'])) {
@@ -548,42 +555,6 @@ class ControllerCatalogTask extends Controller {
 
 			foreach ($results as $result) {
 				$json[] = array(
-					'task_id' => $result['task_id'],
-					'project'            => strip_tags(html_entity_decode($result['project'], ENT_QUOTES, 'UTF-8'))
-				);
-			}
-		}
-
-		$sort_order = array();
-
-		foreach ($json as $key => $value) {
-			$sort_order[$key] = $value['project'];
-		}
-
-		array_multisort($sort_order, SORT_ASC, $json);
-
-		$this->response->addHeader('Content-Type: application/json');
-		$this->response->setOutput(json_encode($json));
-	}
-
-	public function autocomplete1() {
-
-		$json = array();
-
-		if (isset($this->request->get['project'])) {
-			$this->load->model('catalog/task');
-
-			$filter_data = array(
-				'project' => $this->request->get['project'],
-				'start'       => 0,
-				'limit'       => 5
-			);
-
-			$results = $this->model_catalog_task->autocomplete1($filter_data);
-		// echo "<pre>";print_r($results);exit;
-
-			foreach ($results as $result) {
-				$json[] = array(
 					'project_id' => $result['project_id'],
 					'project_name'            => strip_tags(html_entity_decode($result['project_name'], ENT_QUOTES, 'UTF-8'))
 				);
@@ -612,11 +583,11 @@ class ControllerCatalogTask extends Controller {
 			$filter_data = array(
 				'username' => $this->request->get['username'],
 				'start'       => 0,
-				'limit'       => 9
+				'limit'       => 5
 			);
-		// echo "<pre>";print_r($filter_data);exit;
 
 			$results = $this->model_catalog_task->autocomplete2($filter_data);
+		// echo "<pre>";print_r($results);exit;
 
 			foreach ($results as $result) {
 				$json[] = array(

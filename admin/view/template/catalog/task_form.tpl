@@ -27,17 +27,32 @@
         <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form-task" class="form-horizontal">
           <div class="form-group">
             <label class="col-sm-2 control-label" for="input-project"><?php echo $entry_project; ?></label>
-            <div class="col-sm-10">
-              <input type="text" name="project" value="<?php echo $project; ?>" placeholder="<?php echo $entry_project; ?>" id="input-project" class="form-control" />
-              <input type="hidden" name="project_id" value="<?php echo $project_id; ?>" id="input-project_id" class="form-control" />
+            <div class="col-sm-5">
+              <select name="project_id" id="project_id" class="dropdown-header form-control">
+              <?php foreach ($project as $skey => $svalue) { //echo "<pre>";print_r($project_id);exit; ?>
+                <?php if ($skey == $project_id) { ?>
+                  <option value="<?php echo $skey ?>" class ="dropdown-manu form-control" selected="selected"><?php echo $svalue; ?></option>
+                <?php } else { ?>
+                  <option value="<?php echo $skey ?>" class ="dropdown-manu form-control"><?php echo $svalue ?></option>
+                <?php } ?>
+              <?php } ?>
+              </select>
               <input type="hidden" name="user_id" value="<?php echo $user_id; ?>" id="input-user_id" class="form-control" />
             </div>
           </div>
           <?php if ($user_group_id == 1) {?>
             <div class="form-group">
               <label class="col-sm-2 control-label" for="input-username">User</label>
-              <div class="col-sm-10">
-                <input type="text" name="username" value="<?php echo $username; ?>" placeholder="Username" id="input-username" class="form-control" />
+                <div class="col-sm-5">
+                  <select name="user_id" id="user_id" class="dropdown-header form-control">
+                    <?php foreach ($username as $skey => $svalue) { //echo "<pre>";print_r($user_id);exit; ?>
+                      <?php if ($skey == $user_id) { ?>
+                        <option value="<?php echo $skey ?>" class ="dropdown-manu form-control" selected="selected"><?php echo $svalue; ?></option>
+                      <?php } else { ?>
+                        <option value="<?php echo $skey ?>" class ="dropdown-manu form-control"><?php echo $svalue ?></option>
+                      <?php } ?>
+                    <?php } ?>
+                  </select>
               </div>
             </div>
           <?php }?>
@@ -63,7 +78,6 @@
             <label class="col-sm-2 control-label" for="input-status"><?php echo $entry_status; ?></label>
             <div class="col-sm-10">
               <select name="status" id="input-status" class="form-control">
-                <!-- <option value=""><?php echo $text_select; ?></option> -->
                 <option value="done"<?php if ($status == 'done') { echo ' selected="selected"'; } ?>>Done</option>
                 <option value="left"<?php if ($status == 'left') { echo ' selected="selected"'; } ?>>Left</option>
                 <option value="working"<?php if ($status == 'working') { echo ' selected="selected"'; } ?>>Working</option>
@@ -83,49 +97,5 @@
       </div>
     </div>
   </div>
-    <script type="text/javascript"><!--
-$('input[name=\'project\']').autocomplete({
-  'source': function(request, response) {
-    $.ajax({
-      url: 'index.php?route=catalog/task/autocomplete1&token=<?php echo $token; ?>&project=' +  encodeURIComponent(request),
-      dataType: 'json',     
-      success: function(json) {
-        response($.map(json, function(item) {
-          return {
-            label: item['project_name'],
-            value: item['project_id']
-          }
-        }));
-      }
-    });
-  },
-  'select': function(item) {
-    $('input[name=\'project\']').val(item['label']);
-    $('input[name=\'project_id\']').val(item['value']);   
-  } 
-});
-//--></script>
-<script type="text/javascript"><!--
-$('input[name=\'username\']').autocomplete({
-  'source': function(request, response) {
-    $.ajax({
-      url: 'index.php?route=catalog/task/autocomplete2&token=<?php echo $token; ?>&username=' +  encodeURIComponent(request),
-      dataType: 'json',     
-      success: function(json) {
-        response($.map(json, function(item) {
-          return {
-            label: item['username'],
-            value: item['user_id']
-          }
-        }));
-      }
-    });
-  },
-  'select': function(item) {
-    $('input[name=\'username\']').val(item['label']);
-    $('input[name=\'user_id\']').val(item['value']);   
-  } 
-});
-//--></script>
 </div>
 <?php echo $footer; ?>
