@@ -19,7 +19,7 @@ $_['column_date_time']        		= 'Time and date of Attendance';
 $_['column_action']      			= 'Action';
 
 // Entry
-$_['entry_name']                   = 'Name and current date-time';
+$_['entry_name']                   = 'Name';
 $_['entry_office_in_time']         = 'Office in Time';
 
 // Help

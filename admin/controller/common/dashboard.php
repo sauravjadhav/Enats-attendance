@@ -36,6 +36,7 @@ class ControllerCommonDashboard extends Controller {
 		$data['header'] = $this->load->controller('common/header');
 		$data['column_left'] = $this->load->controller('common/column_left');
 		$data['list_attendance'] = $this->load->controller('dashboard/list_attendance');
+		$data['list_task'] = $this->load->controller('dashboard/list_task');
 		// echo "<pre>";print_r($data);exit;
 		// $data['order'] = $this->load->controller('dashboard/order');
 		// $data['sale'] = $this->load->controller('dashboard/sale');
