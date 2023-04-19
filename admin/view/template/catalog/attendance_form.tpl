@@ -62,7 +62,7 @@
                     <div class="form-group required">
                         <label class="col-sm-1 control-label" style="" for="input-time"><?php echo $entry_office_in_time; ?></label>
                         <div class="col-sm-2">
-                            <input type="time" min='01:00' max= '03:00'name="office_in_time" value="<?php echo $office_in_time; ?>" placeholder="<?php echo $entry_office_in_time; ?>" id="input-time" class="form-control" />
+                            <input type="time" name="office_in_time" value="<?php echo $office_in_time; ?>" placeholder="<?php echo $entry_office_in_time; ?>" id="input-time" class="form-control" />
                             <?php if ($error_time) { ?>
                                 <div class="text-danger"><?php echo $error_time; ?></div>
                             <?php } ?>
