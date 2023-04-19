@@ -20,12 +20,9 @@
     <li id="system"><a class="parent"><i class="fa fa-cog fa-fw"></i> <span><?php echo $text_system; ?></span></a>
       <ul>
         <!-- <li><a href="<?php //echo $setting; ?>"><?php //echo $text_setting; ?></a></li> -->
-        <li><a class="parent"><?php echo $text_users; ?></a>
-          <ul>
-            <li><a href="<?php echo $user; ?>"><?php echo $text_user; ?></a></li>
-            <li><a href="<?php echo $user_group; ?>"><?php echo $text_user_group; ?></a></li>
-            <li><a href="<?php echo $api; ?>"><?php echo $text_api; ?></a></li>
-          </ul>
+        <li><a href="<?php echo $user; ?>"><?php echo $text_user; ?></a></li>
+        <li><a href="<?php echo $user_group; ?>"><?php echo $text_user_group; ?></a></li>
+        <!-- <li><a href="<?php //echo $api; ?>"><?php //echo $text_api; ?></a></li> -->
         </li>
       </ul>
     </li>
