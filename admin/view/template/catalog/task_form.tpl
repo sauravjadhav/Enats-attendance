@@ -57,18 +57,6 @@
             </div>
           <?php }?>
           <div class="form-group">
-            <label class="col-sm-2 control-label" for="input-project_start_time"><?php echo $entry_project_start_time; ?></label>
-            <div class="col-sm-10">
-              <input type="time" name="project_start_time" value="<?php echo $project_start_time; ?>" placeholder="<?php echo $entry_project_start_time; ?>" id="input-project_start_time" class="form-control" />
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="col-sm-2 control-label" for="input-project_end_time"><?php echo $entry_project_end_time; ?></label>
-            <div class="col-sm-10">
-              <input type="time" name="project_end_time" value="<?php echo $project_end_time; ?>" placeholder="<?php echo $entry_project_end_time; ?>" id="input-contact_person" class="form-control" />
-            </div>
-          </div>
-          <div class="form-group">
             <label class="col-sm-2 control-label" for="input-task"><?php echo $entry_task; ?></label>
             <div class="col-sm-10">
               <input type="tel" name="task" value="<?php echo $task; ?>" placeholder="<?php echo $entry_task; ?>" id="input-task" class="form-control" />
@@ -85,6 +73,18 @@
                 <option value="c/f-done"<?php if ($status == 'c/f-done') { echo ' selected="selected"'; } ?>>C/F-Done</option>
                 <option value="transfer"<?php if ($status == 'transfer') { echo ' selected="selected"'; } ?>>Transfer</option>
               </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-project_start_time"><?php echo $entry_project_start_time; ?></label>
+            <div class="col-sm-10">
+              <input type="time" name="project_start_time" value="<?php echo $project_start_time; ?>" placeholder="<?php echo $entry_project_start_time; ?>" id="input-project_start_time" class="form-control" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-project_end_time"><?php echo $entry_project_end_time; ?></label>
+            <div class="col-sm-10">
+              <input type="time" name="project_end_time" value="<?php echo $project_end_time; ?>" placeholder="<?php echo $entry_project_end_time; ?>" id="input-contact_person" class="form-control" />
             </div>
           </div>
           <div class="form-group">
