@@ -7,7 +7,9 @@
     <table class="table table-bordered table-hover">
       <thead>
         <tr>
-          <td class="text-left">Name</td>
+          <?php if ($user_group_id == 1) {?>
+            <td class="text-left">Name</td>
+          <?php }?>
           <td class="text-left">Office in time</td>
           <td class="text-left">Date and time of attendance</td>
         </tr>
@@ -17,8 +19,10 @@
         <?php foreach ($attendances as $attendance) {
         // echo "<pre>";print_r($manufacturers);exit; ?>
         <tr>
-        <td class="text-left"><?php echo $attendance['name']; ?></td>
-        <td class="text-left"><?php echo $attendance['office_in_time']; ?></td>
+        <?php if ($user_group_id == 1) {?>
+          <td class="text-left"><?php echo $attendance['name']; ?></td>
+        <?php }?>
+        <td class="text-left <?php if (date('H:i', strtotime($attendance['office_in_time'])) > '10:00:00') echo 'text-danger'; ?>"><?php echo $attendance['office_in_time']; ?></td>
         <td class="text-left"><?php echo $attendance['date'] . ' | ' . $attendance['time']; ?></td>
         </tr>
         <?php } ?>
