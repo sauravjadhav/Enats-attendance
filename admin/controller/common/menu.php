@@ -8,6 +8,9 @@ class ControllerCommonMenu extends Controller {
 		foreach ($user_data as $user) {
 			$data['user_group_id'] = $user['user_group_id'];
 		}
+		$data['text_project'] = $this->language->get('text_project');
+		$data['text_employee'] = $this->language->get('text_employee');
+		$data['text_attendance'] = $this->language->get('text_attendance');
 
 		$data['text_analytics'] = $this->language->get('text_analytics');
 		$data['text_affiliate'] = $this->language->get('text_affiliate');
@@ -18,11 +21,7 @@ class ControllerCommonMenu extends Controller {
 		$data['text_banner'] = $this->language->get('text_banner');
 		$data['text_captcha'] = $this->language->get('text_captcha');
 		$data['text_catalog'] = $this->language->get('text_catalog');
-		$data['text_employee'] = $this->language->get('text_employee');
-		$data['text_attendance'] = $this->language->get('text_attendance');
 		$data['text_category'] = $this->language->get('text_category');
-		$data['text_project'] = $this->language->get('text_project');
-		$data['text_employee'] = $this->language->get('text_employee');
 		$data['text_confirm'] = $this->language->get('text_confirm');
 		$data['text_contact'] = $this->language->get('text_contact');
 		$data['text_country'] = $this->language->get('text_country');
@@ -119,6 +118,11 @@ class ControllerCommonMenu extends Controller {
 		$data['text_openbay_report_price'] = $this->language->get('text_openbay_report_price');
 		$data['text_openbay_order_import'] = $this->language->get('text_openbay_order_import');
 
+		$data['task'] = $this->url->link('catalog/task', 'token=' . $this->session->data['token'], true);
+		$data['project'] = $this->url->link('catalog/project', 'token=' . $this->session->data['token'], true);
+		$data['employee'] = $this->url->link('catalog/employee', 'token=' . $this->session->data['token'], true);
+		$data['attendance'] = $this->url->link('catalog/attendance', 'token=' . $this->session->data['token'], true);
+		$data['reports'] = $this->url->link('catalog/reports', 'token=' . $this->session->data['token'], true);
 		$data['analytics'] = $this->url->link('extension/analytics', 'token=' . $this->session->data['token'], true);
 		$data['home'] = $this->url->link('common/dashboard', 'token=' . $this->session->data['token'], true);
 		$data['affiliate'] = $this->url->link('marketing/affiliate', 'token=' . $this->session->data['token'], true);
@@ -150,10 +154,6 @@ class ControllerCommonMenu extends Controller {
 		$data['location'] = $this->url->link('localisation/location', 'token=' . $this->session->data['token'], true);
 		$data['modification'] = $this->url->link('extension/modification', 'token=' . $this->session->data['token'], true);
 		$data['manufacturer'] = $this->url->link('catalog/manufacturer', 'token=' . $this->session->data['token'], true);
-		$data['task'] = $this->url->link('catalog/task', 'token=' . $this->session->data['token'], true);
-		$data['project'] = $this->url->link('catalog/project', 'token=' . $this->session->data['token'], true);
-		$data['employee'] = $this->url->link('catalog/employee', 'token=' . $this->session->data['token'], true);
-		$data['attendance'] = $this->url->link('catalog/attendance', 'token=' . $this->session->data['token'], true);
 		$data['marketing'] = $this->url->link('marketing/marketing', 'token=' . $this->session->data['token'], true);
 		$data['module'] = $this->url->link('extension/module', 'token=' . $this->session->data['token'], true);
 		$data['option'] = $this->url->link('catalog/option', 'token=' . $this->session->data['token'], true);
