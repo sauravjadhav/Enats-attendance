@@ -1,6 +1,6 @@
 <ul id="menu">
   <li id="dashboard"><a href="<?php echo $home; ?>"><i class="fa fa-dashboard fa-fw"></i> <span><?php echo $text_dashboard; ?></span></a></li>
-  <li id="catalog"><a class="parent"><i class="fa fa-tags fa-fw"></i> <span><?php echo $text_catalog; ?></span></a>
+  <li id="catalog"><a class="parent"><i class="fa fa-user fa-fw"></i><span><?php echo $text_catalog; ?></span></a>
     <ul>
       <?php if ($user_group_id == 1) {?>
       <li><a href="<?php echo $project; ?>"><?php echo $text_project; ?></a></li>
@@ -10,7 +10,7 @@
     <?php }?>
     </ul>
   </li>
-  <li id="extension"><a class="parent"><i class="fa fa-puzzle-piece fa-fw"></i> <span><?php echo $text_extension; ?></span></a>
+  <li id="extension"><a class="parent"><i class="fa fa-arrow-right fa-fw"></i> <span><?php echo $text_extension; ?></span></a>
     <ul>
       <li><a href="<?php echo $attendance; ?>"><?php echo $text_attendance; ?></a></li>
       <li><a href="<?php echo $task; ?>"><?php echo $text_task; ?></a></li>
