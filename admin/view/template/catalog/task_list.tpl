@@ -35,7 +35,6 @@
               <div class="form-group">
                 <label class="control-label" for="input-project"><?php echo $entry_project; ?></label>
                 <select name="project_id" id="project_id" class="dropdown-header form-control">
-                  <option value="" selected="selected" class ="dropdown-manu form-control">Select project</option>
                   <?php foreach ($project as $skey => $svalue) { //echo "<pre>";print_r($project_id);exit; ?>
                     <?php if ($skey == $project_id) { ?>
                       <option value="<?php echo $skey ?>" class ="dropdown-manu form-control" selected="selected"><?php echo $svalue; ?></option>
@@ -43,6 +42,7 @@
                       <option value="<?php echo $skey ?>" class ="dropdown-manu form-control"><?php echo $svalue ?></option>
                     <?php } ?>
                   <?php } ?>
+                  <option value="" selected="selected" class ="dropdown-manu form-control">Select project</option>
                 </select>
               </div>
             </div>
@@ -51,7 +51,6 @@
                 <div class="form-group">
                   <label class="control-label" for="input-project">User</label>
                   <select name="user_id" id="user_id" class="dropdown form-control">
-                    <option value="" selected="selected" class ="dropdown-manu form-control">Select User</option>
                     <?php foreach ($username as $skey => $svalue) { //echo "<pre>";print_r($user_id);exit; ?>
                       <?php if ($skey == $user_id) { ?>
                         <option value="<?php echo $skey ?>" class ="dropdown-manu form-control" selected="selected"><?php echo $svalue; ?></option>
@@ -59,17 +58,13 @@
                         <option value="<?php echo $skey ?>" class ="dropdown-manu form-control"><?php echo $svalue ?></option>
                       <?php } ?>
                     <?php } ?>
+                    <option value="" selected="selected" class ="dropdown-manu form-control">Select User</option>
                   </select>
                 </div>
               </div>
             <?php }?>
-            <div class="col-sm-5">
-              <div class="col-sm-2">
-                <button type="button" id="button-filter" class="btn btn-primary"><i class="fa fa-search"></i> <?php echo $button_filter; ?></button>
-              </div>
-              <div class="col-sm-2">
-                <button type="button" id="button-cancel" class="btn btn-primary"><i class="fa fa-refresh"></i>Show all</button>
-              </div>
+            <div class="col-sm-5 pull-right">
+              <button type="button" id="button-filter" class="btn btn-primary"><i class="fa fa-search"></i> <?php echo $button_filter; ?></button>
             </div>
           </div>
         </div>
