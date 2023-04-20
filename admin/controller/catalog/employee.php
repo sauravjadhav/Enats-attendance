@@ -34,6 +34,7 @@ class ControllerCatalogEmployee extends Controller {
 		$this->load->model('catalog/employee');
 
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm()) {
+
 			$this->model_catalog_employee->addEmployee($this->request->post,$this->request->files);
 
 			$this->session->data['success'] = $this->language->get('text_success');
@@ -704,6 +705,14 @@ class ControllerCatalogEmployee extends Controller {
 
 		if ((utf8_strlen($this->request->post['email']) < 2) || (utf8_strlen($this->request->post['email']) > 64)) {
 			$this->error['email'] = $this->language->get('error_email');
+		}
+
+		if (!isset($this->request->get['employee_id'])){
+			$user_id = $this->request->post['user_id'];
+			$validate_exits = $this->db->query("SELECT user_id FROM oc_employee WHERE user_id = '$user_id'")->row;
+			if ($validate_exits['user_id'] == $user_id) {
+				$this->error['warning'] = $this->language->get('error_permission');
+			}
 		}
 
 		if(!empty($this->request->get['employee_id'])) {
