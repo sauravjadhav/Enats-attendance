@@ -231,12 +231,24 @@ class ControllerCatalogTask extends Controller {
 			$user = $this->db->query("SELECT username FROM oc_user WHERE user_id = $user_id")->row;
 			$project_id = $result['project_id'];
 			$project = $this->db->query("SELECT project_name FROM oc_project WHERE project_id = $project_id")->row;
+
+			if(!empty($result['project_start_time'])){
+				$project_start_time = date('g:i A', strtotime($result['project_start_time']));
+			}else{
+				$project_start_time = '';
+			}
+
+			if (!empty($result['project_end_time'])){
+				$project_end_time = date('g:i A', strtotime($result['project_end_time']));
+			}else{
+				$project_end_time = '';
+			}
 			$data['tasks'][] = array(
 				'task_id' 	        => $result['task_id'],
 				'project'          	=> $project['project_name'],
 				'username'          => $user['username'],
-				'project_start_time'      	=> $result['project_start_time'],
-				'project_end_time'        	=> $result['project_end_time'],
+				'project_start_time'      	=> $project_start_time,
+				'project_end_time'        	=> $project_end_time,
 				'task'   		        	=> $result['task'],
 				'status'                	=> $result['status'],
 				'commit_no'    => $result['commit_no'],
@@ -354,9 +366,6 @@ class ControllerCatalogTask extends Controller {
 	}
 
 	protected function getForm() {
-
-		
-
 		$data['heading_title'] = $this->language->get('heading_title');
 
 		$data['text_form'] = !isset($this->request->get['task_id']) ? $this->language->get('text_add') : $this->language->get('text_edit');
@@ -493,7 +502,8 @@ class ControllerCatalogTask extends Controller {
 		} elseif (!empty($task_info)) {
 			$data['project_start_time'] = $task_info['project_start_time'];
 		} else {
-			$data['project_start_time'] = '';
+			date_default_timezone_set('Asia/Kolkata');
+			$data['project_start_time'] = date('H:i');
 		}
 
 		if (isset($this->request->post['project_end_time'])) {
