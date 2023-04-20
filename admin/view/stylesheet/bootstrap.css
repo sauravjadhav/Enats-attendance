@@ -1032,10 +1032,10 @@ input, button, select, textarea {
   line-height: inherit; }
 
 a {
-  color: #fff;
+  color: #1e91cf;
   text-decoration: none; }
   a:hover, a:focus {
-    color: #8ec1dd;
+    color: #14628c;
     text-decoration: underline; }
   a:focus {
     outline: thin dotted;
@@ -4063,7 +4063,7 @@ a.list-group-item-danger, button.list-group-item-danger {
 
 .panel {
   margin-bottom: 17px;
-  background-color: #145DA0;
+  background-color: #fff;
   border: 1px solid transparent;
   border-radius: 3px;
   -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
