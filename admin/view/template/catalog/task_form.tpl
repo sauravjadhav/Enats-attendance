@@ -59,7 +59,7 @@
           <div class="form-group">
             <label class="col-sm-2 control-label" for="input-task"><?php echo $entry_task; ?></label>
             <div class="col-sm-10">
-              <input type="tel" name="task" value="<?php echo $task; ?>" placeholder="<?php echo $entry_task; ?>" id="input-task" class="form-control" />
+              <textarea type="tel" name="task" placeholder="<?php echo $entry_task; ?>" id="input-task" class="form-control"><?php echo $task; ?></textarea>
             </div>
           </div>
           <div class="form-group">

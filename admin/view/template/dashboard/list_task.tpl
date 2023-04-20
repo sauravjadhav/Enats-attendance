@@ -11,8 +11,7 @@
             <td class="text-left">User</td>
           <?php }?>
           <td class="text-left">Project</td>
-          <td class="text-left">Project Start Time</td>
-          <td class="text-left">Project End Time</td>
+          <td class="text-left">Task/problem</td>
           <td class="text-left">Status</td>
         </tr>
       </thead>
@@ -25,8 +24,7 @@
           <td class="text-left"><?php echo $task['username']; ?></td>
         <?php }?>
         <td class="text-left"><?php echo $task['project_name']; ?></td>
-        <td class="text-left"><?php echo $task['project_start_time']; ?></td>
-        <td class="text-left"><?php echo $task['project_end_time']; ?></td>
+        <td class="text-left"><?php echo $task['task']; ?></td>
         <td class="text-left"><?php echo $task['status']; ?></td>
         </tr>
         <?php } ?>

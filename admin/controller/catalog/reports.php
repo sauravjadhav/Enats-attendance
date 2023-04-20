@@ -2,14 +2,16 @@
 class Controllercatalogreports extends Controller {
 
 	public function index() {
-			$data['attendances_header'] = $this->db->query("SELECT date FROM oc_attendance_record GROUP BY date")->rows;
+			$month_start = date('Y-m-01');
+			$month_end = date('Y-m-t');
+			$data['attendances_header'] = $this->db->query("SELECT date FROM oc_attendance_record WHERE date BETWEEN '".$month_start."' AND '".$month_end."' GROUP BY date")->rows;
 
-			$data['attendances_body'] = $this->db->query("SELECT date, user_id, office_in_time FROM oc_attendance_record ORDER BY user_id, date, time")->rows;
+			$data['attendances_body'] = $this->db->query("SELECT date, user_id, office_in_time FROM oc_attendance_record WHERE date BETWEEN '".$month_start."' AND '".$month_end."' ORDER BY user_id, date, time")->rows;
 
 
-			$data['username'] = $this->db->query("SELECT user_id, name FROM oc_attendance_record GROUP BY user_id")->rows;
+			$data['username'] = $this->db->query("SELECT user_id, name FROM oc_attendance_record WHERE date BETWEEN '".$month_start."' AND '".$month_end."' GROUP BY user_id")->rows;
 
-			// echo "<pre>";print_r($data['username']);exit;
+			// echo "<pre>";print_r($month_end);exit;
 			$url ="";
 
 			$data['breadcrumbs'] = array();

@@ -31,6 +31,7 @@ class Controllerdashboardlisttask extends Controller {
 		}
 		} else {
 			// echo "<pre>";print_r($user_group_id);exit;
+			$data['tasks'] = array();
 			$task_data = $this->db->query("SELECT * FROM oc_task WHERE user_id = '$user_id'")->rows;
 				// echo "<pre>";print_r($task_data);exit;				
 			foreach ($task_data as $task){
