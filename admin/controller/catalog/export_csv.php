@@ -2,9 +2,12 @@
 class Controllercatalogexportcsv extends Controller {
 	public function index() {
 
-		$attendances_header = $this->db->query("SELECT date FROM oc_attendance_record GROUP BY date")->rows;
-		$attendances_body = $this->db->query("SELECT date, user_id, office_in_time FROM oc_attendance_record ORDER BY user_id, date, time")->rows;
-		$username = $this->db->query("SELECT user_id, name FROM oc_attendance_record GROUP BY user_id")->rows;
+		$month_start = date('Y-m-01');
+		$month_end = date('Y-m-t');
+		
+		$attendances_header = $this->db->query("SELECT date FROM oc_attendance_record WHERE date BETWEEN '".$month_start."' AND '".$month_end."' GROUP BY date")->rows;
+		$attendances_body = $this->db->query("SELECT date, user_id, office_in_time FROM oc_attendance_record WHERE date BETWEEN '".$month_start."' AND '".$month_end."' ORDER BY user_id, date, time")->rows;
+		$username = $this->db->query("SELECT user_id, name FROM oc_attendance_record WHERE date BETWEEN '".$month_start."' AND '".$month_end."' GROUP BY user_id")->rows;
 
 		$filename = "Attendance.csv";
 		$file_path = DIR_DOWNLOAD .'/'. $filename;
