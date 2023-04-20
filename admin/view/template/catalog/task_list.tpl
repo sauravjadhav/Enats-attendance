@@ -34,22 +34,43 @@
             <div class="col-sm-4">
               <div class="form-group">
                 <label class="control-label" for="input-project"><?php echo $entry_project; ?></label>
-                <input type="text" name="filter_project" value="<?php echo $filter_project; ?>" placeholder="<?php echo $entry_project; ?>" id="input-project" class="form-control" />
-                <input type="hidden" name="project_id" value="<?php echo $project_id; ?>" placeholder="<?php echo $entry_project; ?>" id="input-project" class="form-control" />
-              </div>
-              <div class="col-sm-12">
-                <button type="button" id="button-filter" class="btn btn-primary pull-right"><i class="fa fa-search"></i> <?php echo $button_filter; ?></button>
+                <select name="project_id" id="project_id" class="dropdown-header form-control">
+                  <option value="" selected="selected" class ="dropdown-manu form-control">Select project</option>
+                  <?php foreach ($project as $skey => $svalue) { //echo "<pre>";print_r($project_id);exit; ?>
+                    <?php if ($skey == $project_id) { ?>
+                      <option value="<?php echo $skey ?>" class ="dropdown-manu form-control" selected="selected"><?php echo $svalue; ?></option>
+                    <?php } else { ?>
+                      <option value="<?php echo $skey ?>" class ="dropdown-manu form-control"><?php echo $svalue ?></option>
+                    <?php } ?>
+                  <?php } ?>
+                </select>
               </div>
             </div>
             <?php if ($user_group_id == 1){?>
               <div class="col-sm-4">
                 <div class="form-group">
                   <label class="control-label" for="input-project">User</label>
-                  <input type="text" name="username" value="<?php echo $username; ?>" placeholder="User" id="input-username" class="form-control" />
-                  <input type="hidden" name="user_id" placeholder="" id="input-user_id" class="form-control" />
+                  <select name="user_id" id="user_id" class="dropdown form-control">
+                    <option value="" selected="selected" class ="dropdown-manu form-control">Select User</option>
+                    <?php foreach ($username as $skey => $svalue) { //echo "<pre>";print_r($user_id);exit; ?>
+                      <?php if ($skey == $user_id) { ?>
+                        <option value="<?php echo $skey ?>" class ="dropdown-manu form-control" selected="selected"><?php echo $svalue; ?></option>
+                      <?php } else { ?>
+                        <option value="<?php echo $skey ?>" class ="dropdown-manu form-control"><?php echo $svalue ?></option>
+                      <?php } ?>
+                    <?php } ?>
+                  </select>
                 </div>
               </div>
             <?php }?>
+            <div class="col-sm-5">
+              <div class="col-sm-2">
+                <button type="button" id="button-filter" class="btn btn-primary"><i class="fa fa-search"></i> <?php echo $button_filter; ?></button>
+              </div>
+              <div class="col-sm-2">
+                <button type="button" id="button-cancel" class="btn btn-primary"><i class="fa fa-refresh"></i>Show all</button>
+              </div>
+            </div>
           </div>
         </div>
         </div>
@@ -118,63 +139,19 @@
 $('#button-filter').on('click', function() {
   var url = 'index.php?route=catalog/task&token=<?php echo $token; ?>';
 
-  var project_id = $('input[name=\'project_id\']').val();
+  var project_id = $('select[name=\'project_id\']').val();
 
   if (project_id) {
     url += '&project_id=' + encodeURIComponent(project_id);
   }
 
-  var user_id = $('input[name=\'user_id\']').val();
+  var user_id = $('select[name=\'user_id\']').val();
 
   if (user_id) {
     url += '&user_id=' + encodeURIComponent(user_id);
   }
 
   location = url;
-});
-//--></script>
-<script type="text/javascript"><!--
-$('input[name=\'filter_project\']').autocomplete({
-  'source': function(request, response) {
-    $.ajax({
-      url: 'index.php?route=catalog/task/autocomplete&token=<?php echo $token; ?>&filter_project=' +  encodeURIComponent(request),
-      dataType: 'json',
-      success: function(json) {
-        response($.map(json, function(item) {
-          return {
-            label: item['project_name'],
-            value: item['project_id']
-          }
-        }));
-      }
-    });
-  },
-  'select': function(item) {
-    $('input[name=\'filter_project\']').val(item['label']);
-    $('input[name=\'project_id\']').val(item['value']);
-  }
-});
-//--></script>
-<script type="text/javascript"><!--
-$('input[name=\'username\']').autocomplete({
-  'source': function(request, response) {
-    $.ajax({
-      url: 'index.php?route=catalog/task/autocomplete2&token=<?php echo $token; ?>&username=' +  encodeURIComponent(request),
-      dataType: 'json',
-      success: function(json) {
-        response($.map(json, function(item) {
-          return {
-            label: item['username'],
-            value: item['user_id']
-          }
-        }));
-      }
-    });
-  },
-  'select': function(item) {
-    $('input[name=\'username\']').val(item['label']);
-    $('input[name=\'user_id\']').val(item['value']);
-  }
 });
 //--></script>
 <?php echo $footer; ?>

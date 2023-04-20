@@ -138,26 +138,37 @@ class ControllerCatalogTask extends Controller {
 
 		if (isset($this->request->get['user_id'])) {
 			$user_id = $this->request->get['user_id'];
+			$users = $this->db->query("SELECT * FROM oc_user")->rows;
+			foreach ($users as $val) {
+			    $username[$val['user_id']] = $val['firstname'] . ' ' . $val['lastname'];
+			}
+			$data['username'] = $username;
 		} else {
-			$user_id = null;
+			$users = $this->db->query("SELECT * FROM oc_user")->rows;
+			foreach ($users as $val) {
+			    $username[$val['user_id']] = $val['firstname'] . ' ' . $val['lastname'];
+			}
+			$data['username'] = $username;
+			$user_id = 0;
 		}
 
 		if (isset($this->request->get['project_id'])) {
+			$data['project'] = array();
+			$projects = $this->db->query("SELECT * FROM oc_project")->rows;
+			foreach ($projects as $val) {
+			    $pro[$val['project_id']] = $val['project_name'];
+			}
 			$project_id = $this->request->get['project_id'];
+			$data['project'] = $pro;
 		} else {
-			$project_id = '';
-		}
-
-		if (isset($this->request->get['filter_project'])) {
-			$filter_project = $this->request->get['filter_project'];
-		} else {
-			$filter_project = null;
-		}
-
-		if (isset($this->request->get['username'])) {
-			$username = $this->request->get['username'];
-		} else {
-			$username = null;
+			$data['project'] = array();
+			$projects = $this->db->query("SELECT * FROM oc_project")->rows;
+			foreach ($projects as $val) {
+			    $pro[$val['project_id']] = $val['project_name'];
+			}
+			$project_id = $val['project_id'];
+			$data['project'] = $pro;
+			$project_id = 0;
 		}
 
 		if (isset($this->request->get['sort'])) {
@@ -353,9 +364,7 @@ class ControllerCatalogTask extends Controller {
 		$data['sort'] = $sort;
 		$data['order'] = $order;
 
-		$data['filter_project'] = $filter_project;
 		$data['project_id'] = $project_id;
-		$data['username'] = $username;
 		$data['user_id'] = $user_id;
 
 		$data['header'] = $this->load->controller('common/header');
@@ -545,77 +554,5 @@ class ControllerCatalogTask extends Controller {
 		$data['footer'] = $this->load->controller('common/footer');
 
 		$this->response->setOutput($this->load->view('catalog/task_form', $data));
-	}
-
-	public function autocomplete() {
-
-		$json = array();
-
-		if (isset($this->request->get['filter_project'])) {
-			$this->load->model('catalog/task');
-
-			$filter_data = array(
-				'filter_project' => $this->request->get['filter_project'],
-				'start'       => 0,
-				'limit'       => 5
-			);
-
-			$results = $this->model_catalog_task->autocompletetas($filter_data);
-		// echo "<pre>";print_r($results);exit;
-
-			foreach ($results as $result) {
-				$json[] = array(
-					'project_id' => $result['project_id'],
-					'project_name'            => strip_tags(html_entity_decode($result['project_name'], ENT_QUOTES, 'UTF-8'))
-				);
-			}
-		}
-
-		$sort_order = array();
-
-		foreach ($json as $key => $value) {
-			$sort_order[$key] = $value['project_name'];
-		}
-
-		array_multisort($sort_order, SORT_ASC, $json);
-
-		$this->response->addHeader('Content-Type: application/json');
-		$this->response->setOutput(json_encode($json));
-	}
-
-	public function autocomplete2() {
-
-		$json = array();
-
-		if (isset($this->request->get['username'])) {
-			$this->load->model('catalog/task');
-
-			$filter_data = array(
-				'username' => $this->request->get['username'],
-				'start'       => 0,
-				'limit'       => 5
-			);
-
-			$results = $this->model_catalog_task->autocomplete2($filter_data);
-		// echo "<pre>";print_r($results);exit;
-
-			foreach ($results as $result) {
-				$json[] = array(
-					'user_id' => $result['user_id'],
-					'username'            => strip_tags(html_entity_decode($result['username'], ENT_QUOTES, 'UTF-8'))
-				);
-			}
-		}
-
-		$sort_order = array();
-
-		foreach ($json as $key => $value) {
-			$sort_order[$key] = $value['username'];
-		}
-
-		array_multisort($sort_order, SORT_ASC, $json);
-
-		$this->response->addHeader('Content-Type: application/json');
-		$this->response->setOutput(json_encode($json));
 	}
 }
