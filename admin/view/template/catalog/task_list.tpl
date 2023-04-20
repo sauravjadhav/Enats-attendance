@@ -67,10 +67,10 @@
                   <?php if ($user_group_id == 1) { ?>
                     <td class="text-left">User</td>
                   <?php }?>
-                  <td class="text-left"><?php echo $column_project_start_time;?></td>
-                  <td class="text-left"><?php echo $column_project_end_time;?></td>
                   <td class="text-left"><?php echo $column_task;?></td>
                   <td class="text-left"><?php echo $column_status;?></td>
+                  <td class="text-left"><?php echo $column_project_start_time;?></td>
+                  <td class="text-left"><?php echo $column_project_end_time;?></td>
                   <td class="text-right"><?php echo $column_action; ?></td>
                 </tr>
               </thead>
@@ -89,10 +89,10 @@
                         <?php echo $task['username']; ?>
                     </td>
                   <?php }?>
-                  <td class="text-left"><?php echo $task['project_start_time']; ?></td>
-                  <td class="text-left"><?php echo $task['project_end_time']; ?></td>
                   <td class="text-left"><?php echo $task['task']; ?></td>
                   <td class="text-left"><?php echo $task['status']; ?></td>
+                  <td class="text-left"><?php echo $task['project_start_time']; ?></td>
+                  <td class="text-left"><?php echo $task['project_end_time']; ?></td>
                   
                   <td class="text-right"><a href="<?php echo $task['edit']; ?>" data-toggle="tooltip" title="<?php echo $button_edit; ?>" class="btn btn-primary"><i class="fa fa-pencil"></i></a></td>
                 </tr>
