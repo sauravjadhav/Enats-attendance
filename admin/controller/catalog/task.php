@@ -171,6 +171,35 @@ class ControllerCatalogTask extends Controller {
 			$project_id = 0;
 		}
 
+		if (isset($this->request->get['status'])){
+			$status = $this->request->get['status'];
+
+			$work_status = array(
+			'assigned' =>'assigned',
+			'pending' =>'pending',
+			'done' =>'done',
+			'left' =>'left',
+			'working' =>'working',
+			'c/f-working' =>'c/f-working',
+			'transfer' =>'transfer'
+			);
+
+			$data['work_status'] = $work_status;
+		}else{
+		$work_status = array(
+			'assigned' =>'assigned',
+			'pending' =>'pending',
+			'done' =>'done',
+			'left' =>'left',
+			'working' =>'working',
+			'c/f-working' =>'c/f-working',
+			'transfer' =>'transfer'
+		);
+		$status = '';
+		$data['work_status'] = $work_status;
+		}
+		// echo "<pre>";print_r($data);exit;
+
 		if (isset($this->request->get['sort'])) {
 			$sort = $this->request->get['sort'];
 		} else {
@@ -180,7 +209,7 @@ class ControllerCatalogTask extends Controller {
 		if (isset($this->request->get['order'])) {
 			$order = $this->request->get['order'];
 		} else {
-			$order = 'ASC';
+			$order = 'DESC';
 		}
 
 		if (isset($this->request->get['page'])) {
@@ -226,6 +255,7 @@ class ControllerCatalogTask extends Controller {
 		$filter_data = array(
 			'project_id' => $project_id,
 			'user_id' => $user_id,
+			'status' => $status,
 			'sort'  => $sort,
 			'order' => $order,
 			'start' => ($page - 1) * $this->config->get('config_limit_admin'),
@@ -254,14 +284,18 @@ class ControllerCatalogTask extends Controller {
 			}else{
 				$project_end_time = '';
 			}
+			$time = strtotime($result['date_time']);
+			$date = date('d-m-Y',$time);
+			// echo "<pre>";print_r($date);exit;
 			$data['tasks'][] = array(
-				'task_id' 	        => $result['task_id'],
-				'project'          	=> $project['project_name'],
-				'username'          => $user['username'],
+				'task_id' 	                => $result['task_id'],
+				'project'          	        => $project['project_name'],
+				'date'          	        => $date,
+				'username'                  => $user['username'],
 				'project_start_time'      	=> $project_start_time,
 				'project_end_time'        	=> $project_end_time,
 				'task'   		        	=> $result['task'],
-				'status'                	=> $result['status'],
+				'status'                	=> strtoupper($result['status']),
 				'commit_no'    => $result['commit_no'],
 				'edit'            => $this->url->link('catalog/task/edit', 'token=' . $this->session->data['token'] . '&task_id=' . $result['task_id'] . $url, true)
 			);
@@ -275,6 +309,7 @@ class ControllerCatalogTask extends Controller {
 		$data['text_confirm'] = $this->language->get('text_confirm');
 
 		$data['column_project'] = $this->language->get('column_project');
+		$data['column_date'] = $this->language->get('column_date');
 		$data['column_project_start_time'] = $this->language->get('column_project_start_time');
 		$data['column_project_end_time'] = $this->language->get('column_project_end_time');
 		$data['column_task'] = $this->language->get('column_task');
@@ -328,6 +363,10 @@ class ControllerCatalogTask extends Controller {
 			$url .= '&user_id=' . urlencode(html_entity_decode($this->request->get['user_id'], ENT_QUOTES, 'UTF-8'));
 		}
 
+		if (isset($this->request->get['status'])) {
+			$url .= '&status=' . urlencode(html_entity_decode($this->request->get['status'], ENT_QUOTES, 'UTF-8'));
+		}
+
 		if ($order == 'ASC') {
 			$url .= '&order=DESC';
 		} else {
@@ -339,7 +378,7 @@ class ControllerCatalogTask extends Controller {
 		}
 
 		$data['sort_name'] = $this->url->link('catalog/task', 'token=' . $this->session->data['token'] . '&sort=name' . $url, true);
-		$data['sort_sort_order'] = $this->url->link('catalog/task', 'token=' . $this->session->data['token'] . '&sort=sort_order' . $url, true);
+		$data['sort_date'] = $this->url->link('catalog/task', 'token=' . $this->session->data['token'] . '&sort=date' . $url, true);
 
 		$url = '';
 
@@ -366,6 +405,7 @@ class ControllerCatalogTask extends Controller {
 
 		$data['project_id'] = $project_id;
 		$data['user_id'] = $user_id;
+		$data['status'] = $status;
 
 		$data['header'] = $this->load->controller('common/header');
 		$data['column_left'] = $this->load->controller('common/column_left');

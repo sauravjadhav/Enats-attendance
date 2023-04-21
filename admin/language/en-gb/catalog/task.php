@@ -12,21 +12,22 @@ $_['text_percent']       = 'Percentage';
 $_['text_amount']        = 'Fixed Amount';
 
 // Column
-$_['column_project']        			= 'Project Name';
-$_['column_project_start_time']        = 'Project Start time';
-$_['column_project_end_time']         = 'Project end time';
-$_['column_task']                  = 'Given Task';
-$_['column_status'] 				= 'Status';
-$_['column_commit_no']     = 'Commit No.';
-$_['column_action']      			= 'Action';
+$_['column_project']        		 = 'Project Name';
+$_['column_date']        		     = 'Date';
+$_['column_project_start_time']      = 'Project Start time';
+$_['column_project_end_time']    	 = 'Project end time';
+$_['column_task']                 	 = 'Given Task';
+$_['column_status'] 				 = 'Status';
+$_['column_commit_no']    			 = 'Commit No.';
+$_['column_action']      			 = 'Action';
 
 // Entry
-$_['entry_project']            = 'Project Name';
-$_['entry_project_start_time']         = 'Project start time';
-$_['entry_project_end_time']          = 'Project end time';
-$_['entry_task']                   = 'Given Task';
-$_['entry_status']                   = 'Status';
-$_['entry_commit_no']      = 'Commit No.';
+$_['entry_project']            		= 'Project Name';
+$_['entry_project_start_time']      = 'Project start time';
+$_['entry_project_end_time']        = 'Project end time';
+$_['entry_task']                    = 'Given Task';
+$_['entry_status']                  = 'Status';
+$_['entry_commit_no']               = 'Commit No.';
 
 
 // Help

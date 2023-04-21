@@ -29,45 +29,62 @@
         <h3 class="panel-title"><i class="fa fa-list"></i> <?php echo $text_list; ?></h3>
       </div>
       <div class="panel-body">
-        <div class="well">
-          <div class="row">
-            <div class="col-sm-4">
-              <div class="form-group">
-                <label class="control-label" for="input-project"><?php echo $entry_project; ?></label>
-                <select name="project_id" id="project_id" class="dropdown-header form-control">
-                  <?php foreach ($project as $skey => $svalue) { //echo "<pre>";print_r($project_id);exit; ?>
-                    <?php if ($skey == $project_id) { ?>
-                      <option value="<?php echo $skey ?>" class ="dropdown-manu form-control" selected="selected"><?php echo $svalue; ?></option>
-                    <?php } else { ?>
-                      <option value="<?php echo $skey ?>" class ="dropdown-manu form-control"><?php echo $svalue ?></option>
-                    <?php } ?>
-                  <?php } ?>
-                  <option value="" selected="selected" class ="dropdown-manu form-control">Select project</option>
-                </select>
-              </div>
-            </div>
-            <?php if ($user_group_id == 1){?>
+        <?php if ($user_group_id != 12) { ?>
+          <div class="well">
+            <div class="row">
               <div class="col-sm-4">
                 <div class="form-group">
-                  <label class="control-label" for="input-project">User</label>
-                  <select name="user_id" id="user_id" class="dropdown form-control">
-                    <?php foreach ($username as $skey => $svalue) { //echo "<pre>";print_r($user_id);exit; ?>
-                      <?php if ($skey == $user_id) { ?>
+                  <label class="control-label" for="input-project"><?php echo $entry_project; ?></label>
+                  <select name="project_id" id="project_id" class="dropdown-header form-control">
+                    <?php foreach ($project as $skey => $svalue) { //echo "<pre>";print_r($project_id);exit; ?>
+                      <?php if ($skey == $project_id) { ?>
                         <option value="<?php echo $skey ?>" class ="dropdown-manu form-control" selected="selected"><?php echo $svalue; ?></option>
                       <?php } else { ?>
                         <option value="<?php echo $skey ?>" class ="dropdown-manu form-control"><?php echo $svalue ?></option>
                       <?php } ?>
                     <?php } ?>
-                    <option value="" selected="selected" class ="dropdown-manu form-control">Select User</option>
+                    <option value="" selected="selected" class ="dropdown-manu form-control">Select project</option>
                   </select>
                 </div>
               </div>
-            <?php }?>
-            <div class="col-sm-5 pull-right">
-              <button type="button" id="button-filter" class="btn btn-primary"><i class="fa fa-search"></i> <?php echo $button_filter; ?></button>
+              <?php if ($user_group_id == 1) { ?>
+                <div class="col-sm-4">
+                  <div class="form-group">
+                    <label class="control-label" for="input-user_id">User</label>
+                    <select name="user_id" id="user_id" class="dropdown form-control">
+                      <?php foreach ($username as $skey => $svalue) { //echo "<pre>";print_r($user_id);exit; ?>
+                        <?php if ($skey == $user_id) { ?>
+                          <option value="<?php echo $skey ?>" class ="dropdown-manu form-control" selected="selected"><?php echo $svalue; ?></option>
+                        <?php } else { ?>
+                          <option value="<?php echo $skey ?>" class ="dropdown-manu form-control"><?php echo $svalue ?></option>
+                        <?php } ?>
+                      <?php } ?>
+                      <option value="" selected="selected" class ="dropdown-manu form-control">Select User</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <div class="form-group">
+                    <label class="control-label" for="input-project">Status</label>
+                    <select name="status" id="status" class="dropdown form-control">
+                      <?php foreach ($work_status as $skey => $svalue) { //echo "<pre>";print_r($user_id);exit; ?>
+                        <?php if ($skey == $status) { ?>
+                          <option value="<?php echo $skey ?>" class ="dropdown-manu form-control" selected="selected"><?php echo $svalue; ?></option>
+                        <?php } else { ?>
+                          <option value="<?php echo $skey ?>" class ="dropdown-manu form-control"><?php echo $svalue ?></option>
+                        <?php } ?>
+                      <?php } ?>
+                      <option value="" selected="selected" class ="dropdown-manu form-control">Select Status</option>
+                    </select>
+                  </div>
+                </div>
+              <?php }?>
+              <div class="col-sm-1 pull-right">
+                <button type="button" id="button-filter" class="btn btn-primary"><i class="fa fa-search"></i> <?php echo $button_filter; ?></button>
+              </div>
             </div>
           </div>
-        </div>
+        <?php }?>
         </div>
         <form action="<?php echo $delete; ?>" method="post" enctype="multipart/form-data" id="form-project">
           <div class="table-responsive">
@@ -75,18 +92,17 @@
               <thead>
                 <tr>
                   <td style="width: 1px;" class="text-center"><input type="checkbox" onclick="$('input[name*=\'selected\']').prop('checked', this.checked);" /></td>
-                  <td class="text-left"><?php if ($sort == 'name') { ?>
-                  <a href="<?php echo $sort_name; ?>" class="<?php echo strtolower($order); ?>"><?php echo $column_project; ?></a>
+                  <td class="text-left"><?php if ($sort == 'date') { ?>
+                  <a href="<?php echo $sort_date; ?>" class="<?php echo strtolower($order); ?>"><?php echo $column_date; ?></a>
                   <?php } else { ?>
-                  <a href="<?php echo $sort_name; ?>"><?php echo $column_project; ?></a>
+                  <a href="<?php echo $sort_date; ?>"><?php echo $column_date; ?></a>
                   <?php } ?></td>
                   <?php if ($user_group_id == 1) { ?>
                     <td class="text-left">User</td>
                   <?php }?>
+                  <td class="text-left"><?php echo $column_project;?></td>
                   <td class="text-left"><?php echo $column_task;?></td>
                   <td class="text-left"><?php echo $column_status;?></td>
-                  <td class="text-left"><?php echo $column_project_start_time;?></td>
-                  <td class="text-left"><?php echo $column_project_end_time;?></td>
                   <td class="text-right"><?php echo $column_action; ?></td>
                 </tr>
               </thead>
@@ -99,17 +115,15 @@
                     <?php } else { ?>
                     <input type="checkbox" name="selected[]" value="<?php echo $task['task_id']; ?>" />
                     <?php } ?></td>
-                  <td class="text-left"><?php echo $task['project']; ?></td>
+                  <td class="text-left"><?php echo $task['date']; ?></td>
                   <?php if ($user_group_id == 1) { ?>
                     <td class="text-left">
                         <?php echo $task['username']; ?>
                     </td>
                   <?php }?>
+                  <td class="text-left"><?php echo $task['project']; ?></td>
                   <td class="text-left"><?php echo $task['task']; ?></td>
                   <td class="text-left"><?php echo $task['status']; ?></td>
-                  <td class="text-left"><?php echo $task['project_start_time']; ?></td>
-                  <td class="text-left"><?php echo $task['project_end_time']; ?></td>
-                  
                   <td class="text-right"><a href="<?php echo $task['edit']; ?>" data-toggle="tooltip" title="<?php echo $button_edit; ?>" class="btn btn-primary"><i class="fa fa-pencil"></i></a></td>
                 </tr>
                 <?php } ?>
@@ -144,6 +158,12 @@ $('#button-filter').on('click', function() {
 
   if (user_id) {
     url += '&user_id=' + encodeURIComponent(user_id);
+  }
+
+  var status = $('select[name=\'status\']').val();
+
+  if (status) {
+    url += '&status=' + encodeURIComponent(status);
   }
 
   location = url;

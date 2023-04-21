@@ -94,6 +94,10 @@ class ModelCatalogTask extends Model {
 			if (!empty($data['user_id'])) {
 				$sql .= " AND user_id LIKE '" . $this->db->escape($data['user_id']) . "%'";
 			}
+
+			if (!empty($data['status'])) {
+				$sql .= " AND status LIKE '" . $this->db->escape($data['status']) . "%'";
+			}
 		}
 
 		// echo "<pre>";print_r($sql);exit;
@@ -106,7 +110,7 @@ class ModelCatalogTask extends Model {
 		if (isset($data['sort']) && in_array($data['sort'], $sort_data)) {
 			$sql .= " ORDER BY " . $data['sort'];
 		} else {
-			$sql .= " ORDER BY project_id";
+			$sql .= " ORDER BY date_time";
 		}
 
 		if (isset($data['order']) && ($data['order'] == 'DESC')) {

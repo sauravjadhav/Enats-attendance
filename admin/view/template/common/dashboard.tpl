@@ -14,9 +14,11 @@
     <?php if ($user_group_id == 1) {?>
       <div class="col-lg-12 col-md-9 col-sm-9"><?php echo $list_attendance; ?></div>
       <div class="col-lg-12 col-md-9 col-sm-9"><?php echo $list_task; ?></div>
-    <?php } else {?>
+    <?php } elseif($user_group_id == 11) {?>
       <div class="col-lg-12 col-md-9 col-sm-9"><?php echo $list_task; ?></div>
       <div class="col-lg-12 col-md-9 col-sm-9"><?php echo $list_attendance; ?></div>
+    <?php } else {?>
+      <div class="col-lg-12 col-md-9 col-sm-9"><?php echo $list_task; ?></div>
     <?php }?>
   </div>
 </div>
