@@ -180,7 +180,7 @@ class ControllerCatalogTask extends Controller {
 		if (isset($this->request->get['order'])) {
 			$order = $this->request->get['order'];
 		} else {
-			$order = 'ASC';
+			$order = 'DESC';
 		}
 
 		if (isset($this->request->get['page'])) {
@@ -254,14 +254,18 @@ class ControllerCatalogTask extends Controller {
 			}else{
 				$project_end_time = '';
 			}
+			$time = strtotime($result['date_time']);
+			$date = date('d-m-Y',$time);
+			// echo "<pre>";print_r($date);exit;
 			$data['tasks'][] = array(
-				'task_id' 	        => $result['task_id'],
-				'project'          	=> $project['project_name'],
-				'username'          => $user['username'],
+				'task_id' 	                => $result['task_id'],
+				'project'          	        => $project['project_name'],
+				'date'          	        => $date,
+				'username'                  => $user['username'],
 				'project_start_time'      	=> $project_start_time,
 				'project_end_time'        	=> $project_end_time,
 				'task'   		        	=> $result['task'],
-				'status'                	=> $result['status'],
+				'status'                	=> strtoupper($result['status']),
 				'commit_no'    => $result['commit_no'],
 				'edit'            => $this->url->link('catalog/task/edit', 'token=' . $this->session->data['token'] . '&task_id=' . $result['task_id'] . $url, true)
 			);
@@ -275,6 +279,7 @@ class ControllerCatalogTask extends Controller {
 		$data['text_confirm'] = $this->language->get('text_confirm');
 
 		$data['column_project'] = $this->language->get('column_project');
+		$data['column_date'] = $this->language->get('column_date');
 		$data['column_project_start_time'] = $this->language->get('column_project_start_time');
 		$data['column_project_end_time'] = $this->language->get('column_project_end_time');
 		$data['column_task'] = $this->language->get('column_task');
@@ -339,7 +344,7 @@ class ControllerCatalogTask extends Controller {
 		}
 
 		$data['sort_name'] = $this->url->link('catalog/task', 'token=' . $this->session->data['token'] . '&sort=name' . $url, true);
-		$data['sort_sort_order'] = $this->url->link('catalog/task', 'token=' . $this->session->data['token'] . '&sort=sort_order' . $url, true);
+		$data['sort_date'] = $this->url->link('catalog/task', 'token=' . $this->session->data['token'] . '&sort=date' . $url, true);
 
 		$url = '';
 
