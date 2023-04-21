@@ -28,7 +28,8 @@
     </li>
     <li id="reports"><a class="parent"><i class="fa fa-bar-chart-o fa-fw"></i> <span><?php echo $text_reports; ?></span></a>
       <ul>
-        <li><a href="<?php echo $reports; ?>"><?php echo $text_reports; ?></a></li>
+        <li><a href="<?php echo $report_attendance; ?>"><?php echo $text_report_attendance; ?></a></li>
+        <li><a href="<?php echo $task_report; ?>"><?php echo $text_task_report; ?></a></li>
       </ul>
     </li>
   <?php }?>

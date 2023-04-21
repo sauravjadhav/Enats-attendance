@@ -75,14 +75,15 @@
               <thead>
                 <tr>
                   <td style="width: 1px;" class="text-center"><input type="checkbox" onclick="$('input[name*=\'selected\']').prop('checked', this.checked);" /></td>
-                  <td class="text-left"><?php if ($sort == 'name') { ?>
-                  <a href="<?php echo $sort_name; ?>" class="<?php echo strtolower($order); ?>"><?php echo $column_project; ?></a>
+                  <td class="text-left"><?php if ($sort == 'date') { ?>
+                  <a href="<?php echo $sort_date; ?>" class="<?php echo strtolower($order); ?>"><?php echo $column_date; ?></a>
                   <?php } else { ?>
-                  <a href="<?php echo $sort_name; ?>"><?php echo $column_project; ?></a>
+                  <a href="<?php echo $sort_date; ?>"><?php echo $column_date; ?></a>
                   <?php } ?></td>
                   <?php if ($user_group_id == 1) { ?>
                     <td class="text-left">User</td>
                   <?php }?>
+                  <td class="text-left"><?php echo $column_project;?></td>
                   <td class="text-left"><?php echo $column_task;?></td>
                   <td class="text-left"><?php echo $column_status;?></td>
                   <td class="text-left"><?php echo $column_project_start_time;?></td>
@@ -99,17 +100,17 @@
                     <?php } else { ?>
                     <input type="checkbox" name="selected[]" value="<?php echo $task['task_id']; ?>" />
                     <?php } ?></td>
-                  <td class="text-left"><?php echo $task['project']; ?></td>
+                  <td class="text-left"><?php echo $task['date']; ?></td>
                   <?php if ($user_group_id == 1) { ?>
                     <td class="text-left">
                         <?php echo $task['username']; ?>
                     </td>
                   <?php }?>
+                  <td class="text-left"><?php echo $task['project']; ?></td>
                   <td class="text-left"><?php echo $task['task']; ?></td>
                   <td class="text-left"><?php echo $task['status']; ?></td>
                   <td class="text-left"><?php echo $task['project_start_time']; ?></td>
                   <td class="text-left"><?php echo $task['project_end_time']; ?></td>
-                  
                   <td class="text-right"><a href="<?php echo $task['edit']; ?>" data-toggle="tooltip" title="<?php echo $button_edit; ?>" class="btn btn-primary"><i class="fa fa-pencil"></i></a></td>
                 </tr>
                 <?php } ?>

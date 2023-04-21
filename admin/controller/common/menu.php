@@ -11,6 +11,9 @@ class ControllerCommonMenu extends Controller {
 		$data['text_project'] = $this->language->get('text_project');
 		$data['text_employee'] = $this->language->get('text_employee');
 		$data['text_attendance'] = $this->language->get('text_attendance');
+		$data['text_reports'] = $this->language->get('text_reports');
+		$data['text_report_attendance'] = $this->language->get('text_report_attendance');
+		$data['text_task_report'] = $this->language->get('text_task_report');
 
 		$data['text_analytics'] = $this->language->get('text_analytics');
 		$data['text_affiliate'] = $this->language->get('text_affiliate');
@@ -61,7 +64,6 @@ class ControllerCommonMenu extends Controller {
 		$data['text_opencart'] = $this->language->get('text_opencart');
 		$data['text_payment'] = $this->language->get('text_payment');
 		$data['text_product'] = $this->language->get('text_product');
-		$data['text_reports'] = $this->language->get('text_reports');
 		$data['text_report_sale_order'] = $this->language->get('text_report_sale_order');
 		$data['text_report_sale_tax'] = $this->language->get('text_report_sale_tax');
 		$data['text_report_sale_shipping'] = $this->language->get('text_report_sale_shipping');
@@ -122,7 +124,8 @@ class ControllerCommonMenu extends Controller {
 		$data['project'] = $this->url->link('catalog/project', 'token=' . $this->session->data['token'], true);
 		$data['employee'] = $this->url->link('catalog/employee', 'token=' . $this->session->data['token'], true);
 		$data['attendance'] = $this->url->link('catalog/attendance', 'token=' . $this->session->data['token'], true);
-		$data['reports'] = $this->url->link('catalog/reports', 'token=' . $this->session->data['token'], true);
+		$data['report_attendance'] = $this->url->link('catalog/reports', 'token=' . $this->session->data['token'], true);
+		$data['task_report'] = $this->url->link('catalog/task_report', 'token=' . $this->session->data['token'], true);
 		$data['analytics'] = $this->url->link('extension/analytics', 'token=' . $this->session->data['token'], true);
 		$data['home'] = $this->url->link('common/dashboard', 'token=' . $this->session->data['token'], true);
 		$data['affiliate'] = $this->url->link('marketing/affiliate', 'token=' . $this->session->data['token'], true);

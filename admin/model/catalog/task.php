@@ -106,7 +106,7 @@ class ModelCatalogTask extends Model {
 		if (isset($data['sort']) && in_array($data['sort'], $sort_data)) {
 			$sql .= " ORDER BY " . $data['sort'];
 		} else {
-			$sql .= " ORDER BY project_id";
+			$sql .= " ORDER BY date_time";
 		}
 
 		if (isset($data['order']) && ($data['order'] == 'DESC')) {
