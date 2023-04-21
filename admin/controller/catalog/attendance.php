@@ -510,6 +510,15 @@ class ControllerCatalogAttendance extends Controller {
 			$this->error['name'] = $this->language->get('error_name');
 		}
 
+		if (isset($this->request->post['date'])){
+			$date = $this->request->post['date'];
+			$user_id = $this->request->post['user_id'];
+			$validate_date = $this->db->query("SELECT user_id FROM `oc_attendance_record` WHERE `date` = '$date' AND `user_id` = '$user_id'")->row;
+			if ($validate_date['user_id'] == $user_id) {
+				$this->error['office_in_time'] = $this->language->get('Already marked');
+			}
+		}
+
 		if ((utf8_strlen($this->request->post['office_in_time']) < 4) || (utf8_strlen($this->request->post['office_in_time']) > 64)) {
 			$this->error['office_in_time'] = $this->language->get('error_time');
 		}

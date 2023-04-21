@@ -55,11 +55,24 @@
                   </select>
               </div>
             </div>
-          <?php }?>
+          <?php } elseif($user_group_id == 12) { ?>
+            <div class="form-group">
+              <label class="col-sm-2 control-label" for="input-subject">Subject</label>
+              <div class="col-sm-10">
+                <input type="text" name="subject" value="<?php echo $subject; ?>"id="input-subject" class="form-control" />
+              </div>
+            </div>
+          <?php } ?>
           <div class="form-group">
-            <label class="col-sm-2 control-label" for="input-task"><?php echo $entry_task; ?></label>
+            <label class="col-sm-2 control-label" for="input-task">Task</label>
             <div class="col-sm-10">
               <textarea type="tel" name="task" placeholder="<?php echo $entry_task; ?>" id="input-task" class="form-control"><?php echo $task; ?></textarea>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-remark">Remark/Instruction</label>
+            <div class="col-sm-10">
+              <textarea type="tel" name="remark" placeholder="<?php echo $entry_remark; ?>" id="input-remark" class="form-control"><?php echo $remark; ?></textarea>
             </div>
           </div>
           <div class="form-group">
@@ -76,24 +89,26 @@
               </select>
             </div>
           </div>
-          <div class="form-group">
-            <label class="col-sm-2 control-label" for="input-project_start_time"><?php echo $entry_project_start_time; ?></label>
-            <div class="col-sm-10">
-              <input type="time" name="project_start_time" value="<?php echo $project_start_time; ?>" placeholder="<?php echo $entry_project_start_time; ?>" id="input-project_start_time" class="form-control" />
+          <?php if($user_group_id != 12) {?>
+            <div class="form-group">
+              <label class="col-sm-2 control-label" for="input-project_start_time"><?php echo $entry_project_start_time; ?></label>
+              <div class="col-sm-10">
+                <input type="time" name="project_start_time" value="<?php echo $project_start_time; ?>" placeholder="<?php echo $entry_project_start_time; ?>" id="input-project_start_time" class="form-control" />
+              </div>
             </div>
-          </div>
-          <div class="form-group">
-            <label class="col-sm-2 control-label" for="input-project_end_time"><?php echo $entry_project_end_time; ?></label>
-            <div class="col-sm-10">
-              <input type="time" name="project_end_time" value="<?php echo $project_end_time; ?>" placeholder="<?php echo $entry_project_end_time; ?>" id="input-contact_person" class="form-control" />
+            <div class="form-group">
+              <label class="col-sm-2 control-label" for="input-project_end_time"><?php echo $entry_project_end_time; ?></label>
+              <div class="col-sm-10">
+                <input type="time" name="project_end_time" value="<?php echo $project_end_time; ?>" placeholder="<?php echo $entry_project_end_time; ?>" id="input-contact_person" class="form-control" />
+              </div>
             </div>
-          </div>
-          <div class="form-group">
-            <label class="col-sm-2 control-label" for="input-commit_no"><?php echo $entry_commit_no; ?></label>
-            <div class="col-sm-10">
-              <input type="text" name="commit_no" value="<?php echo $commit_no; ?>" placeholder="<?php echo $entry_commit_no; ?>" id="input-commit_no" class="form-control" />
+            <div class="form-group">
+              <label class="col-sm-2 control-label" for="input-commit_no"><?php echo $entry_commit_no; ?></label>
+              <div class="col-sm-10">
+                <input type="text" name="commit_no" value="<?php echo $commit_no; ?>" placeholder="<?php echo $entry_commit_no; ?>" id="input-commit_no" class="form-control" />
+              </div>
             </div>
-          </div>
+          <?php }?>
         </form>
       </div>
     </div>

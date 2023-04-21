@@ -29,45 +29,47 @@
         <h3 class="panel-title"><i class="fa fa-list"></i> <?php echo $text_list; ?></h3>
       </div>
       <div class="panel-body">
-        <div class="well">
-          <div class="row">
-            <div class="col-sm-4">
-              <div class="form-group">
-                <label class="control-label" for="input-project"><?php echo $entry_project; ?></label>
-                <select name="project_id" id="project_id" class="dropdown-header form-control">
-                  <?php foreach ($project as $skey => $svalue) { //echo "<pre>";print_r($project_id);exit; ?>
-                    <?php if ($skey == $project_id) { ?>
-                      <option value="<?php echo $skey ?>" class ="dropdown-manu form-control" selected="selected"><?php echo $svalue; ?></option>
-                    <?php } else { ?>
-                      <option value="<?php echo $skey ?>" class ="dropdown-manu form-control"><?php echo $svalue ?></option>
-                    <?php } ?>
-                  <?php } ?>
-                  <option value="" selected="selected" class ="dropdown-manu form-control">Select project</option>
-                </select>
-              </div>
-            </div>
-            <?php if ($user_group_id == 1){?>
+        <?php if ($user_group_id != 12) { ?>
+          <div class="well">
+            <div class="row">
               <div class="col-sm-4">
                 <div class="form-group">
-                  <label class="control-label" for="input-project">User</label>
-                  <select name="user_id" id="user_id" class="dropdown form-control">
-                    <?php foreach ($username as $skey => $svalue) { //echo "<pre>";print_r($user_id);exit; ?>
-                      <?php if ($skey == $user_id) { ?>
+                  <label class="control-label" for="input-project"><?php echo $entry_project; ?></label>
+                  <select name="project_id" id="project_id" class="dropdown-header form-control">
+                    <?php foreach ($project as $skey => $svalue) { //echo "<pre>";print_r($project_id);exit; ?>
+                      <?php if ($skey == $project_id) { ?>
                         <option value="<?php echo $skey ?>" class ="dropdown-manu form-control" selected="selected"><?php echo $svalue; ?></option>
                       <?php } else { ?>
                         <option value="<?php echo $skey ?>" class ="dropdown-manu form-control"><?php echo $svalue ?></option>
                       <?php } ?>
                     <?php } ?>
-                    <option value="" selected="selected" class ="dropdown-manu form-control">Select User</option>
+                    <option value="" selected="selected" class ="dropdown-manu form-control">Select project</option>
                   </select>
                 </div>
               </div>
-            <?php }?>
-            <div class="col-sm-5 pull-right">
-              <button type="button" id="button-filter" class="btn btn-primary"><i class="fa fa-search"></i> <?php echo $button_filter; ?></button>
+              <?php if ($user_group_id == 1) { ?>
+                <div class="col-sm-4">
+                  <div class="form-group">
+                    <label class="control-label" for="input-project">User</label>
+                    <select name="user_id" id="user_id" class="dropdown form-control">
+                      <?php foreach ($username as $skey => $svalue) { //echo "<pre>";print_r($user_id);exit; ?>
+                        <?php if ($skey == $user_id) { ?>
+                          <option value="<?php echo $skey ?>" class ="dropdown-manu form-control" selected="selected"><?php echo $svalue; ?></option>
+                        <?php } else { ?>
+                          <option value="<?php echo $skey ?>" class ="dropdown-manu form-control"><?php echo $svalue ?></option>
+                        <?php } ?>
+                      <?php } ?>
+                      <option value="" selected="selected" class ="dropdown-manu form-control">Select User</option>
+                    </select>
+                  </div>
+                </div>
+              <?php }?>
+              <div class="col-sm-5 pull-right">
+                <button type="button" id="button-filter" class="btn btn-primary"><i class="fa fa-search"></i> <?php echo $button_filter; ?></button>
+              </div>
             </div>
           </div>
-        </div>
+        <?php }?>
         </div>
         <form action="<?php echo $delete; ?>" method="post" enctype="multipart/form-data" id="form-project">
           <div class="table-responsive">
@@ -86,8 +88,6 @@
                   <td class="text-left"><?php echo $column_project;?></td>
                   <td class="text-left"><?php echo $column_task;?></td>
                   <td class="text-left"><?php echo $column_status;?></td>
-                  <td class="text-left"><?php echo $column_project_start_time;?></td>
-                  <td class="text-left"><?php echo $column_project_end_time;?></td>
                   <td class="text-right"><?php echo $column_action; ?></td>
                 </tr>
               </thead>
@@ -109,8 +109,6 @@
                   <td class="text-left"><?php echo $task['project']; ?></td>
                   <td class="text-left"><?php echo $task['task']; ?></td>
                   <td class="text-left"><?php echo $task['status']; ?></td>
-                  <td class="text-left"><?php echo $task['project_start_time']; ?></td>
-                  <td class="text-left"><?php echo $task['project_end_time']; ?></td>
                   <td class="text-right"><a href="<?php echo $task['edit']; ?>" data-toggle="tooltip" title="<?php echo $button_edit; ?>" class="btn btn-primary"><i class="fa fa-pencil"></i></a></td>
                 </tr>
                 <?php } ?>

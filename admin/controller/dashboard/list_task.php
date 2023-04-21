@@ -12,7 +12,7 @@ class Controllerdashboardlisttask extends Controller {
 		if ($user_group_id == 1) {
 			$data['tasks'] = array();
 			$current_date = date('Y-m-d');
-			$task_data = $this->db->query("SELECT * FROM oc_task WHERE CAST(date_time as DATE) = '$current_date' ORDER BY date_time DESC")->rows;
+			$task_data = $this->db->query("SELECT * FROM oc_task WHERE CAST(date_time as DATE) = '$current_date' OR status = 'pending' OR status = 'working' OR status = 'c/f-working' ORDER BY date_time DESC")->rows;
 
 			foreach ($task_data as $task){
 				$user_id = $task['user_id'];
