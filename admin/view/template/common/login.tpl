@@ -4,7 +4,7 @@
     <br />
     <div class="row">
       <div class="col-sm-offset-4 col-sm-4">
-        <div class="panel panel-default" style="width: 80%; background-color: #2a2a72; background-image: linear-gradient(315deg, #2a2a72 0%, #009ffd 74%); ">
+        <div class="panel panel-default" style="width: 69%; background-color: #2a2a72; background-image: linear-gradient(315deg, #2a2a72 0%, #009ffd 74%); ">
           <div class="panel-heading">
             <h1 class="panel-title" style="text-align: center;" > <?php echo $text_login; ?></h1>
           </div>
@@ -28,7 +28,7 @@
               </div>
               <div class="form-group" style="border: none;">
                 <label for="input-password"><?php echo $entry_password; ?></label>
-                <div class="input-group" style="display: inline-flex; width: 70% ;margin-left: 50px;">
+                <div class="input-group" style="display: inline-flex; width: 70% ;margin-left: 53px;">
                   <input type="password" name="password" value="<?php echo $password; ?>" placeholder="<?php echo $entry_password; ?>" id="input-password" class="form-control" />
                 </div>
               </div>
