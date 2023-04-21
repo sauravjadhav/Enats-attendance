@@ -50,7 +50,7 @@
               <?php if ($user_group_id == 1) { ?>
                 <div class="col-sm-4">
                   <div class="form-group">
-                    <label class="control-label" for="input-project">User</label>
+                    <label class="control-label" for="input-user_id">User</label>
                     <select name="user_id" id="user_id" class="dropdown form-control">
                       <?php foreach ($username as $skey => $svalue) { //echo "<pre>";print_r($user_id);exit; ?>
                         <?php if ($skey == $user_id) { ?>
@@ -63,8 +63,23 @@
                     </select>
                   </div>
                 </div>
+                <div class="col-sm-4">
+                  <div class="form-group">
+                    <label class="control-label" for="input-project">Status</label>
+                    <select name="status" id="status" class="dropdown form-control">
+                      <?php foreach ($work_status as $skey => $svalue) { //echo "<pre>";print_r($user_id);exit; ?>
+                        <?php if ($skey == $status) { ?>
+                          <option value="<?php echo $skey ?>" class ="dropdown-manu form-control" selected="selected"><?php echo $svalue; ?></option>
+                        <?php } else { ?>
+                          <option value="<?php echo $skey ?>" class ="dropdown-manu form-control"><?php echo $svalue ?></option>
+                        <?php } ?>
+                      <?php } ?>
+                      <option value="" selected="selected" class ="dropdown-manu form-control">Select Status</option>
+                    </select>
+                  </div>
+                </div>
               <?php }?>
-              <div class="col-sm-5 pull-right">
+              <div class="col-sm-1 pull-right">
                 <button type="button" id="button-filter" class="btn btn-primary"><i class="fa fa-search"></i> <?php echo $button_filter; ?></button>
               </div>
             </div>
@@ -143,6 +158,12 @@ $('#button-filter').on('click', function() {
 
   if (user_id) {
     url += '&user_id=' + encodeURIComponent(user_id);
+  }
+
+  var status = $('select[name=\'status\']').val();
+
+  if (status) {
+    url += '&status=' + encodeURIComponent(status);
   }
 
   location = url;

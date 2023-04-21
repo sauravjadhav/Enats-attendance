@@ -94,6 +94,10 @@ class ModelCatalogTask extends Model {
 			if (!empty($data['user_id'])) {
 				$sql .= " AND user_id LIKE '" . $this->db->escape($data['user_id']) . "%'";
 			}
+
+			if (!empty($data['status'])) {
+				$sql .= " AND status LIKE '" . $this->db->escape($data['status']) . "%'";
+			}
 		}
 
 		// echo "<pre>";print_r($sql);exit;
