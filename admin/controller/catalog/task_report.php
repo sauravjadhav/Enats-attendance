@@ -12,7 +12,6 @@ class Controllercatalogtaskreport  extends Controller {
 				$project_id = $task['project_id'];
 				$project = $this->db->query("SELECT project_name FROM oc_project WHERE project_id = $project_id")->row;
 				$data['tasks'][] = array(
-					'task_id' 	        		=> $task['task_id'],
 					'date' 	        		    => $task['date_time'],
 					'project_name'          	=> $project['project_name'],
 					'username'          		=> $user['username'],
