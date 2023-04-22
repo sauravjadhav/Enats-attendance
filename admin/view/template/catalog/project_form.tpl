@@ -34,7 +34,8 @@
           <div class="form-group">
             <label class="col-sm-2 control-label" for="input-project_company"><?php echo $entry_project_company; ?></label>
             <div class="col-sm-10">
-              <input type="text" name="project_company" value="<?php echo $project_company; ?>" placeholder="<?php echo $entry_project_company; ?>" id="input-project_company" class="form-control" />
+            <input type="text" <?php if ($user_group_id != 1) echo "readonly"?> name="project_company" value="<?php echo $project_company; ?>" placeholder="<?php echo $entry_project_company; ?>" id="input-name" class="form-control" />
+            <input type="hidden" name="user_id" value="<?php echo $user_id ?>">
             </div>
           </div>
           <div class="form-group">
@@ -72,4 +73,26 @@
     </div>
   </div>
 </div>
+<script type="text/javascript"><!--
+$('input[name=\'project_company\']').autocomplete({
+    'source': function(request, response) {
+        $.ajax({
+            url: 'index.php?route=catalog/project/autocompleteemp1&token=<?php echo $token; ?>&project_company=' +  encodeURIComponent(request),
+            dataType: 'json',
+            success: function(json) {
+                response($.map(json, function(item) {
+                    return {
+                        label: item['username'],
+                        value: item['user_id'],
+                    }
+                }));
+            }
+        });
+    },
+    'select': function(item) {
+        $('input[name=\'user_id\']').val(item['value']);
+        $('input[name=\'name\']').val(item['value1']);
+    }
+});
+//--></script>
 <?php echo $footer; ?>

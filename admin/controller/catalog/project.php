@@ -377,6 +377,21 @@ class ControllerCatalogProject extends Controller {
 
 		$data['token'] = $this->session->data['token'];
 
+		$user_id = $this->session->data['user_id'];
+
+		if ($user_id != 1){
+			$data['user_id'] = $this->session->data['user_id'];
+		} elseif (!empty($employee_info)){
+			$data['user_id'] = $employee_info['user_id'];
+		} else {
+			$data['user_id'] = '';
+		}
+		$user_data = $this->db->query("SELECT * FROM oc_user where user_id = '$user_id'")->rows;
+		foreach ($user_data as $user) {
+			$user_group_id = $user['user_group_id'];
+			$data['user_group_id'] = $user['user_group_id'];
+		}
+
 		if (isset($this->request->post['project_name'])) {
 			$data['project_name'] = $this->request->post['project_name'];
 		} elseif (!empty($project_info)) {
@@ -468,6 +483,40 @@ class ControllerCatalogProject extends Controller {
 
 		foreach ($json as $key => $value) {
 			$sort_order[$key] = $value['project_name'];
+		}
+
+		array_multisort($sort_order, SORT_ASC, $json);
+
+		$this->response->addHeader('Content-Type: application/json');
+		$this->response->setOutput(json_encode($json));
+	}
+	public function autocompleteemp1() {
+		// echo "<pre>";print_r($this->request->get['login']);exit;
+		$json = array();
+
+		if (isset($this->request->get['project_company'])) {
+			$this->load->model('catalog/project');
+
+			$filter_data = array(
+				'project_company' => $this->request->get['project_company'],
+				'start'       => 0,
+				'limit'       => 5
+			);
+
+			$results = $this->model_catalog_project->autocompleteemp1($filter_data);
+			// echo "<pre>";print_r($results);exit;
+			foreach ($results as $result) {
+				$json[] = array(
+					'user_id' => $result['user_id'],
+					'username'            => strip_tags(html_entity_decode($result['username'], ENT_QUOTES, 'UTF-8'))
+				);
+			}
+		}
+
+		$sort_order = array();
+
+		foreach ($json as $key => $value) {
+			$sort_order[$key] = $value['username'];
 		}
 
 		array_multisort($sort_order, SORT_ASC, $json);

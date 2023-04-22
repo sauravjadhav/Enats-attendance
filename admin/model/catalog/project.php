@@ -29,8 +29,22 @@ class ModelCatalogProject extends Model {
 
 		return $query->row;
 	}
+	public function autocompleteemp1($data = array()){
+		$sql = "SELECT * FROM oc_user WHERE 1=1";
+
+		if (!empty($data['project_company'])) {
+			$sql .= " AND username LIKE '" . $this->db->escape($data['project_company']) . "%'";
+		}
+
+		$sql .= " GROUP BY username";
+		$query = $this->db->query($sql);
+		// echo "<pre>";print_r($query);exit;
+
+		return $query->rows;
+	}
 
 	public function getProjects($data = array()) {
+		
 		$sql = "SELECT * FROM " . DB_PREFIX . "project";
 
 		if (!empty($data['filter_project_name'])) {
