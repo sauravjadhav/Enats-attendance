@@ -289,6 +289,7 @@ class ControllerCatalogTask extends Controller {
 			// echo "<pre>";print_r($date);exit;
 			$data['tasks'][] = array(
 				'task_id' 	                => $result['task_id'],
+				'remark' 	                => $result['remark'],
 				'project'          	        => $project['project_name'],
 				'date'          	        => $date,
 				'username'                  => $user['username'],
