@@ -571,6 +571,22 @@ class ControllerCatalogTask extends Controller {
 			$data['task'] = '';
 		}
 
+		if (isset($this->request->post['subject'])) {
+			$data['subject'] = $this->request->post['subject'];
+		} elseif (!empty($task_info)) {
+			$data['subject'] = $task_info['subject'];
+		} else {
+			$data['subject'] = '';
+		}
+
+		if (isset($this->request->post['remark'])) {
+			$data['remark'] = $this->request->post['remark'];
+		} elseif (!empty($task_info)) {
+			$data['remark'] = $task_info['remark'];
+		} else {
+			$data['remark'] = '';
+		}
+
 		if (isset($this->request->post['status'])) {
 			$data['status'] = $this->request->post['status'];
 		} elseif (!empty($task_info)) {
