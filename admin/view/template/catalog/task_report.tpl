@@ -23,8 +23,11 @@
     <table class="table table-bordered table-hover">
       <thead>
         <tr>
+          <td class="text-left">Date</td>
           <td class="text-left">User</td>
           <td class="text-left">Project</td>
+          <td class="text-left">Project Start Time</td>
+          <td class="text-left">Project End Time</td>
           <td class="text-left">Task/problem</td>
           <td class="text-left">Status</td>
         </tr>
@@ -34,8 +37,11 @@
         <?php foreach ($tasks as $task) {
         //echo "<pre>";print_r($tasks);exit; ?>
         <tr>
+        <td class="text-left"><?php echo $task['date']; ?></td>
         <td class="text-left"><?php echo $task['username']; ?></td>
         <td class="text-left"><?php echo $task['project_name']; ?></td>
+        <td class="text-left"><?php echo $task['project_start_time']; ?></td>
+        <td class="text-left"><?php echo $task['project_end_time']; ?></td>
         <td class="text-left"><?php echo $task['task']; ?></td>
         <td class="text-left"><?php echo $task['status']; ?></td>
         </tr>

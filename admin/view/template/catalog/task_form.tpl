@@ -40,6 +40,7 @@
               <input type="hidden" name="user_id" value="<?php echo $user_id; ?>" id="input-user_id" class="form-control" />
             </div>
           </div>
+          <!-- <?php //echo "<pre>";print_r($user_group_id);exit;?> -->
           <?php if ($user_group_id == 1) {?>
             <div class="form-group">
               <label class="col-sm-2 control-label" for="input-username">User</label>
@@ -55,14 +56,18 @@
                   </select>
               </div>
             </div>
-          <?php } elseif($user_group_id == 12) { ?>
+          <?php } ?>
+          <?php if($user_group_id != 11) { ?>
             <div class="form-group">
               <label class="col-sm-2 control-label" for="input-subject">Subject</label>
               <div class="col-sm-10">
-                <input type="text" name="subject" value="<?php echo $subject; ?>"id="input-subject" class="form-control" />
+                <input type="text" name="subject" placeholder="Subject" value="<?php echo $subject; ?>"id="input-subject" class="form-control" />
               </div>
             </div>
           <?php } ?>
+          <?php if($user_group_id == 12) {?>
+            <input type="hidden" name="status" placeholder="status" value="<?php echo $status; ?>"id="input-subject" class="form-control" />
+          <?php }?>
           <div class="form-group">
             <label class="col-sm-2 control-label" for="input-task">Task</label>
             <div class="col-sm-10">
@@ -72,15 +77,17 @@
           <div class="form-group">
             <label class="col-sm-2 control-label" for="input-remark">Remark/Instruction</label>
             <div class="col-sm-10">
-              <textarea type="tel" name="remark" placeholder="<?php echo $entry_remark; ?>" id="input-remark" class="form-control"><?php echo $remark; ?></textarea>
+              <textarea type="tel" name="remark" placeholder="Remark/Instruction" id="input-remark" class="form-control"><?php echo $remark; ?></textarea>
             </div>
           </div>
+
+          <?php if($user_group_id != 12) {?>
           <div class="form-group">
             <label class="col-sm-2 control-label" for="input-status"><?php echo $entry_status; ?></label>
             <div class="col-sm-10">
-              <select name="status" id="input-status" class="form-control">
+              <select name="status" id="input-status" class="form-control" >
                 <option value="assigned"<?php if ($status == 'assigned') { echo ' selected="selected"'; } ?>>Assigned</option>
-                <option value="pending"<?php if ($status == 'pending') { echo ' selected="selected"'; } ?>>Pending</option>
+                <option value="pending"<?php if ($status == 'pending' || $user_group_id == '12') { echo ' selected="selected"'; } ?>>Pending</option>
                 <option value="done"<?php if ($status == 'done') { echo ' selected="selected"'; } ?>>Done</option>
                 <option value="left"<?php if ($status == 'left') { echo ' selected="selected"'; } ?>>Left</option>
                 <option value="working"<?php if ($status == 'working') { echo ' selected="selected"'; } ?>>Working</option>
@@ -89,7 +96,6 @@
               </select>
             </div>
           </div>
-          <?php if($user_group_id != 12) {?>
             <div class="form-group">
               <label class="col-sm-2 control-label" for="input-project_start_time"><?php echo $entry_project_start_time; ?></label>
               <div class="col-sm-10">

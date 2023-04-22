@@ -26,6 +26,7 @@ class Controllerdashboardlisttask extends Controller {
 					'date' 	        			=> $date,
 					'project_name'          	=> $project['project_name'],
 					'username'          		=> $user['username'],
+					'remark'      				=> $task['remark'],
 					'project_start_time'      	=> $task['project_start_time'],
 					'project_end_time'        	=> $task['project_end_time'],
 					'task'   		        	=> $task['task'],
@@ -49,6 +50,7 @@ class Controllerdashboardlisttask extends Controller {
 				$data['tasks'][] = array(
 					'task_id' 	        		=> $task['task_id'],
 					'date' 	        			=> $date,
+					'remark'      				=> $task['remark'],
 					'project_name'          	=> $project['project_name'],
 					'project_start_time'      	=> $task['project_start_time'],
 					'project_end_time'        	=> $task['project_end_time'],

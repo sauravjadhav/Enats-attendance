@@ -12,7 +12,7 @@ class Controllercatalogtaskreport  extends Controller {
 				$project_id = $task['project_id'];
 				$project = $this->db->query("SELECT project_name FROM oc_project WHERE project_id = $project_id")->row;
 				$data['tasks'][] = array(
-					'task_id' 	        		=> $task['task_id'],
+					'date' 	        		    => $task['date_time'],
 					'project_name'          	=> $project['project_name'],
 					'username'          		=> $user['username'],
 					'project_start_time'      	=> $task['project_start_time'],
@@ -39,7 +39,7 @@ class Controllercatalogtaskreport  extends Controller {
 			);
 
 			$data['button_add'] = $this->language->get('button_add');
-			$data['add'] = $this->url->link('catalog/exp_report', 'token=' . $this->session->data['token'] . $url, true);
+			$data['add'] = $this->url->link('catalog/exp_task', 'token=' . $this->session->data['token'] . $url, true);
 
 			$data['header'] = $this->load->controller('common/header');
 			$data['column_left'] = $this->load->controller('common/column_left');

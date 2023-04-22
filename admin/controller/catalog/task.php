@@ -171,6 +171,35 @@ class ControllerCatalogTask extends Controller {
 			$project_id = 0;
 		}
 
+		if (isset($this->request->get['status'])){
+			$status = $this->request->get['status'];
+
+			$work_status = array(
+			'assigned' =>'assigned',
+			'pending' =>'pending',
+			'done' =>'done',
+			'left' =>'left',
+			'working' =>'working',
+			'c/f-working' =>'c/f-working',
+			'transfer' =>'transfer'
+			);
+
+			$data['work_status'] = $work_status;
+		}else{
+		$work_status = array(
+			'assigned' =>'assigned',
+			'pending' =>'pending',
+			'done' =>'done',
+			'left' =>'left',
+			'working' =>'working',
+			'c/f-working' =>'c/f-working',
+			'transfer' =>'transfer'
+		);
+		$status = '';
+		$data['work_status'] = $work_status;
+		}
+		// echo "<pre>";print_r($data);exit;
+
 		if (isset($this->request->get['sort'])) {
 			$sort = $this->request->get['sort'];
 		} else {
@@ -226,6 +255,7 @@ class ControllerCatalogTask extends Controller {
 		$filter_data = array(
 			'project_id' => $project_id,
 			'user_id' => $user_id,
+			'status' => $status,
 			'sort'  => $sort,
 			'order' => $order,
 			'start' => ($page - 1) * $this->config->get('config_limit_admin'),
@@ -259,6 +289,7 @@ class ControllerCatalogTask extends Controller {
 			// echo "<pre>";print_r($date);exit;
 			$data['tasks'][] = array(
 				'task_id' 	                => $result['task_id'],
+				'remark' 	                => $result['remark'],
 				'project'          	        => $project['project_name'],
 				'date'          	        => $date,
 				'username'                  => $user['username'],
@@ -333,6 +364,10 @@ class ControllerCatalogTask extends Controller {
 			$url .= '&user_id=' . urlencode(html_entity_decode($this->request->get['user_id'], ENT_QUOTES, 'UTF-8'));
 		}
 
+		if (isset($this->request->get['status'])) {
+			$url .= '&status=' . urlencode(html_entity_decode($this->request->get['status'], ENT_QUOTES, 'UTF-8'));
+		}
+
 		if ($order == 'ASC') {
 			$url .= '&order=DESC';
 		} else {
@@ -371,6 +406,7 @@ class ControllerCatalogTask extends Controller {
 
 		$data['project_id'] = $project_id;
 		$data['user_id'] = $user_id;
+		$data['status'] = $status;
 
 		$data['header'] = $this->load->controller('common/header');
 		$data['column_left'] = $this->load->controller('common/column_left');
@@ -534,6 +570,22 @@ class ControllerCatalogTask extends Controller {
 			$data['task'] = $task_info['task'];
 		} else {
 			$data['task'] = '';
+		}
+
+		if (isset($this->request->post['subject'])) {
+			$data['subject'] = $this->request->post['subject'];
+		} elseif (!empty($task_info)) {
+			$data['subject'] = $task_info['subject'];
+		} else {
+			$data['subject'] = '';
+		}
+
+		if (isset($this->request->post['remark'])) {
+			$data['remark'] = $this->request->post['remark'];
+		} elseif (!empty($task_info)) {
+			$data['remark'] = $task_info['remark'];
+		} else {
+			$data['remark'] = '';
 		}
 
 		if (isset($this->request->post['status'])) {

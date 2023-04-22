@@ -1,47 +1,41 @@
 <?php
-class Controllercatalogexportcsv extends Controller {
-	public function index() {
+class Controllercatalogexptask extends Controller {
+   public function index() {
+    $month_start = date('Y-m-01');
+    $month_end = date('Y-m-t');
+    $task_data = $this->db->query("SELECT * FROM oc_task WHERE CAST(date_time as DATE) BETWEEN '".$month_start."' AND '".$month_end."'")->rows;
+    $csv_data = array(
+        array('Date', 'Project Name', 'Username', 'Project Start Time', 'Project End Time', 'Task', 'Status', 'Commit No')
+    );
+    foreach ($task_data as $task){
+        $user_id = $task['user_id'];
+        $user = $this->db->query("SELECT username FROM oc_user WHERE user_id = $user_id")->row;
+        $project_id = $task['project_id'];
+        $project = $this->db->query("SELECT project_name FROM oc_project WHERE project_id = $project_id")->row;
+        $csv_data[] = array(
+            $task['date_time'],
+            $project['project_name'],
+            $user['username'],
+            $task['project_start_time'],
+            $task['project_end_time'],
+            $task['task'],
+            $task['status'],
+            $task['commit_no']
+        );
+    }
 
-		$month_start = date('Y-m-01');
-		$month_end = date('Y-m-t');
-		
-		$attendances_header = $this->db->query("SELECT date FROM oc_attendance_record WHERE date BETWEEN '".$month_start."' AND '".$month_end."' GROUP BY date")->rows;
-		$attendances_body = $this->db->query("SELECT date, user_id, office_in_time FROM oc_attendance_record WHERE date BETWEEN '".$month_start."' AND '".$month_end."' ORDER BY user_id, date, time")->rows;
-		$username = $this->db->query("SELECT user_id, name FROM oc_attendance_record WHERE date BETWEEN '".$month_start."' AND '".$month_end."' GROUP BY user_id")->rows;
+    header('Content-Type: text/csv');
+    header('Content-Disposition: attachment; filename="Task report.csv"');
+    header('Pragma: no-cache');
+    header('Expires: 0');
 
-		$filename = "Attendance.csv";
-		$file_path = DIR_DOWNLOAD .'/'. $filename;
-		$fp = fopen($file_path, "w");
-		$line = "";
-		$line .= "Name";
-		foreach($attendances_header as $header){
-			$line .= ',' . $header['date'];
-		}
-		$line .= "\n";
-		fputs($fp, $line);
-		foreach($username as $user){
-			$line = $user['name'];
-			foreach($attendances_header as $header) {
-				$found = false;
-				foreach($attendances_body as $body) {
-					if($body['user_id'] == $user['user_id'] && $body['date'] == $header['date']) {
-						$line .= ',' . $body['office_in_time'];
-						$found = true;
-						break;
-					}
-				}
-				if(!$found) {
-					$line .= ',';
-				}
-			}
-			$line .= "\n";
-			fputs($fp, $line);
-		}
-		$html = file_get_contents($file_path);
-		header('Content-type: text/csv');
-		header('Content-Disposition: attachment; filename='.$filename);
-		echo $html;
-		exit;
-	}
+    $output = fopen('php://output', 'w');
+    foreach ($csv_data as $row) {
+        fputcsv($output, $row);
+    }
+    fclose($output);
+    exit;
+}
+
 }
 ?>
