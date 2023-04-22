@@ -99,9 +99,10 @@
                   <?php } ?></td>
                   <?php if ($user_group_id == 1) { ?>
                     <td class="text-left">User</td>
-                  <?php }?>
+                  <?php } ?>
                   <td class="text-left"><?php echo $column_project;?></td>
                   <td class="text-left"><?php echo $column_task;?></td>
+                  <td class="text-left">Remark/Instruction</td>
                   <td class="text-left"><?php echo $column_status;?></td>
                   <td class="text-right"><?php echo $column_action; ?></td>
                 </tr>
@@ -123,6 +124,7 @@
                   <?php }?>
                   <td class="text-left"><?php echo $task['project']; ?></td>
                   <td class="text-left"><?php echo $task['task']; ?></td>
+                  <td class="text-left"><?php echo $task['remark']; ?></td>
                   <td class="text-left"><?php echo $task['status']; ?></td>
                   <td class="text-right"><a href="<?php echo $task['edit']; ?>" data-toggle="tooltip" title="<?php echo $button_edit; ?>" class="btn btn-primary"><i class="fa fa-pencil"></i></a></td>
                 </tr>
