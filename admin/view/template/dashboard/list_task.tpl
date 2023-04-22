@@ -13,6 +13,7 @@
           <?php }?>
           <td class="text-left">Project</td>
           <td class="text-left">Task/problem</td>
+          <td class="text-left">Remark/Instruction</td>
           <td class="text-left">Status</td>
           <td class="text-center">Action</td>
         </tr>
@@ -28,6 +29,7 @@
         <?php }?>
         <td class="text-left"><?php echo $task['project_name']; ?></td>
         <td class="text-left"><?php echo $task['task']; ?></td>
+        <td class="text-left"><?php echo $task['remark']; ?></td>
         <td class="text-left"><?php echo $task['status']; ?></td>
         <td class="text-center"><a href="<?php echo $task['edit']; ?>" data-toggle="tooltip" title="Edit Task" class="btn btn-primary"><i class="fa fa-pencil"></i></a></td>
         </tr>
