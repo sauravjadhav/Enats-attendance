@@ -63,7 +63,7 @@
           <div class="card shadow-2-strong" style="border-radius: 1rem;">
             <div class="card-body p-5 text-center">
 
-              <h3 class="mb-5">Sign in</h3>
+              <h3 class="mb-5">Login in</h3>
 
               <?php if ($success) { ?>
             <div class="alert alert-success">
@@ -79,11 +79,11 @@
             <?php } ?>
             <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data">
               <div class="form-outline mb-4">
-                <label class="form-label" for="input-username"><?php echo $entry_username; ?></label>
+                <label class="form-label" for="input-username"></label>
                 <input type="text" name="username" value="<?php echo $username; ?>" placeholder="<?php echo $entry_username; ?>" id="input-username" class="form-control form-control-lg"/>
               </div>
               <div class="form-outline mb-4">
-                <label class="form-label" for="input-password"><?php echo $entry_password; ?></label>
+                <label class="form-label" for="input-password"></label>
                 <input type="password" name="password" value="<?php echo $password; ?>" placeholder="<?php echo $entry_password; ?>" id="input-password" class="form-control form-control-lg" />
               </div>
               <div class="text-center">
@@ -91,9 +91,9 @@
                   <i class="fa fa-key"></i> <?php echo $button_login; ?>
                 </button>
                 <?php if ($forgotten) { ?>
-                <button class="btn btn-primary btn-lg btn-block">
-                  <a style="color: white;" href="<?php echo $forgotten; ?>"><?php echo $text_forgotten; ?></a>
-                </button>
+                
+                  <a style="color: blue;" href="<?php echo $forgotten; ?>"><?php echo $text_forgotten; ?></a>
+                
                 <?php } ?>
               </div>
               <?php if ($redirect) { ?>
@@ -107,4 +107,4 @@
     </div>
   </section>
 </div>
-<?php echo $footer; ?>
+<!-- <?php echo $footer; ?>  
