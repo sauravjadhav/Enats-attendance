@@ -2,13 +2,16 @@
 class ModelCatalogTask extends Model {
 	public function addTask($data) {
 		// echo "<pre>";print_r($data);exit;
+		$target_file = DIR_IMAGE .'screenshot/'.basename($_FILES["screenshot"]["name"]);
+        move_uploaded_file($_FILES["screenshot"]["tmp_name"], $target_file);
+	    $file_name = 'screenshot/' . basename($_FILES["screenshot"]["name"]);
 
 		$user_group_id = $this->user->user_group_id;
 		if($user_group_id == 12){
 			$data['status'] = "pending";
 		}
 
-		$this->db->query("INSERT INTO " . DB_PREFIX . "task SET project_id = '" . $this->db->escape($data['project_id']) . "',username = '" . $this->db->escape($data['username']) . "',user_id = '" . $this->db->escape($data['user_id']) . "',subject = '" . $this->db->escape($data['subject']) . "',remark = '" . $this->db->escape($data['remark']) . "',project_start_time = '" . $this->db->escape($data['project_start_time']) . "',project_end_time = '" . $this->db->escape($data['project_end_time']) . "',task = '" . $this->db->escape($data['task']) . "',status = '" . $this->db->escape($data['status']) . "',commit_no = '" . $this->db->escape($data['commit_no']) . "'");
+		$this->db->query("INSERT INTO " . DB_PREFIX . "task SET project_id = '" . $this->db->escape($data['project_id']) . "',screenshot_path = '" . $file_name . "',username = '" . $this->db->escape($data['username']) . "',user_id = '" . $this->db->escape($data['user_id']) . "',subject = '" . $this->db->escape($data['subject']) . "',remark = '" . $this->db->escape($data['remark']) . "',project_start_time = '" . $this->db->escape($data['project_start_time']) . "',project_end_time = '" . $this->db->escape($data['project_end_time']) . "',task = '" . $this->db->escape($data['task']) . "',status = '" . $this->db->escape($data['status']) . "',commit_no = '" . $this->db->escape($data['commit_no']) . "'");
 
 		$task_id = $this->db->getLastId();
 
@@ -20,7 +23,16 @@ class ModelCatalogTask extends Model {
 	public function editTask($task_id, $data) {
 	 // echo "<pre>";print_r($this->request->post);exit;
 
-		$this->db->query("UPDATE " . DB_PREFIX . "task SET project_id = '" . $this->db->escape($data['project_id']) . "',username = '" . $this->db->escape($data['username']) . "',user_id = '" . $this->db->escape($data['user_id']) . "',project_start_time = '" . $this->db->escape($data['project_start_time']) . "',subject = '" . $this->db->escape($data['subject']) . "',remark = '" . $this->db->escape($data['remark']) . "',project_end_time = '" . $this->db->escape($data['project_end_time']) . "',task = '" . $this->db->escape($data['task']) . "',status = '" . $this->db->escape($data['status']) . "',commit_no = '" . $this->db->escape($data['commit_no']) . "' WHERE task_id = '" . (int)$task_id . "'");
+		if(isset($_FILES["screenshot"]["name"]) && $_FILES["screenshot"]["name"] != ''){	
+			$target_file = DIR_IMAGE . "screenshot/" .basename($_FILES["screenshot"]["name"]);
+			move_uploaded_file($_FILES["screenshot"]["tmp_name"], $target_file);
+			$file_name = "screenshot/" . basename($_FILES["screenshot"]["name"]);
+			$screenshot = $file_name;
+		} else {
+			$screenshot = $data['screenshot_path'];
+		}
+
+		$this->db->query("UPDATE " . DB_PREFIX . "task SET project_id = '" . $this->db->escape($data['project_id']) . "',screenshot_path = '" . $screenshot . "',username = '" . $this->db->escape($data['username']) . "',user_id = '" . $this->db->escape($data['user_id']) . "',project_start_time = '" . $this->db->escape($data['project_start_time']) . "',subject = '" . $this->db->escape($data['subject']) . "',remark = '" . $this->db->escape($data['remark']) . "',project_end_time = '" . $this->db->escape($data['project_end_time']) . "',task = '" . $this->db->escape($data['task']) . "',status = '" . $this->db->escape($data['status']) . "',commit_no = '" . $this->db->escape($data['commit_no']) . "' WHERE task_id = '" . (int)$task_id . "'");
 
 		$this->cache->delete('task');
 	}
@@ -104,7 +116,11 @@ class ModelCatalogTask extends Model {
 				$sql .= " AND status LIKE '" . $this->db->escape($data['status']) . "%'";
 			}
 		} elseif ($user_group_id == 12) {
+			$project_id = $this->db->query("SELECT project_id FROM oc_project WHERE user_id = '$user_id'")->row;
+			$p_id = $project_id['project_id'];
 			$sql = "SELECT * FROM " . DB_PREFIX . "task";
+			$sql .= " WHERE project_id = '$p_id'";
+			// echo "<pre>";print_r($sql);exit;
 		}
 
 		// echo "<pre>";print_r($sql);exit;

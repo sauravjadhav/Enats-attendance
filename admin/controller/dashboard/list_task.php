@@ -19,11 +19,9 @@ class Controllerdashboardlisttask extends Controller {
 				$user = $this->db->query("SELECT username FROM oc_user WHERE user_id = $user_id")->row;
 				$project_id = $task['project_id'];
 				$project = $this->db->query("SELECT project_name FROM oc_project WHERE project_id = $project_id")->row;
-				$time = strtotime($task['date_time']);
-				$date = date('d-m-Y',$time);
 				$data['tasks'][] = array(
 					'task_id' 	        		=> $task['task_id'],
-					'date' 	        			=> $date,
+					'date' 	        			=> $task['date_time'],
 					'project_name'          	=> $project['project_name'],
 					'username'          		=> $user['username'],
 					'remark'      				=> $task['remark'],
@@ -36,7 +34,7 @@ class Controllerdashboardlisttask extends Controller {
 
 				);
 				// echo "<pre>";print_r($data['tasks']);exit;
-		}
+			}
 		} else {
 			// echo "<pre>";print_r($user_group_id);exit;
 			$data['tasks'] = array();
@@ -45,11 +43,9 @@ class Controllerdashboardlisttask extends Controller {
 			foreach ($task_data as $task){
 				$project_id = $task['project_id'];
 				$project = $this->db->query("SELECT project_name FROM oc_project WHERE project_id = $project_id")->row;
-				$time = strtotime($task['date_time']);
-				$date = date('d-m-Y',$time);
 				$data['tasks'][] = array(
 					'task_id' 	        		=> $task['task_id'],
-					'date' 	        			=> $date,
+					'date' 	        			=> $task['date_time'],
 					'remark'      				=> $task['remark'],
 					'project_name'          	=> $project['project_name'],
 					'project_start_time'      	=> $task['project_start_time'],

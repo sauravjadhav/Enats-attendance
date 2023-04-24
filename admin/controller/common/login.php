@@ -15,7 +15,12 @@ class ControllerCommonLogin extends Controller {
 			$this->session->data['token'] = token(32);
 			
 			if (isset($this->request->post['redirect']) && (strpos($this->request->post['redirect'], HTTP_SERVER) === 0 || strpos($this->request->post['redirect'], HTTPS_SERVER) === 0)) {
-				$this->response->redirect($this->request->post['redirect'] . '&token=' . $this->session->data['token']);
+				$user_group_id = $this->user->user_group_id;
+				if($user_group_id == 12){
+					$this->response->redirect($this->url->link('catalog/task', 'token=' . $this->session->data['token'], true));
+				}else{
+					$this->response->redirect($this->request->post['redirect'] . '&token=' . $this->session->data['token']);
+				}
 			} else {
 				$this->response->redirect($this->url->link('common/dashboard', 'token=' . $this->session->data['token'], true));
 			}

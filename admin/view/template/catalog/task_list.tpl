@@ -98,10 +98,14 @@
                   <a href="<?php echo $sort_date; ?>"><?php echo $column_date; ?></a>
                   <?php } ?></td>
                   <?php if ($user_group_id == 1) { ?>
-                    <td class="text-left">User</td>
+                    <td class="text-left">Employee</td>
                   <?php } ?>
-                  <td class="text-left"><?php echo $column_project;?></td>
-                  <td class="text-left"><?php echo $column_task;?></td>
+                  <?php if ($user_group_id != 12) {?>
+                    <td class="text-left"><?php echo $column_project;?></td>
+                    <td class="text-left"><?php echo $column_task;?></td>
+                  <?php }else{?>
+                    <td class="text-left">User</td>
+                  <?php }?>
                   <td class="text-left">Remark/Instruction</td>
                   <td class="text-left"><?php echo $column_status;?></td>
                   <td class="text-right"><?php echo $column_action; ?></td>
@@ -122,8 +126,12 @@
                         <?php echo $task['username']; ?>
                     </td>
                   <?php }?>
-                  <td class="text-left"><?php echo $task['project']; ?></td>
-                  <td class="text-left"><?php echo $task['task']; ?></td>
+                  <?php if ($user_group_id != 12) {?>
+                    <td class="text-left"><?php echo $task['project']; ?></td>
+                    <td class="text-left"><?php echo $task['task']; ?></td>
+                  <?php }else{ ?>
+                    <td class="text-left"><?php echo $task['user']; ?></td>
+                  <?php }?>
                   <td class="text-left"><?php echo $task['remark']; ?></td>
                   <td class="text-left"><?php echo $task['status']; ?></td>
                   <td class="text-right"><a href="<?php echo $task['edit']; ?>" data-toggle="tooltip" title="<?php echo $button_edit; ?>" class="btn btn-primary"><i class="fa fa-pencil"></i></a></td>
