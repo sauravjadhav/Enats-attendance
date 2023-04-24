@@ -50,7 +50,6 @@
               <div class="col-sm-10">
                 <input type="text" name="username" placeholder="username" value="<?php echo $username; ?>"id="input-username" class="form-control" />
                 <input type="hidden" name="user_id" value="<?php echo $user_id; ?>" id="input-user_id" class="form-control" />
-                <input type="hidden" name="project_id" value="<?php echo $project_id; ?>" id="input-project_id" class="form-control" />
               </div>
             </div>
           <?php } ?>
@@ -74,20 +73,36 @@
             <div class="form-group">
               <label class="col-sm-2 control-label" for="input-subject">Subject</label>
               <div class="col-sm-10">
-                <input type="text" name="subject" placeholder="Subject" value="<?php echo $subject; ?>"id="input-subject" class="form-control" />
+                <input type="text" <?php if ($status != 'pending' && ($user_group_id == 12) && $task_id != '') {echo 'readonly'; } ?> name="subject" placeholder="Subject" value="<?php echo $subject; ?>"id="input-subject" class="form-control" />
+                  <?php if ($error_name) { ?>
+                  <div class="text-danger"><?php echo $error_name; ?></div>
+                  <?php } ?>
               </div>
             </div>
           <?php } ?>
           <div class="form-group">
             <label class="col-sm-2 control-label" for="input-task">Task</label>
             <div class="col-sm-10">
-              <textarea type="tel" name="task" placeholder="<?php echo $entry_task; ?>" id="input-task" class="form-control"><?php echo $task; ?></textarea>
+              <textarea type="tel" <?php if ($status != 'pending' && ($user_group_id == 12 && $task_id != '')) {echo 'readonly'; } ?> name="task" placeholder="<?php echo $entry_task; ?>" id="input-task" class="form-control"><?php echo $task; ?></textarea>
             </div>
           </div>
           <div class="form-group">
             <label class="col-sm-2 control-label" for="input-remark">Remark/Instruction</label>
             <div class="col-sm-10">
               <textarea type="tel" name="remark" placeholder="Remark/Instruction" id="input-remark" class="form-control"><?php echo $remark; ?></textarea>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-screenshot">File</label>
+            <div class="col-sm-3">
+                <input type="file" style="color:#1e91cf;" name="screenshot" value="<?php echo $screenshot; ?>" id="input-screenshot"/><br>
+                <input type="hidden" value="<?php echo $screenshot_path; ?>" name="screenshot_path" />
+                <?php if ($task_id != '') {?>
+                    <a href="<?php echo HTTPS_CATALOG . 'image/' . $screenshot_path; ?>" target="blank">View File</a>
+                    <?php $allowed_types = array('jpg', 'jpeg', 'png', 'gif');$file_ext = pathinfo($screenshot_path, PATHINFO_EXTENSION); if (in_array($file_ext, $allowed_types)) { ?>
+                        <img src="<?php echo HTTPS_CATALOG . 'image/' . $screenshot_path; ?>" style="width: 100px;"/>
+                    <?php }?>
+                <?php } ?>
             </div>
           </div>
           <?php if($user_group_id != 12) {?>
@@ -124,7 +139,16 @@
               </div>
             </div>
           <?php } else {?>
-            <input type="hidden" name="status" placeholder="status" value="<?php echo $status; ?>"id="input-subject" class="form-control" />
+            <div class="form-group">
+              <label class="col-sm-2 control-label" for="input-status"><?php echo $entry_status; ?></label>
+              <div class="col-sm-2">
+                <input type="text" readonly name="status" placeholder="status" value="<?php echo $status; ?>"id="input-subject" class="form-control" />
+              </div>
+            </div>
+            <input type="hidden" name="project_id" value="<?php echo $project_id; ?>" id="input-project_id" class="form-control" />
+            <input type="hidden" name="project_start_time" value="<?php echo $project_start_time; ?>" placeholder="<?php echo $entry_project_start_time; ?>" id="input-project_start_time" class="form-control" />
+            <input type="hidden" name="project_end_time" value="<?php echo $project_end_time; ?>" placeholder="<?php echo $entry_project_end_time; ?>" id="input-contact_person" class="form-control" />
+            <input type="hidden" name="commit_no" value="<?php echo $commit_no; ?>" placeholder="<?php echo $entry_commit_no; ?>" id="input-commit_no" class="form-control" />
           <?php }?>
         </form>
       </div>
