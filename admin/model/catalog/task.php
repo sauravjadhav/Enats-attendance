@@ -95,8 +95,8 @@ class ModelCatalogTask extends Model {
 				$sql .= " AND project_id LIKE '" . $this->db->escape($data['project_id']) . "%'";
 			}
 
-			if (!empty($data['user_id'])) {
-				$sql .= " AND user_id LIKE '" . $this->db->escape($data['user_id']) . "%'";
+			if (!empty($data['status'])) {
+				$sql .= " AND status LIKE '" . $this->db->escape($data['status']) . "%'";
 			}
 
 		} elseif($user_group_id == 1) {
@@ -120,6 +120,9 @@ class ModelCatalogTask extends Model {
 			$p_id = $project_id['project_id'];
 			$sql = "SELECT * FROM " . DB_PREFIX . "task";
 			$sql .= " WHERE project_id = '$p_id'";
+			if (!empty($data['status'])) {
+				$sql .= " AND status LIKE '" . $this->db->escape($data['status']) . "%'";
+			}
 			// echo "<pre>";print_r($sql);exit;
 		}
 
