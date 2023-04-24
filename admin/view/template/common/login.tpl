@@ -5,8 +5,6 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
 </head>
 <div class="content">
-  <!-- <?php echo $header; ?> -->
-  <img src="view/image/enatsLogoe1.jpg">
   <section class="" style="background-color: #508bfc; height: 93vh;">
     <div class="container py-5" style="height: 100%">
       <div class="row justify-content-center align-items-center" style="height: 100%;">
@@ -59,9 +57,6 @@
 <style>
   .hover11:hover{
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-  }
-  header{
-    justify-content: center!important;
   }
 </style>
 <!-- <?php echo $footer; ?>  

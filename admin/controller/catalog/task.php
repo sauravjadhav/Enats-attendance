@@ -297,6 +297,7 @@ class ControllerCatalogTask extends Controller
                 'project'                      => $project['project_name'],
                 'date'                      => $result['date_time'],
                 'user'                         => $result['username'],
+                'subject'                         => $result['subject'],
                 'username'                  => $user['username'],
                 'project_start_time'          => $project_start_time,
                 'project_end_time'            => $project_end_time,
@@ -419,7 +420,7 @@ class ControllerCatalogTask extends Controller
 
         $this->response->setOutput($this->load->view('catalog/task_list', $data));
     }
-    
+
 
     protected function getForm()
     {

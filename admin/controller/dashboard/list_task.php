@@ -27,7 +27,7 @@ class Controllerdashboardlisttask extends Controller {
 					'remark'      				=> $task['remark'],
 					'project_start_time'      	=> $task['project_start_time'],
 					'project_end_time'        	=> $task['project_end_time'],
-					'task'   		        	=> $task['task'],
+					'subject'   		        => $task['subject'],
 					'status'                	=> $task['status'],
 					'commit_no'    				=> $task['commit_no'],
 					'edit'            => $this->url->link('catalog/task/edit', 'token=' . $this->session->data['token'] . '&task_id=' . $task['task_id'] . $url, true)
@@ -50,7 +50,7 @@ class Controllerdashboardlisttask extends Controller {
 					'project_name'          	=> $project['project_name'],
 					'project_start_time'      	=> $task['project_start_time'],
 					'project_end_time'        	=> $task['project_end_time'],
-					'task'   		        	=> $task['task'],
+					'subject'   		        => $task['subject'],
 					'status'                	=> $task['status'],
 					'commit_no'    				=> $task['commit_no'],
 					'edit'            => $this->url->link('catalog/task/edit', 'token=' . $this->session->data['token'] . '&task_id=' . $task['task_id'] . $url, true)
