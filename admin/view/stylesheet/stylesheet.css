@@ -98,7 +98,7 @@ span.hidden-xs, span.hidden-sm, span.hidden-md, span.hidden-lg {
 }
 #header .nav > li > a {
 	padding: 3px 16px;
-	line-height: 56px;
+	line-height: 38px;
 	cursor: pointer;
 	color: #000000;
 	border-left: 1px solid #E1E1E1;
