@@ -660,14 +660,9 @@ class ControllerCatalogTask extends Controller
 
     protected function validateForm()
     {
-
-        $user_group_id = $this->user->user_group_id;
-        if ($user_group_id != 11) {
-            if ((utf8_strlen($this->request->post['subject']) < 2) || (utf8_strlen($this->request->post['subject']) > 64)) {
-                $this->error['subject'] = $this->language->get('Please add subject');
-            }
+        if ((utf8_strlen($this->request->post['subject']) < 2) || (utf8_strlen($this->request->post['subject']) > 50)) {
+            $this->error['subject'] = $this->language->get('Subject must be between 2-50 characters');
         }
-
         return !$this->error;
     }
 }
