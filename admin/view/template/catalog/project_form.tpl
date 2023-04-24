@@ -91,7 +91,7 @@ $('input[name=\'project_company\']').autocomplete({
     },
     'select': function(item) {
         $('input[name=\'user_id\']').val(item['value']);
-        $('input[name=\'name\']').val(item['value1']);
+        $('input[name=\'project_company\']').val(item['label']);
     }
 });
 //--></script>

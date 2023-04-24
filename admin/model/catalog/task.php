@@ -8,7 +8,7 @@ class ModelCatalogTask extends Model {
 			$data['status'] = "pending";
 		}
 
-		$this->db->query("INSERT INTO " . DB_PREFIX . "task SET project_id = '" . $this->db->escape($data['project_id']) . "',user_id = '" . $this->db->escape($data['user_id']) . "',subject = '" . $this->db->escape($data['subject']) . "',remark = '" . $this->db->escape($data['remark']) . "',project_start_time = '" . $this->db->escape($data['project_start_time']) . "',project_end_time = '" . $this->db->escape($data['project_end_time']) . "',task = '" . $this->db->escape($data['task']) . "',status = '" . $this->db->escape($data['status']) . "',commit_no = '" . $this->db->escape($data['commit_no']) . "'");
+		$this->db->query("INSERT INTO " . DB_PREFIX . "task SET project_id = '" . $this->db->escape($data['project_id']) . "',username = '" . $this->db->escape($data['username']) . "',user_id = '" . $this->db->escape($data['user_id']) . "',subject = '" . $this->db->escape($data['subject']) . "',remark = '" . $this->db->escape($data['remark']) . "',project_start_time = '" . $this->db->escape($data['project_start_time']) . "',project_end_time = '" . $this->db->escape($data['project_end_time']) . "',task = '" . $this->db->escape($data['task']) . "',status = '" . $this->db->escape($data['status']) . "',commit_no = '" . $this->db->escape($data['commit_no']) . "'");
 
 		$task_id = $this->db->getLastId();
 
@@ -20,7 +20,7 @@ class ModelCatalogTask extends Model {
 	public function editTask($task_id, $data) {
 	 // echo "<pre>";print_r($this->request->post);exit;
 
-		$this->db->query("UPDATE " . DB_PREFIX . "task SET project_id = '" . $this->db->escape($data['project_id']) . "',user_id = '" . $this->db->escape($data['user_id']) . "',project_start_time = '" . $this->db->escape($data['project_start_time']) . "',subject = '" . $this->db->escape($data['subject']) . "',remark = '" . $this->db->escape($data['remark']) . "',project_end_time = '" . $this->db->escape($data['project_end_time']) . "',task = '" . $this->db->escape($data['task']) . "',status = '" . $this->db->escape($data['status']) . "',commit_no = '" . $this->db->escape($data['commit_no']) . "' WHERE task_id = '" . (int)$task_id . "'");
+		$this->db->query("UPDATE " . DB_PREFIX . "task SET project_id = '" . $this->db->escape($data['project_id']) . "',username = '" . $this->db->escape($data['username']) . "',user_id = '" . $this->db->escape($data['user_id']) . "',project_start_time = '" . $this->db->escape($data['project_start_time']) . "',subject = '" . $this->db->escape($data['subject']) . "',remark = '" . $this->db->escape($data['remark']) . "',project_end_time = '" . $this->db->escape($data['project_end_time']) . "',task = '" . $this->db->escape($data['task']) . "',status = '" . $this->db->escape($data['status']) . "',commit_no = '" . $this->db->escape($data['commit_no']) . "' WHERE task_id = '" . (int)$task_id . "'");
 
 		$this->cache->delete('task');
 	}
@@ -75,7 +75,7 @@ class ModelCatalogTask extends Model {
 		}
 
 		// echo "<pre>";print_r($user_group_id);exit;
-		if ($user_group_id != 1) {
+		if ($user_group_id == 11) {
 			$sql = "SELECT * FROM " . DB_PREFIX . "task";
 			$sql .= " WHERE user_id LIKE '" . $user_id . "%'";
 
@@ -87,7 +87,7 @@ class ModelCatalogTask extends Model {
 				$sql .= " AND user_id LIKE '" . $this->db->escape($data['user_id']) . "%'";
 			}
 
-		} else {
+		} elseif($user_group_id == 1) {
 			$sql = "SELECT * FROM " . DB_PREFIX . "task";
 
 			if (!empty($data['project_id'])) {
@@ -103,6 +103,8 @@ class ModelCatalogTask extends Model {
 			if (!empty($data['status'])) {
 				$sql .= " AND status LIKE '" . $this->db->escape($data['status']) . "%'";
 			}
+		} elseif ($user_group_id == 12) {
+			$sql = "SELECT * FROM " . DB_PREFIX . "task";
 		}
 
 		// echo "<pre>";print_r($sql);exit;

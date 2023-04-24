@@ -25,28 +25,41 @@
       </div>
       <div class="panel-body">
         <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form-task" class="form-horizontal">
-          <div class="form-group">
-            <label class="col-sm-2 control-label" for="input-project"><?php echo $entry_project; ?></label>
-            <div class="col-sm-5">
-              <select name="project_id" id="project_id" class="dropdown-header form-control">
-              <?php foreach ($project as $skey => $svalue) { //echo "<pre>";print_r($project_id);exit; ?>
-                <?php if ($skey == $project_id) { ?>
-                  <option value="<?php echo $skey ?>" class ="dropdown-manu form-control" selected="selected"><?php echo $svalue; ?></option>
-                <?php } else { ?>
-                  <option value="<?php echo $skey ?>" class ="dropdown-manu form-control"><?php echo $svalue ?></option>
+          <?php if($user_group_id != 12) {?>
+            <div class="form-group">
+              <label class="col-sm-2 control-label" for="input-project"><?php echo $entry_project; ?></label>
+              <div class="col-sm-5">
+                <select name="project_id" id="project_id" class="dropdown-header form-control">
+                <?php foreach ($project as $skey => $svalue) { //echo "<pre>";print_r($project_id);exit; ?>
+                  <?php if ($skey == $project_id) { ?>
+                    <option value="<?php echo $skey ?>" class ="dropdown-manu form-control" selected="selected"><?php echo $svalue; ?></option>
+                  <?php } else { ?>
+                    <option value="<?php echo $skey ?>" class ="dropdown-manu form-control"><?php echo $svalue ?></option>
+                  <?php } ?>
                 <?php } ?>
-              <?php } ?>
-              </select>
-              <input type="hidden" name="user_id" value="<?php echo $user_id; ?>" id="input-user_id" class="form-control" />
+                </select>
+                <input type="hidden" name="user_id" value="<?php echo $user_id; ?>" id="input-user_id" class="form-control" />
+                <input type="hidden" name="username" placeholder="username" value="<?php echo $username; ?>"id="input-username" class="form-control" />
+                <input type="hidden" name="subject" placeholder="Subject" value="<?php echo $subject; ?>"id="input-subject" class="form-control" />
+              </div>
             </div>
-          </div>
-          <!-- <?php //echo "<pre>";print_r($user_group_id);exit;?> -->
+          <?php } ?>
+          <?php if($user_group_id != 11) {?>
+            <div class="form-group">
+              <label class="col-sm-2 control-label" for="input-username">Username</label>
+              <div class="col-sm-10">
+                <input type="text" name="username" placeholder="username" value="<?php echo $username; ?>"id="input-username" class="form-control" />
+                <input type="hidden" name="user_id" value="<?php echo $user_id; ?>" id="input-user_id" class="form-control" />
+                <input type="hidden" name="project_id" value="<?php echo $project_id; ?>" id="input-project_id" class="form-control" />
+              </div>
+            </div>
+          <?php } ?>
           <?php if ($user_group_id == 1) {?>
             <div class="form-group">
-              <label class="col-sm-2 control-label" for="input-username">User</label>
+              <label class="col-sm-2 control-label" for="input-employee">Employee</label>
                 <div class="col-sm-5">
                   <select name="user_id" id="user_id" class="dropdown-header form-control">
-                    <?php foreach ($username as $skey => $svalue) { //echo "<pre>";print_r($user_id);exit; ?>
+                    <?php foreach ($employee as $skey => $svalue) { //echo "<pre>";print_r($user_id);exit; ?>
                       <?php if ($skey == $user_id) { ?>
                         <option value="<?php echo $skey ?>" class ="dropdown-manu form-control" selected="selected"><?php echo $svalue; ?></option>
                       <?php } else { ?>
@@ -65,9 +78,6 @@
               </div>
             </div>
           <?php } ?>
-          <?php if($user_group_id == 12) {?>
-            <input type="hidden" name="status" placeholder="status" value="<?php echo $status; ?>"id="input-subject" class="form-control" />
-          <?php }?>
           <div class="form-group">
             <label class="col-sm-2 control-label" for="input-task">Task</label>
             <div class="col-sm-10">
@@ -80,7 +90,6 @@
               <textarea type="tel" name="remark" placeholder="Remark/Instruction" id="input-remark" class="form-control"><?php echo $remark; ?></textarea>
             </div>
           </div>
-
           <?php if($user_group_id != 12) {?>
           <div class="form-group">
             <label class="col-sm-2 control-label" for="input-status"><?php echo $entry_status; ?></label>
@@ -114,6 +123,8 @@
                 <input type="text" name="commit_no" value="<?php echo $commit_no; ?>" placeholder="<?php echo $entry_commit_no; ?>" id="input-commit_no" class="form-control" />
               </div>
             </div>
+          <?php } else {?>
+            <input type="hidden" name="status" placeholder="status" value="<?php echo $status; ?>"id="input-subject" class="form-control" />
           <?php }?>
         </form>
       </div>

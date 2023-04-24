@@ -515,17 +515,17 @@ class ControllerCatalogTask extends Controller {
 			$user_id = $task_info['user_id'];
 			$users = $this->db->query("SELECT * FROM oc_user")->rows;
 			foreach ($users as $val) {
-			    $username[$val['user_id']] = $val['firstname'] . ' ' . $val['lastname'];
+			    $employee[$val['user_id']] = $val['firstname'] . ' ' . $val['lastname'];
 			}
-			$data['username'] = $username;
+			$data['employee'] = $employee;
 		} else {
 			$data['user_id'] = '';
 			$users = $this->db->query("SELECT * FROM oc_user")->rows;
 			foreach ($users as $val) {
-			    $username[$val['user_id']] = $val['firstname'] . ' ' . $val['lastname'];
+			    $employee[$val['user_id']] = $val['firstname'] . ' ' . $val['lastname'];
 			}
 			$data['user_id'] = $val['user_id'];
-			$data['username'] = $username;
+			$data['employee'] = $employee;
 		}
 
 		if (isset($this->request->post['project_id'])) {
@@ -562,6 +562,14 @@ class ControllerCatalogTask extends Controller {
 			$data['project_end_time'] = $task_info['project_end_time'];
 		} else {
 			$data['project_end_time'] = '';
+		}
+
+		if (isset($this->request->post['username'])) {
+			$data['username'] = $this->request->post['username'];
+		} elseif (!empty($task_info)) {
+			$data['username'] = $task_info['username'];
+		} else {
+			$data['username'] = '';
 		}
 
 		if (isset($this->request->post['task'])) {

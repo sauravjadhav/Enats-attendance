@@ -379,13 +379,14 @@ class ControllerCatalogProject extends Controller {
 
 		$user_id = $this->session->data['user_id'];
 
-		if ($user_id != 1){
+		if (isset($this->request->post['user_id'])){
 			$data['user_id'] = $this->session->data['user_id'];
-		} elseif (!empty($employee_info)){
-			$data['user_id'] = $employee_info['user_id'];
+		} elseif (!empty($project_info)){
+			$data['user_id'] = $project_info['user_id'];
 		} else {
 			$data['user_id'] = '';
 		}
+
 		$user_data = $this->db->query("SELECT * FROM oc_user where user_id = '$user_id'")->rows;
 		foreach ($user_data as $user) {
 			$user_group_id = $user['user_group_id'];
@@ -496,7 +497,7 @@ class ControllerCatalogProject extends Controller {
 
 		if (isset($this->request->get['project_company'])) {
 			$this->load->model('catalog/project');
-
+			
 			$filter_data = array(
 				'project_company' => $this->request->get['project_company'],
 				'start'       => 0,

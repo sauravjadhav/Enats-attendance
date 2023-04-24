@@ -59,5 +59,8 @@
   .hover11:hover{
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   }
+  header{
+    justify-content: center!important;
+  }
 </style>
 <!-- <?php echo $footer; ?>  

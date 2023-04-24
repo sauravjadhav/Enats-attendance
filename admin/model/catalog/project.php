@@ -3,7 +3,7 @@ class ModelCatalogProject extends Model {
 	public function addProject($data) {
 		// echo "<pre>";print_r($data);exit;
 
-		$this->db->query("INSERT INTO " . DB_PREFIX . "project SET project_name = '" . $this->db->escape($data['project_name']) . "',contact_person = '" . $this->db->escape($data['contact_person']) . "',project_company = '" . $this->db->escape($data['project_company']) . "',phone = '" . $this->db->escape($data['phone']) . "',email = '" . $this->db->escape($data['email']) . "',project_start_date = '" . $this->db->escape($data['project_start_date']) . "', project_end_date = '" . $this->db->escape($data['project_end_date']) . "'");
+		$this->db->query("INSERT INTO " . DB_PREFIX . "project SET project_name = '" . $this->db->escape($data['project_name']) . "',user_id = '" . $this->db->escape($data['user_id']) . "',contact_person = '" . $this->db->escape($data['contact_person']) . "',project_company = '" . $this->db->escape($data['project_company']) . "',phone = '" . $this->db->escape($data['phone']) . "',email = '" . $this->db->escape($data['email']) . "',project_start_date = '" . $this->db->escape($data['project_start_date']) . "', project_end_date = '" . $this->db->escape($data['project_end_date']) . "'");
 
 		$project_id = $this->db->getLastId();
 
@@ -13,7 +13,7 @@ class ModelCatalogProject extends Model {
 	}
 
 	public function editProject($project_id, $data) {
-		$this->db->query("UPDATE " . DB_PREFIX . "project SET project_name = '" . $this->db->escape($data['project_name']) . "',contact_person = '" . $this->db->escape($data['contact_person']) . "',project_company = '" . $this->db->escape($data['project_company']) . "',phone = '" . $this->db->escape($data['phone']) . "',email = '" . $this->db->escape($data['email']) . "',project_start_date = '" . $this->db->escape($data['project_start_date']) . "', project_end_date = '" . $this->db->escape($data['project_end_date']) . "' WHERE project_id = '" . (int)$project_id . "'");
+		$this->db->query("UPDATE " . DB_PREFIX . "project SET project_name = '" . $this->db->escape($data['project_name']) . "',user_id = '" . $this->db->escape($data['user_id']) . "',contact_person = '" . $this->db->escape($data['contact_person']) . "',project_company = '" . $this->db->escape($data['project_company']) . "',phone = '" . $this->db->escape($data['phone']) . "',email = '" . $this->db->escape($data['email']) . "',project_start_date = '" . $this->db->escape($data['project_start_date']) . "', project_end_date = '" . $this->db->escape($data['project_end_date']) . "' WHERE project_id = '" . (int)$project_id . "'");
 
 		$this->cache->delete('manufacturer');
 	}
@@ -33,12 +33,13 @@ class ModelCatalogProject extends Model {
 		$sql = "SELECT * FROM oc_user WHERE 1=1";
 
 		if (!empty($data['project_company'])) {
+			$sql .= " AND user_group_id = '12' ";
 			$sql .= " AND username LIKE '" . $this->db->escape($data['project_company']) . "%'";
 		}
+		// echo "<pre>";print_r($sql);exit;
 
 		$sql .= " GROUP BY username";
 		$query = $this->db->query($sql);
-		// echo "<pre>";print_r($query);exit;
 
 		return $query->rows;
 	}
