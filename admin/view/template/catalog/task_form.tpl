@@ -14,6 +14,7 @@
     </div>
   </div>
   <div class="container-fluid">
+    <?php echo "<script>displayNotification('Order Success', 'Your order has been placed successfully.');</script>";?>
     <?php if ($error_warning) { ?>
     <div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> <?php echo $error_warning; ?>
       <button type="button" class="close" data-dismiss="alert">&times;</button>
@@ -122,6 +123,14 @@
               <label class="col-sm-2 control-label" for="input-project_start_time"><?php echo $entry_project_start_time; ?></label>
               <div class="col-sm-10">
                 <input type="time" name="project_start_time" value="<?php echo $project_start_time; ?>" placeholder="<?php echo $entry_project_start_time; ?>" id="input-project_start_time" class="form-control" />
+              </div>
+              <label class="col-sm-2 control-label" for="input-date">Start date</label>
+              <div class="col-sm-4">
+                <?php if (!empty($date)) { ?>
+                    <input type="date" readonly name="date" value="<?php echo $date?>" id="input-date" class="form-control"/>
+                <?php } else { ?>
+                    <input type="date" readonly name="date" value="<?=date("Y-m-d");?>" id="input-date" class="form-control"/>
+                <?php } ?>
               </div>
             </div>
             <div class="form-group">

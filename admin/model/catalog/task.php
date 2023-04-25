@@ -11,7 +11,7 @@ class ModelCatalogTask extends Model {
 			$data['status'] = "pending";
 		}
 
-		$this->db->query("INSERT INTO " . DB_PREFIX . "task SET project_id = '" . $this->db->escape($data['project_id']) . "',screenshot_path = '" . $file_name . "',username = '" . $this->db->escape($data['username']) . "',user_id = '" . $this->db->escape($data['user_id']) . "',subject = '" . $this->db->escape($data['subject']) . "',remark = '" . $this->db->escape($data['remark']) . "',project_start_time = '" . $this->db->escape($data['project_start_time']) . "',project_end_time = '" . $this->db->escape($data['project_end_time']) . "',task = '" . $this->db->escape($data['task']) . "',status = '" . $this->db->escape($data['status']) . "',commit_no = '" . $this->db->escape($data['commit_no']) . "'");
+		$this->db->query("INSERT INTO " . DB_PREFIX . "task SET project_id = '" . $this->db->escape($data['project_id']) . "',screenshot_path = '" . $file_name . "',username = '" . $this->db->escape($data['username']) . "',user_id = '" . $this->db->escape($data['user_id']) . "',subject = '" . $this->db->escape($data['subject']) . "',remark = '" . $this->db->escape($data['remark']) . "',project_start_time = '" . $this->db->escape($data['project_start_time']) . "',date = '" . $this->db->escape($data['date']) . "',project_end_time = '" . $this->db->escape($data['project_end_time']) . "',task = '" . $this->db->escape($data['task']) . "',status = '" . $this->db->escape($data['status']) . "',commit_no = '" . $this->db->escape($data['commit_no']) . "'");
 
 		$task_id = $this->db->getLastId();
 
@@ -103,17 +103,15 @@ class ModelCatalogTask extends Model {
 			$sql = "SELECT * FROM " . DB_PREFIX . "task";
 
 			if (!empty($data['project_id'])) {
-				$sql .= " WHERE project_id LIKE '" . $this->db->escape($data['project_id']) . "%'";
-			}else{
-				$sql .= " WHERE project_id LIKE '" . '' . "%'";
+				$sql .= " WHERE project_id = '" . $this->db->escape($data['project_id']) . "%'";
 			}
 
 			if (!empty($data['user_id'])) {
-				$sql .= " AND user_id LIKE '" . $this->db->escape($data['user_id']) . "%'";
+				$sql .= " WHERE user_id = '" . $this->db->escape($data['user_id']) . "%'";
 			}
 
 			if (!empty($data['status'])) {
-				$sql .= " AND status LIKE '" . $this->db->escape($data['status']) . "%'";
+				$sql .= " WHERE status LIKE '" . $this->db->escape($data['status']) . "%'";
 			}
 		} elseif ($user_group_id == 12) {
 			$project_id = $this->db->query("SELECT project_id FROM oc_project WHERE user_id = '$user_id'")->row;

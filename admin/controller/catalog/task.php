@@ -581,6 +581,14 @@ class ControllerCatalogTask extends Controller
             $data['project_start_time'] = date('H:i');
         }
 
+        if (isset($this->request->post['date'])) {
+            $data['date'] = $this->request->post['date'];
+        } elseif (!empty($task_info)) {
+            $data['date'] = $task_info['date'];
+        } else {
+            $data['date'] = '';
+        }
+
         if (isset($this->request->post['project_end_time'])) {
             $data['project_end_time'] = $this->request->post['project_end_time'];
         } elseif (!empty($task_info)) {
