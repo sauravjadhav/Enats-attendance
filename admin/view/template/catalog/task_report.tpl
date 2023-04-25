@@ -24,9 +24,10 @@
       <thead>
         <tr>
           <td class="text-left">Date</td>
-          <td class="text-left">User</td>
+          <td class="text-left">Employee</td>
           <td class="text-left">Project</td>
           <td class="text-left">Username</td>
+          <td class="text-left">Remark</td>
           <td class="text-left">Subject</td>
           <td class="text-left">Project Start Time</td>
           <td class="text-left">Project End Time</td>
@@ -43,6 +44,7 @@
         <td class="text-left"><?php echo $task['username']; ?></td>
         <td class="text-left"><?php echo $task['project_name']; ?></td>
         <td class="text-left"><?php echo $task['username']; ?></td>
+        <td class="text-left"><?php echo $task['remark']; ?></td>
         <td class="text-left"><?php echo $task['subject']; ?></td>
         <td class="text-left"><?php echo $task['project_start_time']; ?></td>
         <td class="text-left"><?php echo $task['project_end_time']; ?></td>
