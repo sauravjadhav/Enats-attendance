@@ -95,8 +95,8 @@ class ModelCatalogTask extends Model {
 				$sql .= " AND project_id LIKE '" . $this->db->escape($data['project_id']) . "%'";
 			}
 
-			if (!empty($data['user_id'])) {
-				$sql .= " AND user_id LIKE '" . $this->db->escape($data['user_id']) . "%'";
+			if (!empty($data['status'])) {
+				$sql .= " AND status LIKE '" . $this->db->escape($data['status']) . "%'";
 			}
 
 		} elseif($user_group_id == 1) {
@@ -120,6 +120,9 @@ class ModelCatalogTask extends Model {
 			$p_id = $project_id['project_id'];
 			$sql = "SELECT * FROM " . DB_PREFIX . "task";
 			$sql .= " WHERE project_id = '$p_id'";
+			if (!empty($data['status'])) {
+				$sql .= " AND status LIKE '" . $this->db->escape($data['status']) . "%'";
+			}
 			// echo "<pre>";print_r($sql);exit;
 		}
 
@@ -161,11 +164,21 @@ class ModelCatalogTask extends Model {
 		return $query->rows;
 	}
 
-	
-
-
 	public function getTotalTasks() {
-		$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "task");
+
+		$user_group_id = $this->user->user_group_id;
+		$user_id = $this->session->data['user_id'];
+
+		if($user_group_id == 1){
+			$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "task");
+		}elseif($user_group_id == 11){
+			$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX ."task WHERE user_id = $user_id");
+		// echo "<pre>";print_r($query);exit;
+		}elseif($user_group_id == 12){
+			$project_id = $this->db->query("SELECT project_id FROM oc_project WHERE user_id = '$user_id'")->row;
+			$p_id = $project_id['project_id'];
+			$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX ."task WHERE project_id = $p_id");
+		}
 
 		return $query->row['total'];
 	}

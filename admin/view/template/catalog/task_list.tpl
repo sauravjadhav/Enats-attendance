@@ -3,7 +3,9 @@
   <div class="page-header">
     <div class="container-fluid">
       <div class="pull-right"><a href="<?php echo $add; ?>" data-toggle="tooltip" title="<?php echo $button_add; ?>" class="btn btn-primary"><i class="fa fa-plus"></i></a>
-        <button type="button" data-toggle="tooltip" title="<?php echo $button_delete; ?>" class="btn btn-danger" onclick="confirm('<?php echo $text_confirm; ?>') ? $('#form-project').submit() : false;"><i class="fa fa-trash-o"></i></button>
+        <?php if($user_group_id != 12) { ?>
+          <button type="button" data-toggle="tooltip" title="<?php echo $button_delete; ?>" class="btn btn-danger" onclick="confirm('<?php echo $text_confirm; ?>') ? $('#form-project').submit() : false;"><i class="fa fa-trash-o"></i></button>
+        <?php }?>
       </div>
       <h1><?php echo $heading_title; ?></h1>
       <ul class="breadcrumb">
@@ -29,11 +31,11 @@
         <h3 class="panel-title"><i class="fa fa-list"></i> <?php echo $text_list; ?></h3>
       </div>
       <div class="panel-body">
-        <?php if ($user_group_id != 12) { ?>
           <div class="well">
-            <div class="row">
+            <div class="row" style="align-items: end; display: flex;">
+              <?php if ($user_group_id != 12) { ?>
               <div class="col-sm-4">
-                <div class="form-group">
+                <div class="form-group" style="padding: 0;">
                   <label class="control-label" for="input-project"><?php echo $entry_project; ?></label>
                   <select name="project_id" id="project_id" class="dropdown-header form-control">
                     <?php foreach ($project as $skey => $svalue) { //echo "<pre>";print_r($project_id);exit; ?>
@@ -49,7 +51,7 @@
               </div>
               <?php if ($user_group_id == 1) { ?>
                 <div class="col-sm-4">
-                  <div class="form-group">
+                  <div class="form-group" style="padding: 0;">
                     <label class="control-label" for="input-user_id">User</label>
                     <select name="user_id" id="user_id" class="dropdown form-control">
                       <?php foreach ($username as $skey => $svalue) { //echo "<pre>";print_r($user_id);exit; ?>
@@ -63,8 +65,10 @@
                     </select>
                   </div>
                 </div>
+              <?php }?>
+              <?php }?>
                 <div class="col-sm-4">
-                  <div class="form-group">
+                  <div class="form-group" style="padding: 0;">
                     <label class="control-label" for="input-project">Status</label>
                     <select name="status" id="status" class="dropdown form-control">
                       <?php foreach ($work_status as $skey => $svalue) { //echo "<pre>";print_r($user_id);exit; ?>
@@ -78,13 +82,11 @@
                     </select>
                   </div>
                 </div>
-              <?php }?>
-              <div class="col-sm-1 pull-right">
+              <div class="col-sm-3" style="text-align: start;">
                 <button type="button" id="button-filter" class="btn btn-primary"><i class="fa fa-search"></i> <?php echo $button_filter; ?></button>
               </div>
             </div>
           </div>
-        <?php }?>
         </div>
         <form action="<?php echo $delete; ?>" method="post" enctype="multipart/form-data" id="form-project">
           <div class="table-responsive">
@@ -102,10 +104,10 @@
                   <?php } ?>
                   <?php if ($user_group_id != 12) {?>
                     <td class="text-left"><?php echo $column_project;?></td>
-                    <td class="text-left"><?php echo $column_task;?></td>
                   <?php }else{?>
                     <td class="text-left">User</td>
                   <?php }?>
+                  <td class="text-left">Subject</td>
                   <td class="text-left">Remark/Instruction</td>
                   <td class="text-left"><?php echo $column_status;?></td>
                   <td class="text-right"><?php echo $column_action; ?></td>
@@ -122,16 +124,14 @@
                     <?php } ?></td>
                   <td class="text-left"><?php echo $task['date']; ?></td>
                   <?php if ($user_group_id == 1) { ?>
-                    <td class="text-left">
-                        <?php echo $task['username']; ?>
-                    </td>
+                    <td class="text-left"><?php echo $task['username']; ?></td>
                   <?php }?>
                   <?php if ($user_group_id != 12) {?>
                     <td class="text-left"><?php echo $task['project']; ?></td>
-                    <td class="text-left"><?php echo $task['task']; ?></td>
                   <?php }else{ ?>
                     <td class="text-left"><?php echo $task['user']; ?></td>
                   <?php }?>
+                  <td class="text-left"><?php echo $task['subject']; ?></td>
                   <td class="text-left"><?php echo $task['remark']; ?></td>
                   <td class="text-left"><?php echo $task['status']; ?></td>
                   <td class="text-right"><a href="<?php echo $task['edit']; ?>" data-toggle="tooltip" title="<?php echo $button_edit; ?>" class="btn btn-primary"><i class="fa fa-pencil"></i></a></td>

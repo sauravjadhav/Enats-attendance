@@ -3,11 +3,15 @@ class Controllerdashboardlisttask extends Controller {
 	public function index() {
 		$this->load->language('dashboard/list_task');
 
+
 		$data['token'] = $this->session->data['token'];
 		$user_group_id = $this->user->user_group_id;
 		$data['user_group_id'] = $this->user->user_group_id;
 		$user_id = $this->session->data['user_id'];
 		$url = '';
+
+		$data['action'] = $this->url->link('catalog/task/add', 'token=' . $this->session->data['token'] . $url, true);
+		$data['add'] = $this->url->link('catalog/task/add', 'token=' . $this->session->data['token'] . $url, true);
 
 		if ($user_group_id == 1) {
 			$data['tasks'] = array();
@@ -27,7 +31,7 @@ class Controllerdashboardlisttask extends Controller {
 					'remark'      				=> $task['remark'],
 					'project_start_time'      	=> $task['project_start_time'],
 					'project_end_time'        	=> $task['project_end_time'],
-					'task'   		        	=> $task['task'],
+					'subject'   		        => $task['subject'],
 					'status'                	=> $task['status'],
 					'commit_no'    				=> $task['commit_no'],
 					'edit'            => $this->url->link('catalog/task/edit', 'token=' . $this->session->data['token'] . '&task_id=' . $task['task_id'] . $url, true)
@@ -50,7 +54,7 @@ class Controllerdashboardlisttask extends Controller {
 					'project_name'          	=> $project['project_name'],
 					'project_start_time'      	=> $task['project_start_time'],
 					'project_end_time'        	=> $task['project_end_time'],
-					'task'   		        	=> $task['task'],
+					'subject'   		        => $task['subject'],
 					'status'                	=> $task['status'],
 					'commit_no'    				=> $task['commit_no'],
 					'edit'            => $this->url->link('catalog/task/edit', 'token=' . $this->session->data['token'] . '&task_id=' . $task['task_id'] . $url, true)
@@ -58,6 +62,7 @@ class Controllerdashboardlisttask extends Controller {
 			} 
 		}
 
+        $data['button_add'] = $this->language->get('button_add');
 		return $this->load->view('dashboard/list_task', $data);
 	}
 }

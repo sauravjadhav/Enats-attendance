@@ -3,7 +3,7 @@
 <div id="content">
   <div class="page-header">
         <div class="container-fluid">
-            <div class="pull-right"><a href="<?php echo $add; ?>" title="Export report" class="btn btn-primary">Export report</a>
+            <div class="pull-right"><a href="<?php echo $add; ?>" title="Export report" class="btn btn-primary"><i class="fa fa-download"></i> Export report</a>
             </div>
             <h1>Report</h1>
             <ul class="breadcrumb">

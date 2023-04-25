@@ -69,17 +69,15 @@
               </div>
             </div>
           <?php } ?>
-          <?php if($user_group_id != 11) { ?>
-            <div class="form-group">
-              <label class="col-sm-2 control-label" for="input-subject">Subject</label>
-              <div class="col-sm-10">
-                <input type="text" <?php if ($status != 'pending' && ($user_group_id == 12) && $task_id != '') {echo 'readonly'; } ?> name="subject" placeholder="Subject" value="<?php echo $subject; ?>"id="input-subject" class="form-control" />
-                  <?php if ($error_name) { ?>
-                  <div class="text-danger"><?php echo $error_name; ?></div>
-                  <?php } ?>
-              </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-subject">Subject</label>
+            <div class="col-sm-10">
+              <input type="text" <?php if ($status != 'pending' && ($user_group_id == 12) && $task_id != '') {echo 'readonly'; } ?> name="subject" placeholder="Subject" value="<?php echo $subject; ?>"id="input-subject" class="form-control" />
+                <?php if ($error_name) { ?>
+                <div class="text-danger"><?php echo $error_name; ?></div>
+                <?php } ?>
             </div>
-          <?php } ?>
+          </div>
           <div class="form-group">
             <label class="col-sm-2 control-label" for="input-task">Task</label>
             <div class="col-sm-10">

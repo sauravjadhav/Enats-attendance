@@ -1,6 +1,7 @@
 <div class="panel panel-default">
-  <div class="panel-heading">
+  <div class="panel-heading" style="display: flex; justify-content: space-between; align-items: center;">
     <h3 class="panel-title"><i class="fa fa-list"></i>Task List</h3>
+    <div ><a href="<?php echo $add; ?>" data-toggle="tooltip" title="<?php echo $button_add; ?>" class="btn btn-primary">Add Task</i></a></div>
   </div>
   <div class="panel-body"></div>
   <div class="table-responsive">
@@ -12,7 +13,7 @@
             <td class="text-left">User</td>
           <?php }?>
           <td class="text-left">Project</td>
-          <td class="text-left">Task/problem</td>
+          <td class="text-left">Subject</td>
           <td class="text-left">Remark/Instruction</td>
           <td class="text-left">Status</td>
           <td class="text-center">Action</td>
@@ -28,7 +29,7 @@
           <td class="text-left"><?php echo $task['username']; ?></td>
         <?php }?>
         <td class="text-left"><?php echo $task['project_name']; ?></td>
-        <td class="text-left"><?php echo $task['task']; ?></td>
+        <td class="text-left"><?php echo $task['subject']; ?></td>
         <td class="text-left"><?php echo $task['remark']; ?></td>
         <td class="text-left"><?php echo $task['status']; ?></td>
         <td class="text-center"><a href="<?php echo $task['edit']; ?>" data-toggle="tooltip" title="Edit Task" class="btn btn-primary"><i class="fa fa-pencil"></i></a></td>
