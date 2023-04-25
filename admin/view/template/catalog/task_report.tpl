@@ -41,7 +41,7 @@
         //echo "<pre>";print_r($tasks);exit; ?>
         <tr>
         <td class="text-left"><?php echo $task['date']; ?></td>
-        <td class="text-left"><?php echo $task['username']; ?></td>
+        <td class="text-left"><?php echo $task['user']; ?></td>
         <td class="text-left"><?php echo $task['project_name']; ?></td>
         <td class="text-left"><?php echo $task['username']; ?></td>
         <td class="text-left"><?php echo $task['remark']; ?></td>

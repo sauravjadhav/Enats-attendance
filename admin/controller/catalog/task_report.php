@@ -15,6 +15,7 @@ class Controllercatalogtaskreport  extends Controller {
 					'date' 	        		    => $task['date_time'],
 					'project_name'          	=> $project['project_name'],
 					'username'          		=> $user['username'],
+					'user'          		=> $task['username'],
 					'remark'      				=> $task['remark'],
 					'subject'          		=> $task['subject'],
 					'project_start_time'      	=> $task['project_start_time'],
