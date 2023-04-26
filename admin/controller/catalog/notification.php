@@ -12,7 +12,7 @@ class ControllerCatalogNotification extends Controller
         foreach ($push as $key) {
          $data['subject'] = $key['subject'];
          $data['task'] = $key['task'];
-         $data['url'] = 'index.php?route=catalog/task&token=<?php echo $token; ?>';
+         $data['url'] = 'index.php?route=catalog/task&token='.$this->session->data['token'];
          $rows[] = $data;
          $record++;
         }
@@ -21,5 +21,6 @@ class ControllerCatalogNotification extends Controller
         $array['result'] = true;
         echo json_encode($array);
     }
+
 }
 ?>

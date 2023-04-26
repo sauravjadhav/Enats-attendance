@@ -34,6 +34,7 @@ class ModelCatalogTask extends Model {
 
 		$this->db->query("UPDATE " . DB_PREFIX . "task SET project_id = '" . $this->db->escape($data['project_id']) . "',screenshot_path = '" . $screenshot . "',username = '" . $this->db->escape($data['username']) . "',user_id = '" . $this->db->escape($data['user_id']) . "',project_start_time = '" . $this->db->escape($data['project_start_time']) . "',subject = '" . $this->db->escape($data['subject']) . "',remark = '" . $this->db->escape($data['remark']) . "',project_end_time = '" . $this->db->escape($data['project_end_time']) . "',task = '" . $this->db->escape($data['task']) . "',status = '" . $this->db->escape($data['status']) . "',commit_no = '" . $this->db->escape($data['commit_no']) . "' WHERE task_id = '" . (int)$task_id . "'");
 
+
 		$this->cache->delete('task');
 	}
 
@@ -181,3 +182,4 @@ class ModelCatalogTask extends Model {
 		return $query->row['total'];
 	}
 }
+?>
