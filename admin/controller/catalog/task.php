@@ -65,7 +65,7 @@ class ControllerCatalogTask extends Controller
 
         if (($this->request->server['REQUEST_METHOD'] == 'POST')) {
             $this->model_catalog_task->editTask($this->request->get['task_id'], $this->request->post);
-
+            // echo "<pre>";print_r($data);exit;
             $this->session->data['success'] = $this->language->get('text_success');
 
             $url = '';

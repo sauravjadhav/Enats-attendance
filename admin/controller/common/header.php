@@ -47,6 +47,9 @@ class ControllerCommonHeader extends Controller {
 			$data['home'] = $this->url->link('common/dashboard', '', true);
 		} else {
 			$data['logged'] = true;
+			$data['token'] = $this->session->data['token'];
+			$data['user_id'] = $this->session->data['user_id'];
+
 
 			$data['home'] = $this->url->link('common/dashboard', 'token=' . $this->session->data['token'], true);
 			$data['logout'] = $this->url->link('common/logout', 'token=' . $this->session->data['token'], true);
