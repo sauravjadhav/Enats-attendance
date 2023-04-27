@@ -63,7 +63,7 @@ class ControllerCatalogTask extends Controller
 
         $this->load->model('catalog/task');
 
-        if (($this->request->server['REQUEST_METHOD'] == 'POST')) {
+        if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm()) {
             $this->model_catalog_task->editTask($this->request->get['task_id'], $this->request->post);
             // echo "<pre>";print_r($data);exit;
             $this->session->data['success'] = $this->language->get('text_success');
@@ -290,24 +290,24 @@ class ControllerCatalogTask extends Controller
             } else {
                 $project_end_time = '';
             }
-            // echo "<pre>";print_r($date);exit;
+            // echo "<pre>";print_r($results);exit;
             $data['tasks'][] = array(
-                'task_id'                     => $result['task_id'],
-                'remark'                     => $result['remark'],
-                'project'                      => $project['project_name'],
+                'task_id'                   => $result['task_id'],
+                'remark'                    => $result['remark'],
+                'project'                   => $project['project_name'],
                 'date'                      => $result['date_time'],
-                'user'                         => $result['username'],
-                'subject'                         => $result['subject'],
+                'user'                      => $result['username'],
+                'subject'                   => $result['subject'],
                 'username'                  => $user['username'],
-                'project_start_time'          => $project_start_time,
-                'project_end_time'            => $project_end_time,
-                'task'                       => $result['task'],
+                'project_start_time'        => $project_start_time,
+                'project_end_time'          => $project_end_time,
+                'task'                      => $result['task'],
+                'notification'              => $result['notification'],
                 'status'                    => strtoupper($result['status']),
                 'commit_no'    => $result['commit_no'],
                 'edit'            => $this->url->link('catalog/task/edit', 'token=' . $this->session->data['token'] . '&task_id=' . $result['task_id'] . $url, true)
             );
         }
-
 
         $data['heading_title'] = $this->language->get('heading_title');
 
@@ -329,7 +329,6 @@ class ControllerCatalogTask extends Controller
         $data['entry_project_end_time'] = $this->language->get('entry_project_end_time');
         $data['entry_task'] = $this->language->get('entry_task');
         $data['entry_status'] = $this->language->get('entry_status');
-        $data['status'] = ['status'];
         $data['entry_commit_no'] = $this->language->get('entry_commit_no');
 
         $data['button_add'] = $this->language->get('button_add');
@@ -348,7 +347,6 @@ class ControllerCatalogTask extends Controller
 
         if (isset($this->session->data['success'])) {
             $data['success'] = $this->session->data['success'];
-
             unset($this->session->data['success']);
         } else {
             $data['success'] = '';
@@ -413,11 +411,9 @@ class ControllerCatalogTask extends Controller
         $data['project_id'] = $project_id;
         $data['user_id'] = $user_id;
         $data['status'] = $status;
-
         $data['header'] = $this->load->controller('common/header');
         $data['column_left'] = $this->load->controller('common/column_left');
         $data['footer'] = $this->load->controller('common/footer');
-
         $this->response->setOutput($this->load->view('catalog/task_list', $data));
     }
 
@@ -645,6 +641,14 @@ class ControllerCatalogTask extends Controller
             $data['commit_no'] = '';
         }
 
+        if (isset($this->request->post['notification'])) {
+            $data['notification'] = $this->request->post['notification'];
+        } elseif (!empty($task_info)) {
+            $data['notification'] = $task_info['notification'];
+        } else {
+            $data['notification'] = '';
+        }
+
         if (isset($this->request->files['screenshot'])) {
             $target_file = DIR_IMAGE . basename($_FILES["screenshot"]["name"]);
             move_uploaded_file($_FILES["screenshot"]["tmp_name"], $target_file);
@@ -668,8 +672,12 @@ class ControllerCatalogTask extends Controller
 
     protected function validateForm()
     {
-        if ((utf8_strlen($this->request->post['subject']) < 2) || (utf8_strlen($this->request->post['subject']) > 50)) {
-            $this->error['subject'] = $this->language->get('Subject must be between 2-50 characters');
+        // echo "<pre>";
+        // print_r("inn");
+        // exit;
+        if ((utf8_strlen($this->request->post['subject']) < 2) || (utf8_strlen($this->request->post['subject']) > 60)) {
+            // echo"<pre>";print_r("innn");exit;
+            $this->error['subject'] = $this->language->get('Subject must be between 2-60 characters');
         }
         return !$this->error;
     }
