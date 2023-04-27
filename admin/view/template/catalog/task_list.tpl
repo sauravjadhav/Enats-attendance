@@ -131,7 +131,11 @@
                   <?php }else{ ?>
                     <td class="text-left"><?php echo $task['user']; ?></td>
                   <?php }?>
-                  <td class="text-left"><?php echo $task['subject']; ?></td>
+                  <td class="text-left"><?php echo $task['subject']; ?>
+                    <?php if($task['status'] != 'DONE'){?>
+                      <b style="<?php if ($task['notification'] == '0' && $task['status'] !='DONE'){echo 'color:red;';}elseif($task['notification'] == '1' && $task['status'] != 'DONE'){echo 'color:green;';}?>">*<b>
+                    <?php }?>
+                  </td>
                   <td class="text-left"><?php echo $task['remark']; ?></td>
                   <td class="text-left"><?php echo $task['status']; ?></td>
                   <td class="text-right"><a href="<?php echo $task['edit']; ?>" data-toggle="tooltip" title="<?php echo $button_edit; ?>" class="btn btn-primary"><i class="fa fa-pencil"></i></a></td>
