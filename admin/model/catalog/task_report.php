@@ -7,34 +7,6 @@ class ModelCatalogTaskReport extends Model {
     return $query->row;
   }
 
-  public function autocompletetas($data = array()){
-    // echo "<pre>";print_r($data);exit;
-    $sql = "SELECT * FROM oc_project WHERE 1=1";
-
-    if (!empty($data['filter_project'])) {
-      $sql .= " AND project_name LIKE '" . $this->db->escape($data['filter_project']) . "%'";
-    }
-
-    $sql .= " GROUP BY project_name";
-    $query = $this->db->query($sql);
-
-    return $query->rows;
-  }
-
-  public function autocomplete2($data = array()){
-    // echo "<pre>";print_r($data);exit;
-    $sql = "SELECT * FROM oc_user WHERE 1=1";
-
-    if (!empty($data['username'])) {
-      $sql .= " AND username LIKE '" . $this->db->escape($data['username']) . "%'";
-    }
-
-    $sql .= " GROUP BY username";
-    $query = $this->db->query($sql);
-
-    return $query->rows;
-  }
-
   public function getTasks($data = array()) {
 
     $user_id = $this->session->data['user_id'];
@@ -45,20 +17,26 @@ class ModelCatalogTaskReport extends Model {
       $name_of_user = $user['firstname'] . ' ' . $user['lastname'];
     }
     
-    $sql = "SELECT * FROM " . DB_PREFIX . "task";
+    $sql = "SELECT * FROM " . DB_PREFIX . "task WHERE 1=1";
 
     if (!empty($data['project_id'])) {
-      $sql .= " WHERE project_id = '" . $this->db->escape($data['project_id']) . "%'";
+      $sql .= " AND project_id = '" . $this->db->escape($data['project_id']) . "%'";
     }
 
     if (!empty($data['user_id'])) {
-      $sql .= " WHERE user_id = '" . $this->db->escape($data['user_id']) . "%'";
+      $sql .= " AND user_id = '" . $this->db->escape($data['user_id']) . "%'";
     }
 
-    if (!empty($data['fromdate'])) {
-      $input_date = $data['fromdate']; // assuming format of 'YYYY-MM-DD'
-      $start_of_day_timestamp = strtotime($input_date . ' 00:00:00');
-      $sql .= " WHERE `date` = '" . $this->db->escape(date('Y-m-d H:i:s', $start_of_day_timestamp)) . "'";
+    if (!empty($data['fromdate']) && !empty($data['todate'])) {
+      $from_date = date('Y-m-d H:i:s', strtotime($data['fromdate']));
+      $to_date = date('Y-m-d H:i:s', strtotime($data['todate']));
+
+      if (!empty($data['fromdate']) && !empty($data['todate'])) {
+        $from_date = date('Y-m-d H:i:s', strtotime($data['fromdate']));
+        $to_date = date('Y-m-d H:i:s', strtotime($data['todate']));
+
+        $sql .= " AND `date_time` >= '" . $this->db->escape($from_date) . "' AND `date_time` <= '" . $this->db->escape($to_date) . "'";
+      }
     }
 
     $sort_data = array(
