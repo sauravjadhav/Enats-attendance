@@ -5,7 +5,7 @@ class Controllercatalogexptask extends Controller {
     $month_end = date('Y-m-t');
     $task_data = $this->db->query("SELECT * FROM oc_task WHERE CAST(date_time as DATE) BETWEEN '".$month_start."' AND '".$month_end."'")->rows;
     $csv_data = array(
-        array('Date', 'Project Name', 'Username','Employee','Remark','Subject', 'Project Start Time', 'Project End Time', 'Task', 'Status', 'Commit No')
+        array('Date', 'Project Name', 'Username','Employee','Remark','Subject','Start Date', 'Project Start Time', 'Project End Time', 'Task', 'Status', 'Commit No')
     );
     foreach ($task_data as $task){
         $user_id = $task['user_id'];
@@ -15,10 +15,11 @@ class Controllercatalogexptask extends Controller {
         $csv_data[] = array(
             $task['date_time'],
             $project['project_name'],
-            $user['username'],
             $task['username'],
+            $user['username'],
             $task['remark'],
             $task['subject'],
+            $task['date'],
             $task['project_start_time'],
             $task['project_end_time'],
             $task['task'],
