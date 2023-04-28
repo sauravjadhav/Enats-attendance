@@ -27,7 +27,8 @@ class Controllercatalogreports extends Controller {
 			);
 
 			$data['button_add'] = $this->language->get('button_add');
-			$data['add'] = $this->url->link('catalog/export_csv', 'token=' . $this->session->data['token'] . $url, true);
+			$data['export'] = $this->url->link('catalog/export_csv', 'token=' . $this->session->data['token'] . $url, true);
+			$data['archive'] = $this->url->link('catalog/reports/archive', 'token=' . $this->session->data['token'] . $url, true);
 
 			$data['header'] = $this->load->controller('common/header');
 			$data['column_left'] = $this->load->controller('common/column_left');
@@ -35,7 +36,14 @@ class Controllercatalogreports extends Controller {
 
 
 		$this->response->setOutput($this->load->view('catalog/reports',$data));
+	}
 
+	public function archive() {
+		$year = date('Y') - 1;
+		$create_table_query = $this->db->query("CREATE TABLE IF NOT EXISTS `oc_attendance_".$year."` LIKE oc_attendance_record;");
+		$insert_data = $this->db->query("INSERT IGNORE INTO `oc_attendance_" . $year . "` SELECT * FROM `oc_attendance_record` WHERE YEAR(`date`) = YEAR(NOW()) - 1;");
+		$delete_last_data = $this->db->query("DELETE FROM `oc_attendance_record` WHERE YEAR(`date`) = YEAR(NOW()) - 1;");
+		$this->response->redirect($this->url->link('catalog/reports', 'token=' . $this->session->data['token'], true));
 	}
 }
 ?>
