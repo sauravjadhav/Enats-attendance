@@ -145,18 +145,18 @@ class ModelCatalogTask extends Model {
 			}
 
 		} elseif($user_group_id == 1) {
-			$sql = "SELECT * FROM " . DB_PREFIX . "task";
+			$sql = "SELECT * FROM " . DB_PREFIX . "task WHERE 1=1";
 
 			if (!empty($data['project_id'])) {
-				$sql .= " WHERE project_id = '" . $this->db->escape($data['project_id']) . "%'";
+				$sql .= " AND project_id = '" . $this->db->escape($data['project_id']) . "%'";
 			}
 
 			if (!empty($data['user_id'])) {
-				$sql .= " WHERE user_id = '" . $this->db->escape($data['user_id']) . "%'";
+				$sql .= " AND user_id = '" . $this->db->escape($data['user_id']) . "%'";
 			}
 
 			if (!empty($data['status'])) {
-				$sql .= " WHERE status LIKE '" . $this->db->escape($data['status']) . "%'";
+				$sql .= " AND status LIKE '" . $this->db->escape($data['status']) . "%'";
 			}
 		} elseif ($user_group_id == 12) {
 			$project_id = $this->db->query("SELECT project_id FROM oc_project WHERE user_id = '$user_id'")->row;

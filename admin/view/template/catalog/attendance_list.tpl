@@ -30,24 +30,24 @@
       </div>
       <div class="panel-body">
           <div class="well">
-          <div class="row">
-            <div class="col-sm-4">
-              <div class="form-group">
-                <label class="control-label" for="input-name"><?php echo $entry_name; ?></label>
-                <input type="text" name="filter_name" value="<?php echo $filter_name; ?>" placeholder="<?php echo $entry_name; ?>" id="input-name" class="form-control" />
+            <div class="row">
+              <div class="col-sm-4">
+                <div class="form-group" style="padding: 0;">
+                  <label class="control-label" for="input-name"><?php echo $entry_name; ?></label>
+                  <input type="text" name="filter_name" value="<?php echo $filter_name; ?>" placeholder="<?php echo $entry_name; ?>" id="input-name" class="form-control" />
+                </div>
               </div>
-            </div>
-            <div class="col-sm-4">
-              <div class="form-group">
-                <label class="control-label" for="input-time"><?php echo $entry_office_in_time; ?></label>
-                <input type="time" name="filter_office_in_time" value="<?php echo $filter_office_in_time; ?>" placeholder="<?php echo $entry_office_in_time; ?>" id="input-time" class="form-control" />
+              <div class="col-sm-4">
+                <div class="form-group" style="padding: 0;">
+                  <label class="control-label" for="input-time"><?php echo $entry_office_in_time; ?></label>
+                  <input type="time" name="filter_office_in_time" value="<?php echo $filter_office_in_time; ?>" placeholder="<?php echo $entry_office_in_time; ?>" id="input-time" class="form-control" />
+                </div>
               </div>
-            </div>
-             <div class="col-sm-12">
-              <button type="button" id="button-filter" class="btn btn-primary pull-right"><i class="fa fa-search"></i> <?php echo $button_filter; ?></button>
+              <div class="col-sm-1" style="padding-top:22px;">
+                <button type="button" id="button-filter" class="btn btn-primary"><i class="fa fa-search"></i> <?php echo $button_filter; ?></button>
+              </div>
             </div>
           </div>
-        </div>
         <form action="<?php echo $delete; ?>" method="post" enctype="multipart/form-data" id="form-attendance">
           <div class="table-responsive">
             <table class="table table-bordered table-hover">

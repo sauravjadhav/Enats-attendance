@@ -62,7 +62,7 @@
         <li><a href="<?php echo $affiliate_approval; ?>"><span class="label label-danger pull-right"><?php echo $affiliate_total; ?></span><?php echo $text_approval; ?></a></li>
       </ul>
     </li>
-    <li><a href="<?php echo $logout; ?>"><span class="btn btn-dark"><?php echo $text_logout; ?></span> <i class="fa fa-sign-out fa-lg"></i></a></li>
+    <li><a href="<?php echo $logout; ?>"><span class="btn btn-primary"><?php echo $text_logout; ?></span> <i class="fa fa-sign-out fa-lg"></i></a></li>
   </ul>
   <?php } ?>
 </header>

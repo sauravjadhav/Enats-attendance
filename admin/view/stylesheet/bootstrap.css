@@ -11,9 +11,13 @@ html {
   -webkit-text-size-adjust: 100%; }
 
 body {
-  margin: 0; }
+  margin: 0; 
+}
 
-article, aside, details, figcaption, figure, footer, header, hgroup, main, menu, nav, section, summary {
+footer{
+  display: none;
+}
+article, aside, details, figcaption, figure, header, hgroup, main, menu, nav, section, summary {
   display: block; }
 
 audio, canvas, progress, video {
@@ -181,7 +185,8 @@ td, th {
     page-break-inside: avoid; }
 
   thead {
-    display: table-header-group; }
+    display: table-header-group; 
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;}
 
   tr, img {
     page-break-inside: avoid; }
@@ -1402,7 +1407,7 @@ pre {
   margin-right: auto;
   margin-left: auto;
   padding-left: 15px;
-  padding-right: 15px; }
+  padding-right: 15px;}
   .container:before, .container:after {
     content: " ";
     display: table; }
@@ -1431,7 +1436,8 @@ pre {
 
 .row {
   margin-left: -15px;
-  margin-right: -15px; }
+  margin-right: -15px;
+  padding:5px; }
   .row:before, .row:after {
     content: " ";
     display: table; }
@@ -2007,7 +2013,8 @@ table td[class*="col-"], table th[class*="col-"] {
 
 .table-responsive {
   overflow-x: auto;
-  min-height: 0.01%; }
+  min-height: 0.01%; 
+  padding: 5px;}
   @media screen and (max-width: 767px) {
   .table-responsive {
     width: 100%;
@@ -2091,7 +2098,7 @@ output {
   padding: 8px 13px;
   font-size: 12px;
   line-height: 1.42857;
-  color: #555;
+  color: black;
   background-color: #fff;
   background-image: none;
   border: 1px solid #ccc;
@@ -2477,8 +2484,8 @@ a.btn.disabled, fieldset[disabled] a.btn {
 
 .btn-primary {
   color: #fff;
-  background-color: #1e91cf;
-  border-color: #1978ab; }
+  background-color: #145da0;
+  border-color: #145DA0; }
   .btn-primary:focus, .btn-primary.focus {
     color: #fff;
     background-color: #1872a2;
@@ -2792,9 +2799,8 @@ tbody.collapse.in {
   font-weight: bolder;
   display: block;
   padding: 3px 20px;
-  font-size: 11px;
   line-height: 1.42857;
-  color: #777;
+  color: black;
   white-space: nowrap; }
 
 .dropdown-backdrop {
@@ -4087,7 +4093,8 @@ a.list-group-item-danger, button.list-group-item-danger {
   box-shadow: 0 1px 1px rgba(0, 0, 0, .05); }
 
 .panel-body {
-  padding: 15px; }
+  padding: 15px; 
+  }
   .panel-body:before, .panel-body:after {
     content: " ";
     display: table; }
@@ -4095,10 +4102,12 @@ a.list-group-item-danger, button.list-group-item-danger {
     clear: both; }
 
 .panel-heading {
+  background-color: white!important;
+  color: black!important;
   padding: 10px 15px;
   border-bottom: 1px solid transparent;
-  border-top-right-radius: 2px;
-  border-top-left-radius: 2px; }
+  border-top-right-radius: 1px;
+  border-top-left-radius: 1px; }
   .panel-heading > .dropdown .dropdown-toggle {
     color: inherit; }
 
@@ -4308,11 +4317,11 @@ a.list-group-item-danger, button.list-group-item-danger {
   min-height: 20px;
   padding: 19px;
   margin-bottom: 20px;
-  background-color: #f5f5f5;
-  border: 1px solid #e3e3e3;
+  background-color:#fff;
   border-radius: 3px;
-  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .05);
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, .05); }
+  border:1px solid #ddd;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+   }
   .well blockquote {
     border-color: #ddd;
     border-color: rgba(0, 0, 0, .15); }
