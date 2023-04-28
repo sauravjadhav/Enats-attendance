@@ -60,6 +60,18 @@ class Controllercatalogtaskreport  extends Controller {
             $project_id = 0;
         }
 
+        if (isset($this->request->get['fromdate'])) {
+            $fromdate = $this->request->get['fromdate'];
+        } else {
+            $fromdate = '';
+        }
+
+        if (isset($this->request->get['todate'])) {
+            $todate = $this->request->get['todate'];
+        } else {
+            $todate = '';
+        }
+
         if (isset($this->request->get['sort'])) {
             $sort = $this->request->get['sort'];
         } else {
@@ -117,7 +129,8 @@ class Controllercatalogtaskreport  extends Controller {
         $filter_data = array(
             'project_id' => $project_id,
             'user_id' => $user_id,
-            
+            'fromdate'  => $fromdate,    
+            'todate'  => $todate,    
             'sort'  => $sort,
             'order' => $order,
             'start' => ($page - 1) * $this->config->get('config_limit_admin'),
@@ -125,40 +138,34 @@ class Controllercatalogtaskreport  extends Controller {
         );
 
         $task_total = $this->model_catalog_task_report->getTotalTasks();
-        $results = $this->model_catalog_task_report->getTasks($filter_data);
-          
-         // echo "<pre>";print_r($results);exit;
+        $task_data = $this->model_catalog_task_report->getTasks($filter_data);
 
-
-
-
-
-			$data['tasks'] = array();
-			$month_start = date('Y-m-01');
-			$month_end = date('Y-m-t');
-			$task_data = $this->db->query("SELECT * FROM oc_task WHERE CAST(date_time as DATE) BETWEEN '".$month_start."' AND '".$month_end."'")->rows;
-			foreach ($task_data as $task){
-				$user_id = $task['user_id'];
-				$user = $this->db->query("SELECT username FROM oc_user WHERE user_id = $user_id")->row;
-				$project_id = $task['project_id'];
-				$project = $this->db->query("SELECT project_name FROM oc_project WHERE project_id = $project_id")->row;
-				$data['tasks'][] = array(
-					'date' 	        		    => $task['date_time'],
-					'project_name'          	=> $project['project_name'],
-					'username'          		=> $task['username'],
-					'user'          		=> $user['username'],
-					'remark'      				=> $task['remark'],
-					'subject'          		=> $task['subject'],
-					'project_start_time'      	=> $task['project_start_time'],
-					'start_date'      	=> $task['date'],
-					'project_end_time'        	=> $task['project_end_time'],
-					'task'   		        	=> $task['task'],
-					'status'                	=> $task['status'],
-					'commit_no'    				=> $task['commit_no'],
-				);
-				// echo "<pre>";print_r($data['tasks']);exit;
-			}
+		$data['tasks'] = array();
+		$month_start = date('Y-m-01');
+		$month_end = date('Y-m-t');
+		// $task_data = $this->db->query("SELECT * FROM oc_task WHERE CAST(date_time as DATE) BETWEEN '".$month_start."' AND '".$month_end."'")->rows;
+		foreach ($task_data as $task){
+			$user_id = $task['user_id'];
+			$user = $this->db->query("SELECT username FROM oc_user WHERE user_id = $user_id")->row;
+			$project_id = $task['project_id'];
+			$project = $this->db->query("SELECT project_name FROM oc_project WHERE project_id = $project_id")->row;
+			$data['tasks'][] = array(
+				'date' 	        		    => $task['date_time'],
+				'project_name'          	=> $project['project_name'],
+				'username'          		=> $task['username'],
+				'user'          		=> $user['username'],
+				'remark'      				=> $task['remark'],
+				'subject'          		=> $task['subject'],
+				'project_start_time'      	=> $task['project_start_time'],
+				'start_date'      	=> $task['date'],
+				'project_end_time'        	=> $task['project_end_time'],
+				'task'   		        	=> $task['task'],
+				'status'                	=> $task['status'],
+				'commit_no'    				=> $task['commit_no'],
+			);
 			// echo "<pre>";print_r($data['tasks']);exit;
+		}
+		// echo "<pre>";print_r($data['tasks']);exit;
 
 	    $data['heading_title'] = $this->language->get('heading_title');
 
@@ -250,10 +257,9 @@ class Controllercatalogtaskreport  extends Controller {
 
         $data['project_id'] = $project_id;
         $data['user_id'] = $user_id;
+        $data['fromdate'] = $fromdate;
+        $data['todate'] = $todate;
         
-        
-        
-
 		$data['header'] = $this->load->controller('common/header');
 		$data['column_left'] = $this->load->controller('common/column_left');
 		$data['footer'] = $this->load->controller('common/footer');

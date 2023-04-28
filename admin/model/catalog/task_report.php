@@ -44,51 +44,26 @@ class ModelCatalogTaskReport extends Model {
       $data['user_group_id'] = $user['user_group_id'];
       $name_of_user = $user['firstname'] . ' ' . $user['lastname'];
     }
+    
+    $sql = "SELECT * FROM " . DB_PREFIX . "task";
 
-    // echo "<pre>";print_r($user_group_id);exit;
-    if ($user_group_id == 11) {
-      $sql = "SELECT * FROM " . DB_PREFIX . "task";
-      $sql .= " WHERE user_id LIKE '" . $user_id . "%'";
-
-      if (!empty($data['project_id'])) {
-        $sql .= " AND project_id LIKE '" . $this->db->escape($data['project_id']) . "%'";
-      }
-
-      if (!empty($data['date'])) {
-        $sql .= " AND date LIKE '" . $this->db->escape($data['date']) . "%'";
-      }
-
-    } elseif($user_group_id == 1) {
-      $sql = "SELECT * FROM " . DB_PREFIX . "task";
-
-      if (!empty($data['project_id'])) {
-        $sql .= " WHERE project_id = '" . $this->db->escape($data['project_id']) . "%'";
-      }
-
-      if (!empty($data['user_id'])) {
-        $sql .= " WHERE user_id = '" . $this->db->escape($data['user_id']) . "%'";
-      }
-
-      if (!empty($data['date'])) {
-        $sql .= " WHERE date LIKE '" . $this->db->escape($data['date']) . "%'";
-      }
-    } elseif ($user_group_id == 12) {
-      $project_id = $this->db->query("SELECT project_id FROM oc_project WHERE user_id = '$user_id'")->row;
-      $p_id = $project_id['project_id'];
-      $sql = "SELECT * FROM " . DB_PREFIX . "task";
-      $sql .= " WHERE project_id = '$p_id'";
-      if (!empty($data['date'])) {
-        $sql .= " AND date LIKE '" . $this->db->escape($data['date']) . "%'";
-      }
-      // echo "<pre>";print_r($sql);exit;
+    if (!empty($data['project_id'])) {
+      $sql .= " WHERE project_id = '" . $this->db->escape($data['project_id']) . "%'";
     }
 
-    // echo "<pre>";print_r($sql);exit;
+    if (!empty($data['user_id'])) {
+      $sql .= " WHERE user_id = '" . $this->db->escape($data['user_id']) . "%'";
+    }
+
+    if (!empty($data['fromdate'])) {
+      $input_date = $data['fromdate']; // assuming format of 'YYYY-MM-DD'
+      $start_of_day_timestamp = strtotime($input_date . ' 00:00:00');
+      $sql .= " WHERE `date` = '" . $this->db->escape(date('Y-m-d H:i:s', $start_of_day_timestamp)) . "'";
+    }
 
     $sort_data = array(
       'project_id',
       'user_id',
-      
     );
 
     if (isset($data['sort']) && in_array($data['sort'], $sort_data)) {

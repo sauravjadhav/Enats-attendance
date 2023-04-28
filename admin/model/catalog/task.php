@@ -11,7 +11,17 @@ class ModelCatalogTask extends Model {
 			$data['status'] = "pending";
 		}
 
-		$this->db->query("INSERT INTO " . DB_PREFIX . "task SET project_id = '" . $this->db->escape($data['project_id']) . "',screenshot_path = '" . $file_name . "',username = '" . $this->db->escape($data['username']) . "',user_id = '" . $this->db->escape($data['user_id']) . "',subject = '" . $this->db->escape($data['subject']) . "',remark = '" . $this->db->escape($data['remark']) . "',project_start_time = '" . $this->db->escape($data['project_start_time']) . "',date = '" . $this->db->escape($data['date']) . "',project_end_time = '" . $this->db->escape($data['project_end_time']) . "',task = '" . $this->db->escape($data['task']) . "',status = '" . $this->db->escape($data['status']) . "',commit_no = '" . $this->db->escape($data['commit_no']) . "'");
+		if($user_group_id == 11){
+			$notify = '1';
+		}else{
+			$notify = '0';
+		}
+
+		date_default_timezone_set("Asia/Calcutta");   //India time (GMT+5:30)
+		$date_time = date('Y-m-d H:i:s');
+		// echo "<pre>";print_r($date_time);exit;
+
+		$this->db->query("INSERT INTO " . DB_PREFIX . "task SET project_id = '" . $this->db->escape($data['project_id']) . "',screenshot_path = '" . $file_name . "',username = '" . $this->db->escape($data['username']) . "',user_id = '" . $this->db->escape($data['user_id']) . "',subject = '" . $this->db->escape($data['subject']) . "',remark = '" . $this->db->escape($data['remark']) . "',project_start_time = '" . $this->db->escape($data['project_start_time']) . "',date = '" . $this->db->escape($data['date']) . "',project_end_time = '" . $this->db->escape($data['project_end_time']) . "',task = '" . $this->db->escape($data['task']) . "',status = '" . $this->db->escape($data['status']) . "',notification = '" . $notify . "',date_time = '" . $date_time . "',commit_no = '" . $this->db->escape($data['commit_no']) . "'");
 
 		$task_id = $this->db->getLastId();
 
@@ -23,6 +33,9 @@ class ModelCatalogTask extends Model {
 	public function editTask($task_id, $data) {
 	 // echo "<pre>";print_r($this->request->post);exit;
 
+		date_default_timezone_set("Asia/Calcutta");   //India time (GMT+5:30)
+		$date_time = date('Y-m-d H:i:s');
+
 		if(isset($_FILES["screenshot"]["name"]) && $_FILES["screenshot"]["name"] != ''){	
 			$target_file = DIR_IMAGE . "screenshot/" .basename($_FILES["screenshot"]["name"]);
 			move_uploaded_file($_FILES["screenshot"]["tmp_name"], $target_file);
@@ -32,8 +45,39 @@ class ModelCatalogTask extends Model {
 			$screenshot = $data['screenshot_path'];
 		}
 
-		$this->db->query("UPDATE " . DB_PREFIX . "task SET project_id = '" . $this->db->escape($data['project_id']) . "',screenshot_path = '" . $screenshot . "',username = '" . $this->db->escape($data['username']) . "',user_id = '" . $this->db->escape($data['user_id']) . "',project_start_time = '" . $this->db->escape($data['project_start_time']) . "',subject = '" . $this->db->escape($data['subject']) . "',remark = '" . $this->db->escape($data['remark']) . "',project_end_time = '" . $this->db->escape($data['project_end_time']) . "',task = '" . $this->db->escape($data['task']) . "',status = '" . $this->db->escape($data['status']) . "',commit_no = '" . $this->db->escape($data['commit_no']) . "' WHERE task_id = '" . (int)$task_id . "'");
+		$current_remark = $this->db->query("SELECT remark FROM " . DB_PREFIX . "task WHERE task_id = '" . (int)$task_id . "'")->row['remark'];
 
+		if ($data['remark'] !== $current_remark) {
+		  	$task = $this->db->query("SELECT notification FROM " . DB_PREFIX . "task WHERE task_id = '" . (int)$task_id . "'");
+			$notification = $task->row['notification'];
+
+			// Alternate between 0 and 1
+			if ($notification == 1) {
+			    $notify = 0;
+			} else {
+			    $notify = 1;
+			}
+		} else {
+		  // The remark is the same as before, so don't update the notification field
+		  $notify = $data['notification'];
+		}
+
+		// Update the task record
+		$this->db->query("UPDATE " . DB_PREFIX . "task SET
+		  screenshot_path = '" . $file_name . "',
+		  username = '" . $this->db->escape($data['username']) . "',
+		  user_id = '" . $this->db->escape($data['user_id']) . "',
+		  subject = '" . $this->db->escape($data['subject']) . "',
+		  remark = '" . $this->db->escape($data['remark']) . "',
+		  project_start_time = '" . $this->db->escape($data['project_start_time']) . "',
+		  date = '" . $this->db->escape($data['date']) . "',
+		  project_end_time = '" . $this->db->escape($data['project_end_time']) . "',
+		  task = '" . $this->db->escape($data['task']) . "',
+		  status = '" . $this->db->escape($data['status']) . "',
+		  notification = '" . $notify . "',
+		  date_time = '" . $date_time . "',
+		  commit_no = '" . $this->db->escape($data['commit_no']) . "'
+		WHERE task_id = '" . (int)$task_id . "'");
 
 		$this->cache->delete('task');
 	}

@@ -132,43 +132,6 @@
                       <?php echo $column_date; ?>
                     </a>
                   <?php } ?>
-
-                  <?php if ($user_group_id != 12) {?>
-                    <td class="text-left"><?php echo $column_project;?></td>
-                  <?php }else{?>
-                    <td class="text-left">User</td>
-                  <?php }?>
-                  <td class="text-left">Subject</td>
-                  <td class="text-left">Remark/Instruction</td>
-                  <td class="text-left"><?php echo $column_status;?></td>
-                  <td class="text-right"><?php echo $column_action; ?></td>
-                </tr>
-              </thead>
-              <tbody>
-                <?php if ($tasks) { ?>
-                <?php foreach ($tasks as $task) { ?>
-                <tr>
-                  <td class="text-center"><?php if (in_array($task['task_id'], $selected)) { ?>
-                    <input type="checkbox" name="selected[]" value="<?php echo $task['task_id']; ?>" checked="checked" />
-                    <?php } else { ?>
-                    <input type="checkbox" name="selected[]" value="<?php echo $task['task_id']; ?>" />
-                    <?php } ?></td>
-                  <td class="text-left"><?php echo $task['date']; ?></td>
-                  <?php if ($user_group_id == 1) { ?>
-                    <td class="text-left"><?php echo $task['username']; ?></td>
-                  <?php }?>
-                  <?php if ($user_group_id != 12) {?>
-                    <td class="text-left"><?php echo $task['project']; ?></td>
-                  <?php }else{ ?>
-                    <td class="text-left"><?php echo $task['user']; ?></td>
-                  <?php }?>
-                  <td class="text-left"><?php echo $task['subject']; ?></td>
-                  <td class="text-left"><?php echo $task['remark']; ?></td>
-                  <td class="text-left"><?php echo $task['status']; ?></td>
-                  <td class="text-right"><a href="<?php echo $task['edit']; ?>" data-toggle="tooltip" title="<?php echo $button_edit; ?>" class="btn btn-primary"><i class="fa fa-pencil"></i></a></td>
-                </tr>
-                <?php } ?>
-
                 </td>
                 <?php if ($user_group_id == 1) { ?>
                   <td class="text-left">Employee</td>
@@ -177,7 +140,6 @@
                   <td class="text-left">
                     <?php echo $column_project; ?>
                   </td>
-
                 <?php } else { ?>
                   <td class="text-left">User</td>
                 <?php } ?>
