@@ -66,6 +66,7 @@ class ModelCatalogTask extends Model {
 		$this->db->query("UPDATE " . DB_PREFIX . "task SET
 		  screenshot_path = '" . $file_name . "',
 		  username = '" . $this->db->escape($data['username']) . "',
+		  project_id = '" . $this->db->escape($data['project_id']) . "',
 		  user_id = '" . $this->db->escape($data['user_id']) . "',
 		  subject = '" . $this->db->escape($data['subject']) . "',
 		  remark = '" . $this->db->escape($data['remark']) . "',

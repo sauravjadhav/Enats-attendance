@@ -55,7 +55,7 @@ class ControllerCatalogTask extends Controller
 
     public function edit()
     {
-        //echo "<pre>";print_r($this->request->post);exit;
+        // echo "<pre>";print_r($this->request->post);exit;
 
         $this->load->language('catalog/task');
 
