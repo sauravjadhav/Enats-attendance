@@ -17,6 +17,7 @@ class Controllercatalogtaskreport  extends Controller {
     protected function getList()
     {
 
+        $url ='';
     	$user_id = $this->session->data['user_id'];
         $user_data = $this->db->query("SELECT * FROM oc_user where user_id = '$user_id'")->rows;
         foreach ($user_data as $user) {
@@ -32,6 +33,7 @@ class Controllercatalogtaskreport  extends Controller {
                 $username[$val['user_id']] = $val['firstname'] . ' ' . $val['lastname'];
             }
             $data['username'] = $username;
+            $url = '&user_id='.$user_id;
         } else {
             $users = $this->db->query("SELECT * FROM oc_user")->rows;
             foreach ($users as $val) {
@@ -49,6 +51,7 @@ class Controllercatalogtaskreport  extends Controller {
             }
             $project_id = $this->request->get['project_id'];
             $data['project'] = $pro;
+            $url .= '&project_id='.$project_id;
         } else {
             $data['project'] = array();
             $projects = $this->db->query("SELECT * FROM oc_project")->rows;
@@ -62,12 +65,14 @@ class Controllercatalogtaskreport  extends Controller {
 
         if (isset($this->request->get['fromdate'])) {
             $fromdate = $this->request->get['fromdate'];
+            $url .= '&fromdate='.$fromdate;
         } else {
             $fromdate = '';
         }
 
         if (isset($this->request->get['todate'])) {
             $todate = $this->request->get['todate'];
+            $url .= '&todate='.$todate;
         } else {
             $todate = '';
         }
@@ -90,9 +95,8 @@ class Controllercatalogtaskreport  extends Controller {
             $page = 1;
         }
 
-        $url = '';
 
-
+		$data['add'] = $this->url->link('catalog/task_report/export', 'token=' . $this->session->data['token'] . $url, true);
 
         if (isset($this->request->get['sort'])) {
             $url .= '&sort=' . $this->request->get['sort'];
@@ -105,7 +109,6 @@ class Controllercatalogtaskreport  extends Controller {
         if (isset($this->request->get['page'])) {
             $url .= '&page=' . $this->request->get['page'];
         }
-
 
 		$data['breadcrumbs'] = array();
 
@@ -120,7 +123,6 @@ class Controllercatalogtaskreport  extends Controller {
 		);
 
 		$data['button_add'] = $this->language->get('button_add');
-		$data['add'] = $this->url->link('catalog/exp_task', 'token=' . $this->session->data['token'] . $url, true);
         
 
          $data['tasks'] = array();
@@ -136,6 +138,7 @@ class Controllercatalogtaskreport  extends Controller {
             'start' => ($page - 1) * $this->config->get('config_limit_admin'),
             'limit' => $this->config->get('config_limit_admin')
         );
+
 
         $task_total = $this->model_catalog_task_report->getTotalTasks();
         $task_data = $this->model_catalog_task_report->getTasks($filter_data);
@@ -153,11 +156,11 @@ class Controllercatalogtaskreport  extends Controller {
 				'date' 	        		    => $task['date_time'],
 				'project_name'          	=> $project['project_name'],
 				'username'          		=> $task['username'],
-				'user'          		=> $user['username'],
+				'user'          		    => $user['username'],
 				'remark'      				=> $task['remark'],
-				'subject'          		=> $task['subject'],
+				'subject'          		    => $task['subject'],
 				'project_start_time'      	=> $task['project_start_time'],
-				'start_date'      	=> $task['date'],
+				'start_date'      	        => $task['date'],
 				'project_end_time'        	=> $task['project_end_time'],
 				'task'   		        	=> $task['task'],
 				'status'                	=> $task['status'],
@@ -166,106 +169,97 @@ class Controllercatalogtaskreport  extends Controller {
 			// echo "<pre>";print_r($data['tasks']);exit;
 		}
 		// echo "<pre>";print_r($data['tasks']);exit;
-
-	    $data['heading_title'] = $this->language->get('heading_title');
-
-        $data['text_list'] = $this->language->get('text_list');
-        $data['text_no_results'] = $this->language->get('text_no_results');
-        $data['text_confirm'] = $this->language->get('text_confirm');
-
-
-        $data['entry_project'] = $this->language->get('entry_project');
-        
-        $data['button_add'] = $this->language->get('button_add');
-        $data['button_edit'] = $this->language->get('button_edit');
-        $data['button_delete'] = $this->language->get('button_delete');
         $data['button_filter'] = $this->language->get('button_filter');
 
         $data['token'] = $this->session->data['token'];
 
-
-        if (isset($this->error['warning'])) {
-            $data['error_warning'] = $this->error['warning'];
-        } else {
-            $data['error_warning'] = '';
-        }
-
-        if (isset($this->session->data['success'])) {
-            $data['success'] = $this->session->data['success'];
-
-            unset($this->session->data['success']);
-        } else {
-            $data['success'] = '';
-        }
-
-        if (isset($this->request->post['selected'])) {
-            $data['selected'] = (array)$this->request->post['selected'];
-        } else {
-            $data['selected'] = array();
-        }
-
-        $url = '';
-
-        if (isset($this->request->get['project_id'])) {
-            $url .= '&project_id=' . urlencode(html_entity_decode($this->request->get['project_id'], ENT_QUOTES, 'UTF-8'));
-        }
-
-        if (isset($this->request->get['user_id'])) {
-            $url .= '&user_id=' . urlencode(html_entity_decode($this->request->get['user_id'], ENT_QUOTES, 'UTF-8'));
-        } 
-
-        if (isset($this->request->get['date'])) {
-            $url .= '&date=' . urlencode(html_entity_decode($this->request->get['date'], ENT_QUOTES, 'UTF-8'));
-        }
-
-        
-        if ($order == 'ASC') {
-            $url .= '&order=DESC';
-        } else {
-            $url .= '&order=ASC';
-        }
-
-        if (isset($this->request->get['page'])) {
-            $url .= '&page=' . $this->request->get['page'];
-        }
-
-        $data['sort_name'] = $this->url->link('catalog/task_report', 'token=' . $this->session->data['token'] . '&sort=name' . $url, true);
-        $data['sort_date'] = $this->url->link('catalog/task_report', 'token=' . $this->session->data['token'] . '&sort=date' . $url, true);
-
-        $url = '';
-
-        if (isset($this->request->get['sort'])) {
-            $url .= '&sort=' . $this->request->get['sort'];
-        }
-
-        if (isset($this->request->get['order'])) {
-            $url .= '&order=' . $this->request->get['order'];
-        }
-
-        $pagination = new Pagination();
-        $pagination->total = $task_total;
-        $pagination->page = $page;
-        $pagination->limit = $this->config->get('config_limit_admin');
-        $pagination->url = $this->url->link('catalog/task_report', 'token=' . $this->session->data['token'] . $url . '&page={page}', true);
-
-        $data['pagination'] = $pagination->render();
-
-        $data['results'] = sprintf($this->language->get('text_pagination'), ($task_total) ? (($page - 1) * $this->config->get('config_limit_admin')) + 1 : 0, ((($page - 1) * $this->config->get('config_limit_admin')) > ($task_total - $this->config->get('config_limit_admin'))) ? $task_total : ((($page - 1) * $this->config->get('config_limit_admin')) + $this->config->get('config_limit_admin')), $task_total, ceil($task_total / $this->config->get('config_limit_admin')));
-
         $data['sort'] = $sort;
         $data['order'] = $order;
 
+
         $data['project_id'] = $project_id;
         $data['user_id'] = $user_id;
-        $data['fromdate'] = $fromdate;
-        $data['todate'] = $todate;
-        
+        $this->request->get['fromdate'] = $fromdate;
+        $this->request->get['todate'] = $todate;
+        $data['archive'] = $this->url->link('catalog/task_report/archive', 'token=' . $this->session->data['token'] . $url, true);
 		$data['header'] = $this->load->controller('common/header');
 		$data['column_left'] = $this->load->controller('common/column_left');
 		$data['footer'] = $this->load->controller('common/footer');
        
         $this->response->setOutput($this->load->view('catalog/task_report',$data));
-
 	}
+
+    public function archive() {
+        $year = date('Y');
+        $create_table_query = $this->db->query("CREATE TABLE IF NOT EXISTS `oc_task_".$year."` LIKE oc_task;");
+        $last_month_start = date($year . '-m-01', strtotime('-1 month'));
+        $last_month_end = date($year . '-m-t', strtotime('-1 month'));
+        $insert_data = $this->db->query("INSERT IGNORE INTO `oc_task_" . $year . "` SELECT * FROM `oc_task` WHERE `date` BETWEEN '" . $last_month_start . "' AND '" . $last_month_end . "' AND `status` = 'done';");
+        $delete_last_data = $this->db->query("DELETE FROM `oc_task` WHERE `date` BETWEEN '" . $last_month_start . "' AND '" . $last_month_end . "' AND `status` = 'done';");
+        $this->response->redirect($this->url->link('catalog/task_report', 'token=' . $this->session->data['token'], true));
+    }
+
+    public function export() {
+        // echo "<pre>";print_r($this->request->get);exit;
+        $task_data = "SELECT * FROM " . DB_PREFIX . "task WHERE 1=1";
+
+        if (isset($this->request->get['user_id'])) {
+            $user_id = $this->request->get['user_id'];
+            $task_data .= " AND user_id = '" . $user_id . "%'";
+        }
+        if (isset($this->request->get['project_id'])) {
+            $project_id = $this->request->get['project_id'];
+            $task_data .= " AND project_id = '" . $project_id . "%'";
+        }
+
+        if (!empty($this->request->get['fromdate']) && !empty($this->request->get['todate'])) {
+          $from_date = date('Y-m-d H:i:s', strtotime($this->request->get['fromdate']));
+          $to_date = date('Y-m-d H:i:s', strtotime($this->request->get['todate']));
+          $task_data .= " AND DATE(date_time) >= '" . $this->db->escape($from_date) . "' AND DATE(date_time) <= '" . $this->db->escape($to_date) . "'";
+        }elseif(!empty($this->request->get['fromdate'])){
+          $from_date = date('Y-m-d', strtotime($this->request->get['fromdate']));
+          $task_data .= " AND DATE(date_time) =  '" . $this->db->escape($from_date) . "'";
+          // echo "<pre>";print_r($task_data);exit;
+        }elseif(!empty($this->request->get['todate'])){
+          $to_date = date('Y-m-d H:i:s', strtotime($this->request->get['todate']));
+          $task_data .= " AND DATE(date_time) = '" . $this->db->escape($to_date) . "'";
+        }
+
+        $tasks = $this->db->query($task_data)->rows;
+        $month_start = date('Y-m-01');
+        $month_end = date('Y-m-t');
+        // $task_data = $this->db->query("SELECT * FROM oc_task WHERE CAST(date_time as DATE) BETWEEN '".$month_start."' AND '".$month_end."'")->rows;
+        $csv_data = array(
+            array('Date', 'Project Name', 'Username','Employee','Remark','Subject','Start Date', 'Project Start Time', 'Project End Time', 'Task', 'Status', 'Commit No')
+        );
+        foreach ($tasks as $task){
+            $project_id = $task['project_id'];
+            $project = $this->db->query("SELECT project_name FROM oc_project WHERE project_id = $project_id")->row;
+            $csv_data[] = array(
+                'date'                      => $task['date_time'],
+                'project_name'              => $project['project_name'],
+                'username'                  => $task['username'],
+                'remark'                    => $task['remark'],
+                'subject'                   => $task['subject'],
+                'project_start_time'        => $task['project_start_time'],
+                'start_date'                => $task['date'],
+                'project_end_time'          => $task['project_end_time'],
+                'task'                      => $task['task'],
+                'status'                    => $task['status'],
+                'commit_no'                 => $task['commit_no'],
+            );
+        }
+        // echo "<pre>";print_r($data);exit;
+        header('Content-Type: text/csv');
+        header('Content-Disposition: attachment; filename="Task report.csv"');
+        header('Pragma: no-cache');
+        header('Expires: 0');
+
+        $output = fopen('php://output', 'w');
+        foreach ($csv_data as $row) {
+            fputcsv($output, $row);
+        }
+        fclose($output);
+    }
 }
 ?>
