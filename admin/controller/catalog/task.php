@@ -550,26 +550,26 @@ class ControllerCatalogTask extends Controller
             $data['project_id'] = $project_id['project_id'];
         } elseif (isset($this->request->post['project_id'])) {
             $data['project_id'] = $this->request->post['project_id'];
-            $projects = $this->db->query("SELECT * FROM oc_project")->rows;
+            $projects = $this->db->query("SELECT * FROM oc_project WHERE project_end_date = '0000-00-00'")->rows;
             foreach ($projects as $val) {
                 $pro[$val['project_id']] = $val['project_name'];
             }
             $data['project'] = $pro;
         } elseif (!empty($task_info)) {
-            $projects = $this->db->query("SELECT * FROM oc_project")->rows;
+            $projects = $this->db->query("SELECT * FROM oc_project WHERE project_end_date = '0000-00-00'")->rows;
             foreach ($projects as $val) {
                 $pro[$val['project_id']] = $val['project_name'];
             }
-            $data['project_id'] = $task_info['project_id'];
             $data['project'] = $pro;
+            $data['project_id'] = $task_info['project_id'];
         } else {
             $data['project'] = array();
-            $projects = $this->db->query("SELECT * FROM oc_project")->rows;
+            $projects = $this->db->query("SELECT * FROM oc_project WHERE project_end_date = '0000-00-00'")->rows;
             foreach ($projects as $val) {
                 $pro[$val['project_id']] = $val['project_name'];
             }
-            $data['project_id'] = $val['project_id'];
             $data['project'] = $pro;
+            $data['project_id'] = $val['project_id'];
         }
 
         if (isset($this->request->post['project_start_time'])) {

@@ -30,13 +30,14 @@ class ModelCatalogTaskReport extends Model {
     if (!empty($data['fromdate']) && !empty($data['todate'])) {
       $from_date = date('Y-m-d H:i:s', strtotime($data['fromdate']));
       $to_date = date('Y-m-d H:i:s', strtotime($data['todate']));
-
-      if (!empty($data['fromdate']) && !empty($data['todate'])) {
-        $from_date = date('Y-m-d H:i:s', strtotime($data['fromdate']));
-        $to_date = date('Y-m-d H:i:s', strtotime($data['todate']));
-
-        $sql .= " AND `date_time` >= '" . $this->db->escape($from_date) . "' AND `date_time` <= '" . $this->db->escape($to_date) . "'";
-      }
+      $sql .= " AND DATE(date_time) >= '" . $this->db->escape($from_date) . "' AND DATE(date_time) <= '" . $this->db->escape($to_date) . "'";
+    }elseif(!empty($data['fromdate'])){
+      $from_date = date('Y-m-d', strtotime($data['fromdate']));
+      $sql .= " AND DATE(date_time) =  '" . $this->db->escape($from_date) . "'";
+      // echo "<pre>";print_r($sql);exit;
+    }elseif(!empty($data['todate'])){
+      $to_date = date('Y-m-d H:i:s', strtotime($data['todate']));
+      $sql .= " AND DATE(date_time) = '" . $this->db->escape($to_date) . "'";
     }
 
     $sort_data = array(
