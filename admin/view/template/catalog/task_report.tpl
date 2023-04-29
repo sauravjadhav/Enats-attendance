@@ -5,6 +5,9 @@
         <div class="container-fluid">
             <div class="pull-right"><a href="<?php echo $add; ?>" title="Export report" class="btn btn-primary"><i class="fa fa-download"></i> Export report</a>
             </div>
+            <div class="pull-right" style="margin-right: 4px;">
+              <a href="<?php echo $archive; ?>" title="Export report" class="btn btn-danger"><i class="fa fa-archive"></i> Archive report</a>
+            </div>
             <h1>Report</h1>
             <ul class="breadcrumb">
                 <?php foreach ($breadcrumbs as $breadcrumb) { ?>
