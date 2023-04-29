@@ -37,6 +37,7 @@ $_['entry_numbers'] 	                 = 'Contact numbers';
 $_['entry_address'] 	                 = 'Address';
 $_['entry_dob'] 	                     = 'Date of Birth';
 $_['entry_doje'] 	                     = 'Date of Joining ENATTS';
+$_['entry_dole'] 	                     = 'Date of Leaving ENATTS';
 $_['entry_pan'] 	                     = 'PAN';
 $_['entry_adhaar'] 	                     = 'ADHAAR';
 $_['entry_bank_details'] 	             = 'Entry Bank Details';

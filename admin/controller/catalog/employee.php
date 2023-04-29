@@ -380,6 +380,7 @@ class ControllerCatalogEmployee extends Controller {
 		$data['entry_surname'] = $this->language->get('entry_surname');
 		$data['entry_dob'] = $this->language->get('entry_dob');
 		$data['entry_doje'] = $this->language->get('entry_doje');
+		$data['entry_dole'] = $this->language->get('entry_dole');
 		$data['entry_address'] = $this->language->get('entry_address');
 		$data['entry_numbers'] = $this->language->get('entry_numbers');
 		$data['entry_pan'] = $this->language->get('entry_pan');
@@ -454,6 +455,12 @@ class ControllerCatalogEmployee extends Controller {
 			$data['error_doje'] = $this->error['doje'];
 		} else {
 			$data['error_doje'] = '';
+		}
+
+		if (isset($this->error['dole'])) {
+			$data['error_dole'] = $this->error['dole'];
+		} else {
+			$data['error_dole'] = '';
 		}
 		if (isset($this->error['dob'])) {
 			$data['error_dob'] = $this->error['dob'];
@@ -605,6 +612,14 @@ class ControllerCatalogEmployee extends Controller {
 			$data['doje'] = $employee_info['doje'];
 		} else {
 			$data['doje'] = '';
+		}
+
+		if (isset($this->request->post['dole'])) {
+			$data['dole'] = $this->request->post['dole'];
+		} elseif (!empty($employee_info)) {
+			$data['dole'] = $employee_info['dole'];
+		} else {
+			$data['dole'] = '';
 		}
 
 		if (isset($this->request->post['pan_no'])) {

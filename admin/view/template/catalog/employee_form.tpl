@@ -104,6 +104,15 @@
           <div class="text-danger"><?php echo $error_doje; ?></div>
           <?php } ?>
         </div>
+        </div> 
+        <div class="form-group ">
+        <label class="col-sm-2 control-label" for="input-date"> Date of Leaving ENATTS</label>
+        <div class="col-sm-10">
+          <input type="date" name="dole" value="<?php echo $dole; ?>" placeholder= '' id="input-date" class="form-control" />
+          <?php if ($error_dole) { ?>
+          <div class="text-danger"><?php echo $error_dole; ?></div>
+          <?php } ?>
+        </div>
         </div>
       <div class="form-group">
         <label class="col-sm-2 control-label" for="input-pan"><?php echo $entry_pan; ?><br><br>PAN Number</label>
