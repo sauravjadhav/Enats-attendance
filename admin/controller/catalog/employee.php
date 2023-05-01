@@ -742,22 +742,41 @@ class ControllerCatalogEmployee extends Controller {
 	}
 
 	protected function validateDelete() {
-		if (!$this->user->hasPermission('modify', 'catalog/employee')) {
-			$this->error['warning'] = $this->language->get('error_permission');
-		}
+    $this->load->language('catalog/employee');
 
-		$this->load->model('catalog/product');
+    if (!$this->user->hasPermission('modify', 'catalog/employee')) {
+        $this->error['warning'] = $this->language->get('error_permission');
+    }
 
-		foreach ($this->request->post['selected'] as $employee_id) {
-			$product_total = $this->model_catalog_product->getTotalProductsByManufacturerId($employee_id);
+    $this->load->model('catalog/task');
+    $employees_with_tasks = array();
 
-			if ($product_total) {
-				$this->error['warning'] = sprintf($this->language->get('error_product'), $product_total);
-			}
-		}
+    foreach ($this->request->post['selected'] as $employee_id) {
+        $task_total = $this->model_catalog_task->getTotalTasks($employee_id);
 
-		return !$this->error;
-	}
+        if ($task_total > 0) {
+            $employees_with_tasks[] = $employee_id;
+        }
+    }
+
+    if (!empty($employees_with_tasks)) {
+        $employee_names = array();
+        $this->load->model('catalog/employee');
+
+        foreach ($employees_with_tasks as $employee_id) {
+            $employee = $this->model_catalog_employee->getEmployee($employee_id);
+            $employee_names[] = $employee['name'];
+        }
+
+        $employee_names = implode(', ', $employee_names);
+        $this->error['warning'] = sprintf($this->language->get('error_tasks'), $employee_names);
+    }
+
+    return !$this->error;
+}
+
+
+
 
 	public function autocomplete() {
 		$json = array();
