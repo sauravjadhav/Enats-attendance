@@ -58,3 +58,6 @@ $_['error_numbers']       = 'numbers must be between 2 and 64 characters!';
 $_['error_address']      = 'Employee Address must be between 2 and 64 characters!';
 $_['error_keyword']      = 'SEO URL already in use!';
 $_['error_product']      = 'Warning: This manufacturer cannot be deleted as it is currently assigned to %s products!';
+$_['error_tasks'] = 'Cannot delete employee with %s tasks assigned';
+$_['error_employee_task'] = 'Cannot delete employee with an active task';
+
