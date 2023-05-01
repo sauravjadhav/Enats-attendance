@@ -1,11 +1,5 @@
 <?php
 class ModelCatalogTaskReport extends Model {
-  
-    public function gettask($task_id) {
-    
-     $query = $this->db->query("SELECT DISTINCT *, (SELECT keyword FROM " . DB_PREFIX . "url_alias WHERE query = 'task_id=" . (int)$task_id . "') AS keyword FROM " . DB_PREFIX . "task WHERE task_id = '" . (int)$task_id . "'");
-    return $query->row;
-  }
 
   public function getTasks($data = array()) {
 

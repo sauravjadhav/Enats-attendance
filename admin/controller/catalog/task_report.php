@@ -225,31 +225,45 @@ class Controllercatalogtaskreport  extends Controller {
           $task_data .= " AND DATE(date_time) = '" . $this->db->escape($to_date) . "'";
         }
 
+        $task_data .= " ORDER BY task_id DESC";
+
         $tasks = $this->db->query($task_data)->rows;
         $month_start = date('Y-m-01');
         $month_end = date('Y-m-t');
         // $task_data = $this->db->query("SELECT * FROM oc_task WHERE CAST(date_time as DATE) BETWEEN '".$month_start."' AND '".$month_end."'")->rows;
         $csv_data = array(
-            array('Date', 'Project Name', 'Username','Employee','Remark','Subject','Start Date', 'Project Start Time', 'Project End Time', 'Task', 'Status', 'Commit No')
+            array('Date','Employee','Project Name','Username','Subject','Task','Remark','Start Date','Project Start Time','Project End Time','Status','Commit No')
         );
         foreach ($tasks as $task){
-            $project_id = $task['project_id'];
-            $project = $this->db->query("SELECT project_name FROM oc_project WHERE project_id = $project_id")->row;
+            if($task['user_id'] != 0){
+                $user_id = $task['user_id'];
+                $user = $this->db->query("SELECT username FROM oc_user WHERE user_id = $user_id")->row; 
+            }else{
+                $user['username'] = '';
+            }
+            if (!empty($task['project_id'])) {
+                $project_id = $task['project_id'];
+                $project = $this->db->query("SELECT project_name FROM oc_project WHERE project_id = $project_id")->row;
+            }else{
+                $project['project_name'] = '';
+            }
+            
             $csv_data[] = array(
                 'date'                      => $task['date_time'],
+                'employee'                  => $user['username'],
                 'project_name'              => $project['project_name'],
                 'username'                  => $task['username'],
-                'remark'                    => $task['remark'],
                 'subject'                   => $task['subject'],
-                'project_start_time'        => $task['project_start_time'],
-                'start_date'                => $task['date'],
-                'project_end_time'          => $task['project_end_time'],
                 'task'                      => $task['task'],
+                'remark'                    => $task['remark'],
+                'start_date'                => $task['date'],
+                'project_start_time'        => $task['project_start_time'],
+                'project_end_time'          => $task['project_end_time'],
                 'status'                    => $task['status'],
                 'commit_no'                 => $task['commit_no'],
             );
         }
-        // echo "<pre>";print_r($data);exit;
+        // echo "<pre>";print_r($csv_data);exit;
         header('Content-Type: text/csv');
         header('Content-Disposition: attachment; filename="Task report.csv"');
         header('Pragma: no-cache');
