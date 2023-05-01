@@ -24,7 +24,6 @@
     <div class="panel-body">
       <div class="well">
         <div class="row" style="align-items: end; display: flex;">
-          <?php if ($user_group_id != 12) { ?>
             <div class="col-sm-2">
               <div class="form-group" style="padding: 0;">
                 <label class="control-label" for="input-project">Start Date</label>
@@ -52,7 +51,6 @@
               </select>
             </div>
           </div>
-          <?php if ($user_group_id == 1) { ?>
             <div class="col-sm-4">
               <div class="form-group" style="padding: 0;">
                 <label class="control-label" for="input-user_id">User</label>
@@ -68,15 +66,12 @@
                 </select>
               </div>
             </div>
-          <?php }?>
-          <?php }?>
           <div class="col-sm-3" style="text-align: start;">
             <button type="button" id="button-filter" class="btn btn-primary"><i class="fa fa-search"></i> <?php echo $button_filter; ?></button>
           </div>
         </div>
       </div>
     </div>
-    <form action="<?php echo $delete; ?>" method="post" enctype="multipart/form-data" id="form-project">
       <div class="table-responsive">
         <table class="table table-bordered table-hover">
           <thead>
@@ -120,12 +115,12 @@
           </tbody>
         </table>
       </div>
-    </form>
     </div>
   </div>
 </div>
 <script type="text/javascript"><!--
 $('#button-filter').on('click', function() {
+  // alert('in');
   var url = 'index.php?route=catalog/task_report&token=<?php echo $token; ?>';
 
   var project_id = $('select[name=\'project_id\']').val();

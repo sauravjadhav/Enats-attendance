@@ -2,10 +2,7 @@
 class Controllercatalogtaskreport  extends Controller {
 
 	public function index()
-    {
-
-        $this->load->language('catalog/task_report');
- 
+    { 
         $this->document->setTitle($this->language->get('Task Report'));
 
         $this->load->model('catalog/task_report');
@@ -125,8 +122,8 @@ class Controllercatalogtaskreport  extends Controller {
 		$data['button_add'] = $this->language->get('button_add');
         
 
-         $data['tasks'] = array();
-		 $data['user_id'] = array();
+        $data['tasks'] = array();
+    	$data['user_id'] = array();
 
         $filter_data = array(
             'project_id' => $project_id,
@@ -139,8 +136,6 @@ class Controllercatalogtaskreport  extends Controller {
             'limit' => $this->config->get('config_limit_admin')
         );
 
-
-        $task_total = $this->model_catalog_task_report->getTotalTasks();
         $task_data = $this->model_catalog_task_report->getTasks($filter_data);
 
 		$data['tasks'] = array();
@@ -179,8 +174,8 @@ class Controllercatalogtaskreport  extends Controller {
 
         $data['project_id'] = $project_id;
         $data['user_id'] = $user_id;
-        $this->request->get['fromdate'] = $fromdate;
-        $this->request->get['todate'] = $todate;
+        $data['fromdate'] = $fromdate;
+        $data['todate'] = $todate;
         $data['archive'] = $this->url->link('catalog/task_report/archive', 'token=' . $this->session->data['token'] . $url, true);
 		$data['header'] = $this->load->controller('common/header');
 		$data['column_left'] = $this->load->controller('common/column_left');
@@ -224,8 +219,6 @@ class Controllercatalogtaskreport  extends Controller {
           $to_date = date('Y-m-d H:i:s', strtotime($this->request->get['todate']));
           $task_data .= " AND DATE(date_time) = '" . $this->db->escape($to_date) . "'";
         }
-
-        $task_data .= " ORDER BY task_id DESC";
 
         $tasks = $this->db->query($task_data)->rows;
         $month_start = date('Y-m-01');
