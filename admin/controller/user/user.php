@@ -500,6 +500,13 @@ class ControllerUserUser extends Controller {
 			}
 		}
 
+		foreach ($this->request->post['selected'] as $user_id) {
+			$valitask = $this->db->query("SELECT * FROM oc_task WHERE user_id = $user_id");
+			if ($valitask->num_rows > 0){
+				$this->error['warning'] = $this->language->get('Cannot delete account with active task');
+			}
+		}
+
 		return !$this->error;
 	}
 }

@@ -58,7 +58,8 @@ class Controllercatalogreports extends Controller {
 			$data['button_filter'] = $this->language->get('button_filter');
 			$data['export'] = $this->url->link('catalog/reports/export', 'token=' . $this->session->data['token'] . $url, true);
 			$data['archive'] = $this->url->link('catalog/reports/archive', 'token=' . $this->session->data['token'] . $url, true);
-
+			$data['fromdate'] = $fromdate;
+			$data['todate'] = $todate;
 			$data['header'] = $this->load->controller('common/header');
 			$data['column_left'] = $this->load->controller('common/column_left');
 			$data['footer'] = $this->load->controller('common/footer');
@@ -72,13 +73,42 @@ class Controllercatalogreports extends Controller {
 		$delete_last_data = $this->db->query("DELETE FROM `oc_attendance_record` WHERE YEAR(`date`) = YEAR(NOW()) - 1;");
 		$this->response->redirect($this->url->link('catalog/reports', 'token=' . $this->session->data['token'], true));
 	}
-	public function export() {
-		$month_start = date('Y-m-01');
-		$month_end = date('Y-m-t');
-		
-		$attendances_header = $this->db->query("SELECT date FROM oc_attendance_record WHERE date BETWEEN '".$month_start."' AND '".$month_end."' GROUP BY date")->rows;
-		$attendances_body = $this->db->query("SELECT date, user_id, office_in_time FROM oc_attendance_record WHERE date BETWEEN '".$month_start."' AND '".$month_end."' ORDER BY user_id, date, time")->rows;
-		$username = $this->db->query("SELECT user_id, name FROM oc_attendance_record WHERE date BETWEEN '".$month_start."' AND '".$month_end."' GROUP BY user_id")->rows;
+	public function export() {		
+		$url ="";
+		if (isset($this->request->get['fromdate'])) {
+            $fromdate = $this->request->get['fromdate'];
+            $url .= '&fromdate='.$fromdate;
+        } else {
+            $fromdate = '';
+        }
+
+        if (isset($this->request->get['todate'])) {
+            $todate = $this->request->get['todate'];
+            $url .= '&todate='.$todate;
+        } else {
+            $todate = '';
+        }
+		if(!empty($fromdate && $todate)){
+			$attendances_header = $this->db->query("SELECT date FROM oc_attendance_record WHERE date >= '$fromdate' AND date <= '$todate' GROUP BY date")->rows;
+			$attendances_body = $this->db->query("SELECT date, user_id, office_in_time FROM oc_attendance_record WHERE date >= '$fromdate' AND date <= '$todate' ORDER BY user_id, date, time")->rows;
+
+			$username = $this->db->query("SELECT user_id, name FROM oc_attendance_record WHERE date >= '$fromdate' AND date <= '$todate' GROUP BY user_id")->rows;
+		}elseif(!empty($fromdate)){
+        	$attendances_header = $this->db->query("SELECT date FROM oc_attendance_record WHERE date = '$fromdate' GROUP BY date")->rows;
+			$attendances_body = $this->db->query("SELECT date, user_id, office_in_time FROM oc_attendance_record WHERE date = '$fromdate' ORDER BY user_id, date, time")->rows;
+
+			$username = $this->db->query("SELECT user_id, name FROM oc_attendance_record WHERE date = '$fromdate' GROUP BY user_id")->rows;
+		}elseif(!empty($todate)){
+			$attendances_header = $this->db->query("SELECT date FROM oc_attendance_record WHERE date = '$todate' GROUP BY date")->rows;
+			$attendances_body = $this->db->query("SELECT date, user_id, office_in_time FROM oc_attendance_record WHERE date = '$todate' ORDER BY user_id, date, time")->rows;
+
+			$username = $this->db->query("SELECT user_id, name FROM oc_attendance_record WHERE date = '$todate' GROUP BY user_id")->rows;
+		}else{
+			$attendances_header = $this->db->query("SELECT date FROM oc_attendance_record GROUP BY date LIMIT 15")->rows;
+			$attendances_body = $this->db->query("SELECT date, user_id, office_in_time FROM oc_attendance_record ORDER BY user_id, date, time LIMIT 15")->rows;
+
+			$username = $this->db->query("SELECT user_id, name FROM oc_attendance_record GROUP BY user_id")->rows;
+		}
 
 		$filename = "Attendance.csv";
 		$file_path = DIR_DOWNLOAD .'/'. $filename;
