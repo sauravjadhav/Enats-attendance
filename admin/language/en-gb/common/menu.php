@@ -48,6 +48,7 @@ $_['text_product']                     = 'Products';
 $_['text_report_attendance']           = 'Attendance Report';
 $_['text_reports']           		   = 'Reports';
 $_['text_task_report']                 = 'Task Report';
+$_['text_arc_task_report']             = 'Archived Task Report';
 $_['text_report_sale_order']           = 'Orders';
 $_['text_report_sale_tax']             = 'Tax';
 $_['text_report_sale_shipping']        = 'Shipping';

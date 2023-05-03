@@ -27,6 +27,7 @@
       <ul>
         <li><a href="<?php echo $report_attendance; ?>"><?php echo $text_report_attendance; ?></a></li>
         <li><a href="<?php echo $task_report; ?>"><?php echo $text_task_report; ?></a></li>
+        <li><a href="<?php echo $arc_task_report; ?>"><?php echo $text_arc_task_report; ?></a></li>
       </ul>
     </li>
     <li id="system"><a class="parent"><i class="fa fa-cog fa-fw"></i> <span><?php echo $text_system; ?></span></a>
