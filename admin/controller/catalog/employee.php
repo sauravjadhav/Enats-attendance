@@ -742,30 +742,26 @@ class ControllerCatalogEmployee extends Controller {
 	}
 
 	protected function validateDelete() {
-    $this->load->language('catalog/employee');
+	    $this->load->language('catalog/employee');
 
-    if (!$this->user->hasPermission('modify', 'catalog/employee')) {
-        $this->error['warning'] = $this->language->get('error_permission');
-    }
+	    if (!$this->user->hasPermission('modify', 'catalog/employee')) {
+	        $this->error['warning'] = $this->language->get('error_permission');
+	    }
 
-    $this->load->model('catalog/employee');
-    $this->load->model('catalog/task');
+	    $this->load->model('catalog/employee');
+	    $this->load->model('catalog/task');
 
-    foreach ($this->request->post['selected'] as $employee_id) {
-        $employee = $this->model_catalog_employee->getEmployee($employee_id);
-        $tasks = $this->model_catalog_task->getTasksByUserId($employee['user_id']);
+	    foreach ($this->request->post['selected'] as $employee_id) {
+	        $employee = $this->model_catalog_employee->getEmployee($employee_id);
+	        $tasks = $this->model_catalog_task->getTasksByUserId($employee['user_id']);
+	        if ($tasks) {
+	            $this->error['warning'] = $this->language->get('error_employee_task');
+	            break;
+	        }
+	    }
 
-        if ($tasks) {
-            $this->error['warning'] = $this->language->get('error_employee_task');
-            break;
-        }
-    }
-
-    return !$this->error;
-}
-
-
-
+	    return !$this->error;
+	}
 
 	public function autocomplete() {
 		$json = array();
