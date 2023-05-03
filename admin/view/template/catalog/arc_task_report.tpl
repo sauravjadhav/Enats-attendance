@@ -116,7 +116,7 @@
 <script type="text/javascript"><!--
 $('#button-filter').on('click', function() {
   // alert('in');
-  var url = 'index.php?route=catalog/task_report&token=<?php echo $token; ?>';
+  var url = 'index.php?route=catalog/arc_task_report&token=<?php echo $token; ?>';
 
   var project_id = $('select[name=\'project_id\']').val();
 
