@@ -71,7 +71,6 @@ class ModelCatalogTask extends Model {
 		  subject = '" . $this->db->escape($data['subject']) . "',
 		  remark = '" . $this->db->escape($data['remark']) . "',
 		  project_start_time = '" . $this->db->escape($data['project_start_time']) . "',
-		  date = '" . $this->db->escape($data['date']) . "',
 		  project_end_time = '" . $this->db->escape($data['project_end_time']) . "',
 		  task = '" . $this->db->escape($data['task']) . "',
 		  status = '" . $this->db->escape($data['status']) . "',

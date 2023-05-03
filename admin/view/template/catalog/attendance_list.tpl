@@ -127,8 +127,8 @@ $('input[name=\'filter_name\']').autocomplete({
       success: function(json) {
         response($.map(json, function(item) {
           return {
-            label: item['name'],
-            value: item['attendance_id']
+            label: item['firstname'],
+            value: item['user_id']
           }
         }));
       }

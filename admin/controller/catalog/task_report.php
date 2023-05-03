@@ -220,6 +220,8 @@ class Controllercatalogtaskreport  extends Controller {
           $task_data .= " AND DATE(date_time) = '" . $this->db->escape($to_date) . "'";
         }
 
+        $task_data .= " SORT BY date_time ORDER BY date_time ASC";
+        echo "<pre>";print_r($task_data);exit;
         $tasks = $this->db->query($task_data)->rows;
         $month_start = date('Y-m-01');
         $month_end = date('Y-m-t');

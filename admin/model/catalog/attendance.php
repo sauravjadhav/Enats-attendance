@@ -41,21 +41,6 @@ class ModelCatalogAttendance extends Model {
 		return $query->row;
 	}
 
-	public function autocompleteatt($data = array()){
-		// echo "<pre>";print_r($sql);exit;
-		$sql = "SELECT attendance_id, name FROM oc_attendance_record WHERE 1=1";
-
-
-		if (!empty($data['filter_name'])) {
-			$sql .= " AND name LIKE '" . $this->db->escape($data['filter_name']) . "%'";
-		}
-
-		$sql .= " GROUP BY name";
-		$query = $this->db->query($sql);
-
-		return $query->rows;
-	}
-
     public function autocompleteatt1($data = array()){
 		$sql = "SELECT * FROM oc_attendance_record WHERE 1=1";
 
@@ -71,10 +56,14 @@ class ModelCatalogAttendance extends Model {
 	}
 
 	public function autocompleteatt2($data = array()){
-		$sql = "SELECT * FROM oc_user WHERE 1=1";
+		$sql = "SELECT * FROM oc_user WHERE user_group_id = 11";
 
 		if (!empty($data['name'])) {
 			$sql .= " AND firstname LIKE '" . $this->db->escape($data['name']) . "%'";
+		}
+
+		if (!empty($data['filter_name'])) {
+			$sql .= " AND firstname LIKE '" . $this->db->escape($data['filter_name']) . "%'";
 		}
 
 		$sql .= " GROUP BY firstname";
@@ -86,14 +75,14 @@ class ModelCatalogAttendance extends Model {
 
 	public function getAttendances($data = array()) {
 		// echo "<pre>"; print_r($data);exit;
-		$sql = "SELECT * FROM " . DB_PREFIX . "attendance_record ";
+		$sql = "SELECT * FROM " . DB_PREFIX . "attendance_record WHERE 1=1";
 
 		if (!empty($data['filter_name'])) {
-			$sql .= " WHERE name LIKE '" . $this->db->escape($data['filter_name']) . "%'";
+			$sql .= " AND name LIKE '" . $this->db->escape($data['filter_name']) . "%'";
 		}
 
 		if (!empty($data['filter_office_in_time'])) {
-			$sql .= " WHERE office_in_time LIKE '" . $this->db->escape($data['filter_office_in_time']) . "%'";
+			$sql .= " AND office_in_time LIKE '" . $this->db->escape($data['filter_office_in_time']) . "%'";
 		}
 
 

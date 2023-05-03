@@ -629,6 +629,14 @@ class ControllerCatalogTask extends Controller
             $data['status'] = '';
         }
 
+        if (isset($this->request->post['date'])) {
+            $data['date'] = $this->request->post['date'];
+        } elseif (!empty($task_info)) {
+            $data['date'] = $task_info['date'];
+        } else {
+            $data['date'] = '';
+        }
+
         if (isset($this->request->post['commit_no'])) {
             $data['commit_no'] = $this->request->post['commit_no'];
         } elseif (!empty($task_info)) {
