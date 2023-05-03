@@ -122,6 +122,13 @@ class ModelCatalogTask extends Model {
 		return $query->rows;
 	}
 
+	public function getTasksByUserId($user_id) {
+    $query = $this->db->query("SELECT * FROM " . DB_PREFIX . "task WHERE user_id = '" . (int)$user_id . "'");
+
+    return $query->rows;
+    }
+
+
 	public function getTasks($data = array()) {
 
 		$user_id = $this->session->data['user_id'];

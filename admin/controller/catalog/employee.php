@@ -748,28 +748,17 @@ class ControllerCatalogEmployee extends Controller {
         $this->error['warning'] = $this->language->get('error_permission');
     }
 
+    $this->load->model('catalog/employee');
     $this->load->model('catalog/task');
-    $employees_with_tasks = array();
 
     foreach ($this->request->post['selected'] as $employee_id) {
-        $task_total = $this->model_catalog_task->getTotalTasks($employee_id);
+        $employee = $this->model_catalog_employee->getEmployee($employee_id);
+        $tasks = $this->model_catalog_task->getTasksByUserId($employee['user_id']);
 
-        if ($task_total > 0) {
-            $employees_with_tasks[] = $employee_id;
+        if ($tasks) {
+            $this->error['warning'] = $this->language->get('error_employee_task');
+            break;
         }
-    }
-
-    if (!empty($employees_with_tasks)) {
-        $employee_names = array();
-        $this->load->model('catalog/employee');
-
-        foreach ($employees_with_tasks as $employee_id) {
-            $employee = $this->model_catalog_employee->getEmployee($employee_id);
-            $employee_names[] = $employee['name'];
-        }
-
-        $employee_names = implode(', ', $employee_names);
-        $this->error['warning'] = sprintf($this->language->get('error_tasks'), $employee_names);
     }
 
     return !$this->error;
