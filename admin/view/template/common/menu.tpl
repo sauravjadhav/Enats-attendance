@@ -23,19 +23,17 @@
     <li><a href="<?php echo $task; ?>"><?php echo $text_task; ?></a></li>
   <?php } ?>
   <?php if ($user_group_id == 1) { ?>
-    <li id="system"><a class="parent"><i class="fa fa-cog fa-fw"></i> <span><?php echo $text_system; ?></span></a>
-      <ul>
-        <!-- <li><a href="<?php //echo $setting; ?>"><?php //echo $text_setting; ?></a></li> -->
-        <li><a href="<?php echo $user; ?>"><?php echo $text_user; ?></a></li>
-        <li><a href="<?php echo $user_group; ?>"><?php echo $text_user_group; ?></a></li>
-        <!-- <li><a href="<?php //echo $api; ?>"><?php //echo $text_api; ?></a></li> -->
-        </li>
-      </ul>
-    </li>
     <li id="reports"><a class="parent"><i class="fa fa-bar-chart-o fa-fw"></i> <span><?php echo $text_reports; ?></span></a>
       <ul>
         <li><a href="<?php echo $report_attendance; ?>"><?php echo $text_report_attendance; ?></a></li>
         <li><a href="<?php echo $task_report; ?>"><?php echo $text_task_report; ?></a></li>
+      </ul>
+    </li>
+    <li id="system"><a class="parent"><i class="fa fa-cog fa-fw"></i> <span><?php echo $text_system; ?></span></a>
+      <ul>
+        <li><a href="<?php echo $user; ?>"><?php echo $text_user; ?></a></li>
+        <li><a href="<?php echo $user_group; ?>"><?php echo $text_user_group; ?></a></li>
+        </li>
       </ul>
     </li>
   <?php }?>
