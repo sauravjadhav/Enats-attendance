@@ -287,6 +287,7 @@ class ControllerCatalogProject extends Controller {
 
 		$data['sort'] = $sort;
 		$data['order'] = $order;
+		$data['export'] = $this->url->link('catalog/project/export', 'token=' . $this->session->data['token'] . $url, true);
 
 		$data['filter_project_name'] = $filter_project_name;
 
@@ -524,5 +525,45 @@ class ControllerCatalogProject extends Controller {
 
 		$this->response->addHeader('Content-Type: application/json');
 		$this->response->setOutput(json_encode($json));
+
 	}
+
+
+	public function export() {
+        $project_data = "SELECT * FROM " . DB_PREFIX . "project WHERE 1=1";
+        $projects = $this->db->query($project_data)->rows;
+        // echo "<pre>";print_r($projects);exit;
+
+        // $task_data = $this->db->query("SELECT * FROM oc_task WHERE CAST(date_time as DATE) BETWEEN '".$month_start."' AND '".$month_end."'")->rows;
+        $csv_data = array(
+            array('Project Name','Project Company','Contact Person','Phone','Email','Project Start Time','Project End time',)
+        );
+        foreach ($projects as $project){
+	        $csv_data[] = array(
+	            'project_name'				=> $project['project_name'],
+	            'project_company'		    => $project['project_company'],
+	            'contact_person'		    => $project['contact_person'],
+	            'phone'					    => $project['phone'],
+	            'email'						=> $project['email'],
+	            'project_start_date'		=> $project['project_start_date'],
+	            'project_end_date'			=> $project['project_end_date'],
+	             
+	        );
+        }
+        // echo "<pre>";print_r($csv_data);exit;
+        header('Content-Type: text/csv');
+        header('Content-Disposition: attachment; filename="Project.csv"');
+        header('Pragma: no-cache');
+        header('Expires: 0');
+
+        $output = fopen('php://output', 'w');
+        foreach ($csv_data as $row) {
+            fputcsv($output, $row);
+        }
+        fclose($output);
+    }
 }
+
+
+
+	
