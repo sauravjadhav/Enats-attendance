@@ -350,7 +350,7 @@ class ControllerCatalogEmployee extends Controller {
 
 		$data['sort'] = $sort;
 		$data['order'] = $order;
-
+		$data['export'] = $this->url->link('catalog/employee/export', 'token=' . $this->session->data['token'] . $url, true);
 		$data['header'] = $this->load->controller('common/header');
 		$data['column_left'] = $this->load->controller('common/column_left');
 		$data['footer'] = $this->load->controller('common/footer');
@@ -902,4 +902,43 @@ class ControllerCatalogEmployee extends Controller {
 		$this->response->addHeader('Content-Type: application/json');
 		$this->response->setOutput(json_encode($json));
 	}
+
+	public function export() {
+        $employee_data = "SELECT * FROM " . DB_PREFIX . "employee WHERE 1=1";
+        $employees = $this->db->query($employee_data)->rows;
+        // echo "<pre>";print_r($employee);exit;
+
+        // $task_data = $this->db->query("SELECT * FROM oc_task WHERE CAST(date_time as DATE) BETWEEN '".$month_start."' AND '".$month_end."'")->rows;
+        $csv_data = array(
+            array('Name','Father name','Surname','Date of Birth','Number','Email','Address','Date of Joining','Date of Leaving','PAN number','Adhaar number','Bank Details','Emergency Contact')
+        );
+        foreach ($employees as $employee){
+	        $csv_data[] = array(
+	            'name'                      => $employee['name'],
+	            'father_name'				=> $employee['father_name'],
+	            'surname'					=> $employee['surname'],
+	            'dob'						=> $employee['dob'],
+	            'numbers'					=> $employee['numbers'],
+	            'email'						=> $employee['email'],
+	            'address'					=> $employee['address'],
+	            'doje'						=> $employee['doje'],
+	            'dole'						=> $employee['dole'],
+	            'pan'						=> $employee['pan'],
+	            'adhaar'					=> $employee['adhaar'],
+	            'bank_details'				=> $employee['bank_details'],
+	            'emergency_contact'			=> $employee['emergency_contact_person_details'] ." | ". $employee['emergency_contact_person_details1'] 
+	        );
+        }
+        // echo "<pre>";print_r($csv_data);exit;
+        header('Content-Type: text/csv');
+        header('Content-Disposition: attachment; filename="Employee.csv"');
+        header('Pragma: no-cache');
+        header('Expires: 0');
+
+        $output = fopen('php://output', 'w');
+        foreach ($csv_data as $row) {
+            fputcsv($output, $row);
+        }
+        fclose($output);
+    }
 }
