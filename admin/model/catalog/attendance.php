@@ -67,30 +67,31 @@ class ModelCatalogAttendance extends Model {
 			$sql .= " AND name LIKE '" . $this->db->escape($data['filter_name']) . "%'";
 		}
 
-		if (!empty($data['start_time'])) {
+		if(!empty($data['start_time']) && !empty($data['end_time'])){
+			$sql .= " AND office_in_time >= '" . $this->db->escape($data['start_time']) . "' AND office_in_time <= '" . $this->db->escape($data['end_time']) . "'";
+		}elseif(!empty($data['start_time'])) {
 			$sql .= " AND office_in_time LIKE '" . $this->db->escape($data['start_time']) . "%'";
-		}
-
-		if (!empty($data['end_time'])) {
+		}elseif(!empty($data['end_time'])) {
 			$sql .= " AND office_in_time LIKE '" . $this->db->escape($data['end_time']) . "%'";
 		}
 
+		// echo "<pre>";print_r($sql);exit;
 
 		$sort_data = array(
-			'name',
+			'date',
 			'sort_order'
 		);
 
 		if (isset($data['sort']) && in_array($data['sort'], $sort_data)) {
 			$sql .= " ORDER BY " . $data['sort'];
 		} else {
-			$sql .= " ORDER BY name";
+			$sql .= " ORDER BY date";
 		}
 
 		if (isset($data['order']) && ($data['order'] == 'DESC')) {
-			$sql .= " DESC";
-		} else {
 			$sql .= " ASC";
+		} else {
+			$sql .= " DESC";
 		}
 
 		if (isset($data['start']) || isset($data['limit'])) {
