@@ -10,8 +10,9 @@ class ModelCatalogArcTaskReport extends Model {
       $data['user_group_id'] = $user['user_group_id'];
       $name_of_user = $user['firstname'] . ' ' . $user['lastname'];
     }
-    
-    $sql = "SELECT * FROM " . DB_PREFIX . "task_2023 WHERE 1=1";
+    $year = date('Y');
+    $this->db->query("CREATE TABLE IF NOT EXISTS `oc_task_".$year."` LIKE oc_task;");
+    $sql = "SELECT * FROM " . DB_PREFIX . "task_". $year ." WHERE 1=1";
 
     if (!empty($data['project_id'])) {
       $sql .= " AND project_id = '" . $this->db->escape($data['project_id']) . "%'";

@@ -142,9 +142,6 @@ class Controllercatalogarctaskreport extends Controller {
         $task_data = $this->model_catalog_arc_task_report->getTasks($filter_data);
 
 		$data['tasks'] = array();
-		$month_start = date('Y-m-01');
-		$month_end = date('Y-m-t');
-		// $task_data = $this->db->query("SELECT * FROM oc_task WHERE CAST(date_time as DATE) BETWEEN '".$month_start."' AND '".$month_end."'")->rows;
 		foreach ($task_data as $task){
 			$user_id = $task['user_id'];
 			$user = $this->db->query("SELECT username FROM oc_user WHERE user_id = $user_id")->row;
