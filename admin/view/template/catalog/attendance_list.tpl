@@ -115,10 +115,16 @@ $('#button-filter').on('click', function() {
     url += '&filter_name=' + encodeURIComponent(filter_name);
   }
 
-  var filter_office_in_time = $('input[name=\'filter_office_in_time\']').val();
+  var start_time = $('input[name=\'start_time\']').val();
 
-  if (filter_office_in_time) {
-    url += '&filter_office_in_time=' + encodeURIComponent(filter_office_in_time);
+  if (start_time) {
+    url += '&start_time=' + encodeURIComponent(start_time);
+  }
+
+  var end_time = $('input[name=\'end_time\']').val();
+
+  if (end_time) {
+    url += '&end_time=' + encodeURIComponent(end_time);
   }
 
   location = url;
@@ -145,27 +151,4 @@ $('input[name=\'filter_name\']').autocomplete({
   }
 });
 --></script>
-<script type="text/javascript"><!--
-$('input[name=\'filter_office_in_time\']').autocomplete({
-  'source': function(request, response) {
-    // console.log(request);
-    $.ajax({
-      url: 'index.php?route=catalog/attendance/autocomplete1&token=<?php echo $token; ?>&filter_office_in_time=' +  encodeURIComponent(request),
-      dataType: 'json',
-      success: function(json) {
-        response($.map(json, function(item) {
-          return {
-            label: item['office_in_time'],
-            value: item['attendance_id']
-          }
-        }));
-      }
-    });
-  },
-  'select': function(item) {
-    $('input[name=\'filter_office_in_time\']').val(item['label']);
-  }
-});
---></script>
-
 <?php echo $footer; ?> -->

@@ -135,11 +135,18 @@ class ControllerCatalogAttendance extends Controller {
 			$filter_name = null;
 		}
 
-		if (isset($this->request->get['filter_office_in_time'])) {
-			$filter_office_in_time = $this->request->get['filter_office_in_time'];
+		if (isset($this->request->get['start_time'])) {
+			$start_time = $this->request->get['start_time'];
 		} else {
-			$filter_office_in_time = null;
+			$start_time = null;
 		}
+
+		if (isset($this->request->get['end_time'])) {
+			$end_time = $this->request->get['end_time'];
+		} else {
+			$end_time = null;
+		}
+
 		if (isset($this->request->get['sort'])) {
 			$sort = $this->request->get['sort'];
 		} else {
@@ -191,7 +198,8 @@ class ControllerCatalogAttendance extends Controller {
 
 		$filter_data = array(
 			'filter_name'	  => $filter_name,
-			'filter_office_in_time'  => $filter_office_in_time,
+			'start_time'  => $start_time,
+			'end_time'  => $end_time,
 			'sort'  => $sort,
 			'order' => $order,
 			'start' => ($page - 1) * $this->config->get('config_limit_admin'),
@@ -214,15 +222,6 @@ class ControllerCatalogAttendance extends Controller {
 				'edit'            => $this->url->link('catalog/attendance/edit', 'token=' . $this->session->data['token'] . '&attendance_id=' . $result['attendance_id'] . $url, true)
 			);
 		}
-
-		$filter_data = array(
-			'filter_name'	  => $filter_name,
-			'filter_office_in_time'  => $filter_office_in_time,
-			'sort'            => $sort,
-			'order'           => $order,
-			'start'           => ($page - 1) * $this->config->get('config_limit_admin'),
-			'limit'           => $this->config->get('config_limit_admin')
-		);
 
 		$data['heading_title'] = $this->language->get('heading_title');
 
@@ -299,7 +298,8 @@ class ControllerCatalogAttendance extends Controller {
 		}
 
 		$data['filter_name'] = $filter_name;
-	    $data['filter_office_in_time'] = $filter_office_in_time;
+	    $data['start_time'] = $start_time;
+	    $data['end_time'] = $end_time;
 
 		$pagination = new Pagination();
 		$pagination->total = $attendance_total;
@@ -524,41 +524,6 @@ class ControllerCatalogAttendance extends Controller {
 		}
 
 		return !$this->error;
-	}
-
-    public function autocomplete1() {
-		// echo "<pre>";print_r($this->request->get);exit;
-		$json = array();
-
-		if (isset($this->request->get['filter_office_in_time'])) {
-			$this->load->model('catalog/attendance');
-
-			$filter_data = array(
-				'filter_office_in_time' => $this->request->get['filter_office_in_time'],
-				'start'       => 0,
-				'limit'       => 5
-			);
-
-			$results = $this->model_catalog_attendance->autocompleteatt1($filter_data);
-			// echo "<pre>";print_r($results);exit;
-			foreach ($results as $result) {
-				$json[] = array(
-					'attendance_id' => $result['attendance_id'],
-					'office_in_time'            => strip_tags(html_entity_decode($result['office_in_time'], ENT_QUOTES, 'UTF-8'))
-				);
-			}
-		}
-
-		$sort_order = array();
-
-		foreach ($json as $key => $value) {
-			$sort_order[$key] = $value['office_in_time'];
-		}
-
-		array_multisort($sort_order, SORT_ASC, $json);
-
-		$this->response->addHeader('Content-Type: application/json');
-		$this->response->setOutput(json_encode($json));
 	}
 
 	public function autocomplete2() {
