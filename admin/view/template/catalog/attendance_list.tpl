@@ -37,10 +37,16 @@
                   <input type="text" name="filter_name" value="<?php echo $filter_name; ?>" placeholder="<?php echo $entry_name; ?>" id="input-name" class="form-control" />
                 </div>
               </div>
-              <div class="col-sm-4">
+              <div class="col-sm-2">
                 <div class="form-group" style="padding: 0;">
-                  <label class="control-label" for="input-time"><?php echo $entry_office_in_time; ?></label>
-                  <input type="time" name="filter_office_in_time" value="<?php echo $filter_office_in_time; ?>" placeholder="<?php echo $entry_office_in_time; ?>" id="input-time" class="form-control" />
+                  <label class="control-label" for="input-time">Start</label>
+                  <input type="time" name="start_time" value="<?php echo $start_time; ?>" placeholder="<?php echo $entry_office_in_time; ?>" id="input-time" class="form-control" />
+                </div>
+              </div>
+              <div class="col-sm-2">
+                <div class="form-group" style="padding: 0;">
+                  <label class="control-label" for="input-time">End</label>
+                  <input type="time" name="end_time" value="<?php echo $end_time; ?>" placeholder="<?php echo $entry_office_in_time; ?>" id="input-time" class="form-control" />
                 </div>
               </div>
               <div class="col-sm-1" style="padding-top:22px;">
