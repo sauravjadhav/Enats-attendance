@@ -718,10 +718,6 @@ class ControllerCatalogEmployee extends Controller {
 			$this->error['name'] = $this->language->get('error_name');
 		}
 
-		if ((utf8_strlen($this->request->post['email']) < 2) || (utf8_strlen($this->request->post['email']) > 64)) {
-			$this->error['email'] = $this->language->get('error_email');
-		}
-
 		if (!isset($this->request->get['employee_id'])){
 			$user_id = $this->request->post['user_id'];
 			$validate_exits = $this->db->query("SELECT user_id FROM oc_employee WHERE user_id = '$user_id'")->row;
