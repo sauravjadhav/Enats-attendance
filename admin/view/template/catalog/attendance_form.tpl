@@ -68,22 +68,26 @@
                             <?php } ?>
                         </div>
                     </div>
-                    <div style="display: none;">
-                        <label class="col-sm-1 control-label" for="input-time">Time:</label>
-                        <div class="col-sm-4">
-                            <?php if (!empty($time)) { ?>
-                            <input type="text" readonly name="time" value="<?php echo $time; ?>" id="input-time" class="form-control"/>
-                            <?php } else {?>
-                            <input type="text" readonly name="time" value="<?php date_default_timezone_set('Asia/Kolkata'); echo date("g:i A");?>" id="input-time" class="form-control"/>
-                            <?php } ?>
+                    <div style=<?php if ($user_group_id != 1){echo 'display:none;';}?>>
+                        <div class="form-group required">
+                            <label class="col-sm-1 control-label" for="input-time">Time:</label>
+                            <div class="col-sm-2">
+                                <?php if (!empty($time)) { ?>
+                                <input type="text" name="time" value="<?php echo $time; ?>" id="input-time" class="form-control"/>
+                                <?php } else {?>
+                                <input type="text" name="time" value="<?php date_default_timezone_set('Asia/Kolkata'); echo date("g:i A");?>" id="input-time" class="form-control"/>
+                                <?php } ?>
+                            </div>
                         </div>
-                        <label class="col-sm-1 control-label" for="input-date">Date:</label>
-                        <div class="col-sm-4">
-                            <?php if (!empty($date)) { ?>
-                                <input type="date" readonly name="date" value="<?php echo $date?>" id="input-date" class="form-control"/>
-                            <?php } else { ?>
-                                <input type="date" readonly name="date" value="<?=date("Y-m-d");?>" id="input-date" class="form-control"/>
-                            <?php } ?>
+                        <div class="form-group required">
+                            <label class="col-sm-1 control-label" for="input-date">Date:</label>
+                            <div class="col-sm-2">
+                                <?php if (!empty($date)) { ?>
+                                    <input type="date" name="date" value="<?php echo $date?>" id="input-date" class="form-control"/>
+                                <?php } else { ?>
+                                    <input type="date" name="date" value="<?=date("Y-m-d");?>" id="input-date" class="form-control"/>
+                                <?php } ?>
+                            </div>
                         </div>
                     </div>
                 </form>
