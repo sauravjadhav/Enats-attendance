@@ -15,7 +15,6 @@
     </div>
   </div>
   <div class="container-fluid">
-    <?php echo "<script>displayNotification('Order Success', 'Your order has been placed successfully.');</script>"; ?>
     <?php if ($error_warning) { ?>
       <div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> <?php echo $error_warning; ?>
         <button type="button" class="close" data-dismiss="alert">&times;</button>
@@ -151,19 +150,10 @@
               <label class="col-sm-2 control-label" for="input-date">Start date</label>
               <div class="col-sm-4">
                 <?php if (!empty($date)) { ?>
-                  <input type="date"  name="date" value="<?php echo $date ?>" id="input-date" class="form-control" />
+                  <input type="date" <?php if ($user_group_id !=1) {echo 'readonly';} ?> name="date" value="<?php echo $date ?>" id="input-date" class="form-control" />
                 <?php } else { ?>
-                  <input type="date"  name="date" value="<?= date("Y-m-d"); ?>" id="input-date" class="form-control" />
+                  <input type="date" <?php if ($user_group_id !=1) {echo 'readonly';} ?> name="date" value="<?= date("Y-m-d"); ?>" id="input-date" class="form-control" />
                 <?php } ?>
-                <?php
-                $date = date('Y-m-d'); 
-                if ($user_group_id == 1) {
-                  echo <' name="date" value="' . $date . '" editable>';
-                } else {
-                  echo '< name="date" value="' . $date . '"readonly>';
-                }
-                ?>
-
               </div>
             </div>
             <div class="form-group">
