@@ -15,6 +15,8 @@ class ControllerCommonMenu extends Controller {
 		$data['text_report_attendance'] = $this->language->get('text_report_attendance');
 		$data['text_task_report'] = $this->language->get('text_task_report');
 		$data['text_arc_task_report'] = $this->language->get('text_arc_task_report');
+		$data['text_task_archive'] = $this->language->get('text_task_archive');
+		$data['text_attendance_archive'] = $this->language->get('text_attendance_archive');
 
 		$data['text_analytics'] = $this->language->get('text_analytics');
 		$data['text_affiliate'] = $this->language->get('text_affiliate');
@@ -126,6 +128,8 @@ class ControllerCommonMenu extends Controller {
 		$data['employee'] = $this->url->link('catalog/employee', 'token=' . $this->session->data['token'], true);
 		$data['attendance'] = $this->url->link('catalog/attendance', 'token=' . $this->session->data['token'], true);
 		$data['report_attendance'] = $this->url->link('catalog/reports', 'token=' . $this->session->data['token'], true);
+		$data['attendance_archive'] = $this->url->link('catalog/reports/archive', 'token=' . $this->session->data['token'], true);
+		$data['task_archive'] = $this->url->link('catalog/task_report/archive', 'token=' . $this->session->data['token'], true);
 		$data['task_report'] = $this->url->link('catalog/task_report', 'token=' . $this->session->data['token'], true);
 		$data['arc_task_report'] = $this->url->link('catalog/arc_task_report', 'token=' . $this->session->data['token'], true);
 		$data['analytics'] = $this->url->link('extension/analytics', 'token=' . $this->session->data['token'], true);

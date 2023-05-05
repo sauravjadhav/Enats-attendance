@@ -191,7 +191,7 @@ class Controllercatalogtaskreport  extends Controller {
         $last_month_end = date($year . '-m-t', strtotime('-1 month'));
         $insert_data = $this->db->query("INSERT IGNORE INTO `oc_task_" . $year . "` SELECT * FROM `oc_task` WHERE `date` BETWEEN '" . $last_month_start . "' AND '" . $last_month_end . "' AND `status` = 'done';");
         $delete_last_data = $this->db->query("DELETE FROM `oc_task` WHERE `date` BETWEEN '" . $last_month_start . "' AND '" . $last_month_end . "' AND `status` = 'done';");
-        $this->response->redirect($this->url->link('catalog/task_report', 'token=' . $this->session->data['token'], true));
+        $this->response->redirect($this->url->link('catalog/arc_task_report', 'token=' . $this->session->data['token'], true));
     }
 
     public function export() {

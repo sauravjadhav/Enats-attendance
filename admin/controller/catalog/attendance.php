@@ -322,6 +322,9 @@ class ControllerCatalogAttendance extends Controller {
 	}
 
 	protected function getForm() {
+
+		$data['user_group_id'] = $this->user->user_group_id;
+		// echo "<pre>";print_r($data);exit;
 		$data['heading_title'] = $this->language->get('heading_title');
 
 		$data['text_form'] = !isset($this->request->get['attendance_id']) ? $this->language->get('text_add') : $this->language->get('text_edit');
