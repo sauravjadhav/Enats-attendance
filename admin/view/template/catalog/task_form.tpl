@@ -151,10 +151,19 @@
               <label class="col-sm-2 control-label" for="input-date">Start date</label>
               <div class="col-sm-4">
                 <?php if (!empty($date)) { ?>
-                  <input type="date" readonly name="date" value="<?php echo $date ?>" id="input-date" class="form-control" />
+                  <input type="date"  name="date" value="<?php echo $date ?>" id="input-date" class="form-control" />
                 <?php } else { ?>
-                  <input type="date" readonly name="date" value="<?= date("Y-m-d"); ?>" id="input-date" class="form-control" />
+                  <input type="date"  name="date" value="<?= date("Y-m-d"); ?>" id="input-date" class="form-control" />
                 <?php } ?>
+                <?php
+                $date = date('Y-m-d'); 
+                if ($user_group_id == 1) {
+                  echo <' name="date" value="' . $date . '" editable>';
+                } else {
+                  echo '< name="date" value="' . $date . '"readonly>';
+                }
+                ?>
+
               </div>
             </div>
             <div class="form-group">
