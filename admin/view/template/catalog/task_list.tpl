@@ -49,7 +49,8 @@
                     <?php echo $entry_project; ?>
                   </label>
                   <select name="project_id" id="project_id" class="dropdown-header form-control">
-                    <?php foreach ($project as $skey => $svalue) { //echo "<pre>";print_r($project);exit;?>
+                    <?php foreach ($project as $skey => $svalue) { //echo "<pre>";print_r($project);exit;
+                    ?>
                       <?php if ($skey == $project_id) { ?>
                         <option value="<?php echo $skey ?>" class="dropdown-manu form-control" selected="selected">
                           <?php echo $svalue; ?>
@@ -187,8 +188,9 @@
                                     echo 'color:red;';
                                   } elseif ($task['notification'] == '1' && $task['status'] != 'DONE') {
                                     echo 'color:green;';
-                                  } ?>">*<b>
-                          <?php } ?>
+                                  } ?>">*
+                        </b>
+                      <?php } ?>
                     </td>
                     <td class="text-left">
                       <?php echo $task['remark']; ?>
