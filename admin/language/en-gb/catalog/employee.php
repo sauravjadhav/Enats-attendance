@@ -55,6 +55,7 @@ $_['error_name']         = 'Employee Name must be between 2 and 64 characters!';
 $_['error_email']        = 'Email must be between 2 and 64 characters!';
 $_['error_password']     = 'Password must be between 2 and 64 characters!';
 $_['error_numbers']       = 'numbers must be between 2 and 64 characters!';
+$_['error_dob']       = 'Today is someones birthday!';
 $_['error_address']      = 'Employee Address must be between 2 and 64 characters!';
 $_['error_keyword']      = 'SEO URL already in use!';
 $_['error_product']      = 'Warning: This manufacturer cannot be deleted as it is currently assigned to %s products!';
