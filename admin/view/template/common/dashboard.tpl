@@ -11,6 +11,29 @@
     </div>
   </div>
   <div class="container-fluid">
+    <?php if (!empty($user_data)) { ?>
+      <?php foreach($user as $bd){?>
+        <div class="modal fade" id="birthdayPopup_<?php echo $bd['user_id']; ?>" tabindex="-1" role="dialog" aria-labelledby="birthdayPopupLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="birthdayPopupLabel"><?php echo $bd['text_birthday_popup_title']; ?><span style="font-size: 25px;">🎂</span></h5>
+              </div>
+              <div class="modal-body">
+                <p><?php echo sprintf($bd['text_birthday_popup_message'], $bd['name']); ?><span style="font-size: 25px;">🎊🎉</span></p>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal"><?php echo $bd['text_close']; ?></button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <script>
+          $(document).ready(function() {
+            $('#birthdayPopup_<?php echo $bd['user_id']; ?>').modal('show');
+            $('body').addClass('modal-open');
+          });
+        </script>
+      <?php }?>
+    <?php } ?>
     <?php if ($user_group_id == 1) {?>
       <div class="col-lg-12 col-md-9 col-sm-9"><?php echo $list_attendance; ?></div>
       <div class="col-lg-12 col-md-9 col-sm-9"><?php echo $list_task; ?></div>
@@ -22,4 +45,13 @@
     <?php }?>
   </div>
 </div>
+<style>
+  .modal.fade {
+    position: relative;
+    padding: 0!important;
+  }
+  .modal-open {
+    overflow: hidden;
+  }
+</style>
 <?php echo $footer; ?>

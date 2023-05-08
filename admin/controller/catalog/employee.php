@@ -246,12 +246,13 @@ class ControllerCatalogEmployee extends Controller {
 		foreach ($results as $result) {
 			$data['employees'][] = array(
 				'employee_id' => $result['employee_id'],
-				'name'            => $result['name'],
 				'name'        => $result['name'],
-				'numbers'            => $result['numbers'],
-				'email'            => $result['email'],
-				'address'      => $result['address'],
-				'edit'            => $this->url->link('catalog/employee/edit', 'token=' . $this->session->data['token'] . '&employee_id=' . $result['employee_id'] . $url, true)
+				'name'        => $result['name'],
+				'numbers'     => $result['numbers'],
+				'email'       => $result['email'],
+				'address'     => $result['address'],
+				'dob'  => $result['dob'],
+				'edit'        => $this->url->link('catalog/employee/edit', 'token=' . $this->session->data['token'] . '&employee_id=' . $result['employee_id'] . $url, true)
 			);
 		}
 

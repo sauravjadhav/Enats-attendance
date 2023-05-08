@@ -82,14 +82,14 @@
             <tbody>
               <?php if ($employees) { ?>
               <?php foreach ($employees as $employee) {
-              // echo "<pre>";print_r($manufacturers);exit; ?>
+              //echo "<pre>";print_r($employee);exit; ?>
               <tr>
               <td class="text-center"><?php if (in_array($employee['employee_id'], $selected)) { ?>
               <input type="checkbox" name="selected[]" value="<?php echo $employee['employee_id']; ?>" checked="checked" />
               <?php } else { ?>
               <input type="checkbox" name="selected[]" value="<?php echo $employee['employee_id']; ?>" />
               <?php } ?></td>
-              <td class="text-left"><?php echo $employee['name']; ?></td>
+              <td class="text-left"><?php echo $employee['name']; ?><?php if (date('m-d', strtotime($employee['dob'])) == date('m-d')) {echo "<span> 🎂</span>";}?></td>
               <td class="text-left"><?php echo $employee['email']; ?></td>
               <td class="text-left"><?php echo $employee['numbers']; ?></td>
               <td class="text-left"><?php echo $employee['address']; ?></td>
