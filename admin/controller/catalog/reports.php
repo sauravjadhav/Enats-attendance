@@ -33,7 +33,7 @@ class Controllercatalogreports extends Controller {
 
 				$data['username'] = $this->db->query("SELECT user_id, name FROM oc_attendance_record WHERE date = '$todate' GROUP BY user_id")->rows;
 			}else{
-				$data['attendances_header'] = $this->db->query("SELECT date FROM oc_attendance_record GROUP BY date LIMIT 15")->rows;
+				$data['attendances_header'] = $this->db->query("SELECT date FROM oc_attendance_record GROUP BY date ORDER BY date DESC LIMIT 30")->rows;
 				$data['attendances_body'] = $this->db->query("SELECT date, user_id, office_in_time FROM oc_attendance_record ORDER BY user_id, date, time")->rows;
 
 				$data['username'] = $this->db->query("SELECT user_id, name FROM oc_attendance_record GROUP BY user_id")->rows;
@@ -104,7 +104,7 @@ class Controllercatalogreports extends Controller {
 
 			$username = $this->db->query("SELECT user_id, name FROM oc_attendance_record WHERE date = '$todate' GROUP BY user_id")->rows;
 		}else{
-			$attendances_header = $this->db->query("SELECT date FROM oc_attendance_record GROUP BY date LIMIT 15")->rows;
+			$attendances_header = $this->db->query("SELECT date FROM oc_attendance_record GROUP BY date ORDER BY date DESC LIMIT 30")->rows;
 			$attendances_body = $this->db->query("SELECT date, user_id, office_in_time FROM oc_attendance_record ORDER BY user_id, date, time")->rows;
 
 			$username = $this->db->query("SELECT user_id, name FROM oc_attendance_record GROUP BY user_id")->rows;
