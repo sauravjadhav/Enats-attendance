@@ -467,14 +467,6 @@ class ControllerCatalogEmployee extends Controller {
 		} else {
 			$data['error_dob'] = '';
 		}
-
-		
-		$employeeBirthday = strtotime($data['dob']);
-		$currentDate = strtotime(date('Y-m-d'));
-		if (date('m-d', $employeeBirthday) == date('m-d', $currentDate)) {
-		}
-
-
 		if (isset($this->error['pan'])) {
 			$data['error_pan'] = $this->error['pan'];
 		} else {

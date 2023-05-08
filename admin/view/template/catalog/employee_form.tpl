@@ -86,9 +86,6 @@
           <div class="text-danger"><?php echo $error_dob; ?></div>
           <?php } ?>
         </div>
-        <div id="birthday-reminder-popup">
-            <h3>Happy Birthday!</h3>
-        </div>
         </div>
       <div class="form-group ">
         <label class="col-sm-2 control-label" for="input-address"><?php echo $entry_address; ?></label>
@@ -193,18 +190,4 @@ $('input[name=\'login\']').autocomplete({
     }
 });
 //--></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        var popup = document.getElementById('birthday-reminder-popup');
-        popup.style.display = 'block'; 
-
-        
-        var duration = 10000; 
-        function hidePopup() {
-            popup.style.display = 'none';
-        }
-
-        setTimeout(hidePopup, duration);
-    });
-</script>
 <?php echo $footer; ?>

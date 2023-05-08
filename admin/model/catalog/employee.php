@@ -214,7 +214,7 @@ class ModelCatalogEmployee extends Model {
 		$employee = array();
 
 		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "employee WHERE employee_id = '" . (int)$employee_id . "'");
- 
+
 		foreach ($query->rows as $result) {
 			$employee[] = $result['store_id'];
 		}
