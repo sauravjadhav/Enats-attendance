@@ -133,6 +133,7 @@
                     </a>
                   <?php } ?>
                 </td>
+                  <td class="text-left">Start Date</td>
                 <?php if ($user_group_id == 1) { ?>
                   <td class="text-left">Employee</td>
                 <?php } ?>
@@ -165,7 +166,10 @@
                       <?php } ?>
                     </td>
                     <td class="text-left">
-                      <?php echo $task['date']; ?>
+                      <?php echo $task['date_time']; ?>
+                    </td>
+                    <td class="text-left">
+                      <?php echo $task['start_date']; ?>
                     </td>
                     <?php if ($user_group_id == 1) { ?>
                       <td class="text-left">
