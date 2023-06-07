@@ -44,27 +44,26 @@
           <div class="row">
             <?php if ($user_group_id != 12) { ?>
               <div class="col-sm-4">
-               <div class="form-group" style="padding: 0;">
-                <label class="control-label" for="input-project">
-                  <?php echo $entry_project; ?>
-                </label>
-                <select name="project_id" id="project_id" class="dropdown-header form-control">
-                  <?php foreach ($project as $skey => $svalue) { ?>
-                    <?php if ($skey == $project_id) { ?>
-                      <option value="<?php echo $skey ?>" class="dropdown-manu form-control" selected="selected">
-                        <?php echo $svalue; ?>
-                      </option>
-                    <?php } else { ?>
-                      <option value="<?php echo $skey ?>" class="dropdown-manu form-control">
-                        <?php echo $svalue ?>
-                      </option>
+                <div class="form-group" style="padding: 0;">
+                  <label class="control-label" for="input-project">
+                    <?php echo $entry_project; ?>
+                  </label>
+                  <select name="project_id" id="project_id" class="dropdown-header form-control">
+                    <?php foreach ($project as $skey => $svalue) { //echo "<pre>";print_r($project);exit;
+                    ?>
+                      <?php if ($skey == $project_id) { ?>
+                        <option value="<?php echo $skey ?>" class="dropdown-manu form-control" selected="selected">
+                          <?php echo $svalue; ?>
+                        </option>
+                      <?php } else { ?>
+                        <option value="<?php echo $skey ?>" class="dropdown-manu form-control">
+                          <?php echo $svalue ?>
+                        </option>
+                      <?php } ?>
                     <?php } ?>
-                  <?php } ?>
-                  <?php if (empty($project_id)) { ?>
                     <option value="" selected="selected" class="dropdown-manu form-control">Select project</option>
-                  <?php } ?>
-                </select>
-              </div>
+                  </select>
+                </div>
               </div>
               <?php if ($user_group_id == 1) { ?>
                 <div class="col-sm-4">
@@ -83,9 +82,7 @@
                           </option>
                         <?php } ?>
                       <?php } ?>
-                      <?php if (empty($user_id)) { ?>
-                        <option value="" selected="selected" class="dropdown-manu form-control">Select user</option>
-                      <?php } ?>
+                      <option value="" selected="selected" class="dropdown-manu form-control">Select User</option>
                     </select>
                   </div>
                 </div>
@@ -107,9 +104,7 @@
                       </option>
                     <?php } ?>
                   <?php } ?>
-                 <?php if (empty($status)) { ?>
                   <option value="" selected="selected" class="dropdown-manu form-control">Select Status</option>
-                <?php } ?>
                 </select>
               </div>
             </div>
@@ -127,6 +122,7 @@
             <thead>
               <tr>
                 <td style="width: 1px;" class="text-center"><input type="checkbox" onclick="$('input[name*=\'selected\']').prop('checked', this.checked);" /></td>
+                <td class="text-left">Date time</td>
                 <td class="text-left">
                   <?php if ($sort == 'date') { ?>
                     <a href="<?php echo $sort_date; ?>" class="<?php echo strtolower($order); ?>">
@@ -138,7 +134,6 @@
                     </a>
                   <?php } ?>
                 </td>
-                  <td class="text-left">Start Date</td>
                 <?php if ($user_group_id == 1) { ?>
                   <td class="text-left">Employee</td>
                 <?php } ?>

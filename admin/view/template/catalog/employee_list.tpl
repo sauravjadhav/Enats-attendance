@@ -73,9 +73,10 @@
                   <?php } else { ?>
                   <a href="<?php echo $sort_name; ?>"><?php echo $column_name; ?></a>
                   <?php } ?></td>
+                  <td class="text-left">Date of birth</td>
+                  <td class="text-left">Date of joining</td>
                   <td class="text-left"><?php echo $column_email; ?></td>
                   <td class="text-left"><?php echo $column_numbers; ?></td>
-                  <td class="text-left"><?php echo $column_address; ?></td>
                   <td class="text-right"><?php echo $column_action; ?></td>
                 </tr>
               </thead>
@@ -90,9 +91,10 @@
               <input type="checkbox" name="selected[]" value="<?php echo $employee['employee_id']; ?>" />
               <?php } ?></td>
               <td class="text-left"><?php echo $employee['name']; ?><?php if (date('m-d', strtotime($employee['dob'])) == date('m-d')) {echo "<span> 🎂</span>";}?></td>
+              <td class="text-left"><?php echo $employee['dob']; ?></td>
+              <td class="text-left"><?php echo $employee['doje']; ?></td>
               <td class="text-left"><?php echo $employee['email']; ?></td>
               <td class="text-left"><?php echo $employee['numbers']; ?></td>
-              <td class="text-left"><?php echo $employee['address']; ?></td>
               <td class="text-right"><a href="<?php echo $employee['edit']; ?>" data-toggle="tooltip" title="<?php echo $button_edit; ?>" class="btn btn-primary"><i class="fa fa-pencil"></i></a></td>
               </tr>
               <?php } ?>
