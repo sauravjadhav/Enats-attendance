@@ -2,16 +2,18 @@
 <?php echo $column_left; ?>
 <div id="content">
   <div class="page-header">
-        <div class="container-fluid">
+    <div class="container-fluid">
+      <div class="pull-right"><a href="<?php echo $add; ?>" title="Export report" class="btn btn-primary"><i class="fafa-download"></i> Export report</a>
+      </div>
             <h1>Report</h1>
             <ul class="breadcrumb">
                 <?php foreach ($breadcrumbs as $breadcrumb) { ?>
                 <li><a href="<?php echo $breadcrumb['href']; ?>">Reports</a></li>
                 <?php } ?>
             </ul>
+          </div>
         </div>
-  </div>
-  <div class="container-fluid">
+        <div class="container-fluid">
     <div class="panel panel-default">
       <div class="panel-heading">
         <h3 class="panel-title"><i class="fa fa-list"></i>Archived Task Report</h3>
