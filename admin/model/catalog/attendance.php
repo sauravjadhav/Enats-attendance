@@ -124,9 +124,22 @@ class ModelCatalogAttendance extends Model {
 	}
 
 
-	public function getTotalattendances() {
-		$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "attendance_record");
+	public function getTotalattendances($data = array()) {
+		$query = "SELECT COUNT(*) AS total FROM " . DB_PREFIX . "attendance_record WHERE 1=1";
+         // echo "<pre>";print_r($data);exit;
+		if (!empty($data['filter_name'])) {
+			$query .= " AND name LIKE '" . $this->db->escape($data['filter_name']) . "%'";
+		}
 
-		return $query->row['total'];
+		if(!empty($data['start_time']) && !empty($data['end_time'])){
+			$query .= " AND office_in_time >= '" . $this->db->escape($data['start_time']) . "' AND office_in_time <= '" . $this->db->escape($data['end_time']) . "'";
+		}elseif(!empty($data['start_time'])) {
+			$query .= " AND office_in_time LIKE '" . $this->db->escape($data['start_time']) . "%'";
+		}elseif(!empty($data['end_time'])) {
+			$query .= " AND office_in_time LIKE '" . $this->db->escape($data['end_time']) . "%'";
+		}
+        
+        $sql = $this->db->query($query);
+		return $sql->row['total'];
 	}
 }

@@ -207,7 +207,7 @@ class ControllerCatalogAttendance extends Controller {
 		);
 
 
-		$attendance_total = $this->model_catalog_attendance->getTotalattendances();
+		$attendance_total = $this->model_catalog_attendance->getTotalattendances($filter_data);
 
 		$results = $this->model_catalog_attendance->getAttendances($filter_data);
 
@@ -295,6 +295,18 @@ class ControllerCatalogAttendance extends Controller {
 
 		if (isset($this->request->get['order'])) {
 			$url .= '&order=' . $this->request->get['order'];
+		}
+
+		if (isset($this->request->get['filter_name'])) {
+			$url .= '&filter_name=' . $this->request->get['filter_name'];
+		}
+
+		if (isset($this->request->get['start_time'])) {
+			$url .= '&start_time=' . $this->request->get['start_time'];
+		}
+
+		if (isset($this->request->get['end_time'])) {
+			$url .= '&end_time=' . $this->request->get['end_time'];
 		}
 
 		$data['filter_name'] = $filter_name;

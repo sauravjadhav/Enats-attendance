@@ -268,7 +268,7 @@ class ControllerCatalogTask extends Controller
             'limit' => $this->config->get('config_limit_admin')
         );
 
-        $task_total = $this->model_catalog_task->getTotalTasks();
+        $task_total = $this->model_catalog_task->getTotalTasks($filter_data);
 
         $results = $this->model_catalog_task->getTasks($filter_data);
 
@@ -396,6 +396,18 @@ class ControllerCatalogTask extends Controller
 
         if (isset($this->request->get['order'])) {
             $url .= '&order=' . $this->request->get['order'];
+        }
+
+        if (isset($this->request->get['project_id'])) {
+            $url .= '&project_id=' . $this->request->get['project_id'];
+        }
+
+        if (isset($this->request->get['user_id'])) {
+            $url .= '&user_id=' . $this->request->get['user_id'];
+        }
+
+        if (isset($this->request->get['status'])) {
+            $url .= '&status=' . $this->request->get['status'];
         }
 
         $pagination = new Pagination();
