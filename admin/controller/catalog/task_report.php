@@ -1,4 +1,5 @@
 <?php 
+
 class Controllercatalogtaskreport  extends Controller {
 
 	public function index()
@@ -189,14 +190,14 @@ class Controllercatalogtaskreport  extends Controller {
         $create_table_query = $this->db->query("CREATE TABLE IF NOT EXISTS `oc_task_".$year."` LIKE oc_task;");
         $last_month_start = date($year . '-m-01', strtotime('-1 month'));
         $last_month_end = date($year . '-m-t', strtotime('-1 month'));
-        echo"<pre>";print_r($last_month_start,$last_month_end);exit;
+        // echo"<pre>";print_r($last_month_start,$last_month_end);exit;
         $insert_data = $this->db->query("INSERT IGNORE INTO `oc_task_" . $year . "` SELECT * FROM `oc_task` WHERE `date` BETWEEN '" . $last_month_start . "' AND '" . $last_month_end . "' AND `status` = 'done';");
         $delete_last_data = $this->db->query("DELETE FROM `oc_task` WHERE `date` BETWEEN '" . $last_month_start . "' AND '" . $last_month_end . "' AND `status` = 'done';");
         $this->response->redirect($this->url->link('catalog/arc_task_report', 'token=' . $this->session->data['token'], true));
+        // echo "<pre>";print_r($this->db->query);exit;
     }
 
     public function export() {
-        // echo "<pre>";print_r($this->request->get);exit;
         $task_data = "SELECT * FROM " . DB_PREFIX . "task WHERE 1=1";
 
         if (isset($this->request->get['user_id'])) {

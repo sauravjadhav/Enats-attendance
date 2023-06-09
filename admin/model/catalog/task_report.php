@@ -65,7 +65,7 @@ class ModelCatalogTaskReport extends Model {
 
     $query = $this->db->query($sql);
 
-    // echo "<pre>";print_r($query->rows);exit;
+    // echo "<pre>";print_r($query);exit;
 
     return $query->rows;
   }
