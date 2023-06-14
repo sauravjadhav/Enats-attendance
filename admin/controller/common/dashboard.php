@@ -60,10 +60,11 @@ class ControllerCommonDashboard extends Controller {
 			$user_data    = $this->db->query("SELECT * FROM oc_employee WHERE DATE_FORMAT(dob, '%m-%d') = '$current_date' AND is_bd = 0")->rows;
 			$show_bd      = $this->db->query("SELECT * FROM oc_employee WHERE DATE_FORMAT(dob, '%m-%d') = '$current_date'")->rows;
 			$data['user_data'] = $user_data;
-			
+
 			if ($show_bd) {
 				foreach($show_bd as $user){
 			        $bd1['name'] = $user['login'];
+			        $bd1['dob']  = date("d-m-Y",strtotime($user['dob'])); ;
 			        $bd1['user_id'] = $user['user_id'];
 			        $bd1['text_birthday_popup_title'] = "Today is ".$user['login']."'s".' birthday';
 			        $age = date_diff(date_create($user['dob']), date_create('today'))->y;
