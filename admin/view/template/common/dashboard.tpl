@@ -14,7 +14,15 @@
 
     <?php if (!empty($bduser)) { ?>
       <?php foreach($bduser as $bd){?>
-        <div class="alert alert-success"><i class="fa fa-birthday-cake"></i>Its <?php echo $bd['name']; ?>'s birthday | joining date <?php echo $bd['doje']?>
+        <div class="alert alert-info"><i class="fa fa-birthday-cake"></i><b> Its <?php echo $bd['name']; ?>'s birthday </b>
+         <button type="button" class="close" data-dismiss="alert">&times;</button>
+       </div>
+      <?php }?>
+    <?php } ?>
+
+    <?php if (!empty($bduserr)) { ?>
+      <?php foreach($bduserr as $doje1){?>
+        <div class="alert alert-info"><i class="fa fa-"></i><b> Its <?php echo $doje1['name']; ?>'s joining date <?php echo $doje1['doje']; ?> </b>
          <button type="button" class="close" data-dismiss="alert">&times;</button>
        </div>
       <?php }?>
