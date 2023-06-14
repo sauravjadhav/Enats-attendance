@@ -23,7 +23,9 @@ class ControllerCommonDashboard extends Controller {
 		if ($this->user->user_group_id == 1) {
 			date_default_timezone_set('Asia/Kolkata');
 			$current_date = date('m-d');
-			$user_data = $this->db->query("SELECT * FROM oc_employee WHERE DATE_FORMAT(dob, '%m-%d') = '$current_date' AND is_bd = 0")->rows;
+			$user_data    = $this->db->query("SELECT * FROM oc_employee WHERE DATE_FORMAT(dob, '%m-%d') = '$current_date' AND is_bd = 0")->rows;
+			$show_bd      = $this->db->query("SELECT * FROM oc_employee WHERE DATE_FORMAT(dob, '%m-%d') = '$current_date'")->rows;
+			$show_doje    = $this->db->query("SELECT * FROM oc_employee WHERE DATE_FORMAT(doje, '%m-%d') = '$current_date'")->rows;
 			$data['user_data'] = $user_data;
 
 			if($user_data){
@@ -38,7 +40,19 @@ class ControllerCommonDashboard extends Controller {
 			// echo "<pre>";print_r($data);exit;
 			        $this->db->query("UPDATE oc_employee SET is_bd = 1 WHERE is_bd = 0 AND user_id = {$user['user_id']}");
 			    }
-			} else {
+			} elseif ($show_bd) {
+				foreach($show_bd as $user){
+			        $bd1['name'] = $user['login'];
+			        $bd1['user_id'] = $user['user_id'];
+			        $bd1['doje']  = date("d-m-Y",strtotime($user['doje']));
+			        $bd1['text_birthday_popup_title'] = "Today is ".$user['login']."'s".' birthday';
+			        $age = date_diff(date_create($user['dob']), date_create('today'))->y;
+			        $bd1['text_birthday_popup_message'] = $user['login'] . ' is now ' . $age . ' years old. Wish him on this birthday!';
+			        $bd1['text_close'] = "Close";
+			        $data['bduser'][] = $bd1;			    
+			    }
+			}
+			 else {
 			    $this->db->query("UPDATE oc_employee SET is_bd = 0 WHERE DATE_FORMAT(dob, '%m-%d') != '$current_date'");
 			}
 		}
