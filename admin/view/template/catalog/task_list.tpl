@@ -49,7 +49,12 @@
                     <?php echo $entry_project; ?>
                   </label>
                   <select name="project_id" id="project_id" class="dropdown-header form-control">
-                    <?php foreach ($project as $skey => $svalue) { ?>
+                    <?php if ($project_id == 0) { //echo $project_id;exit;?>
+                      <option value="" selected="selected" class="dropdown-manu form-control">Please select</option>
+                    <?php } else { //echo $project_id;exit; ?>
+                      <option value="" class="dropdown-manu form-control">Please select</option>
+                    <?php } ?>
+                    <?php foreach ($project as $skey => $svalue) { //echo $skey;exit;?>
                       <?php if ($skey == $project_id) { ?>
                         <option value="<?php echo $skey ?>" class="dropdown-manu form-control" selected="selected">
                           <?php echo $svalue; ?>
@@ -60,18 +65,19 @@
                         </option>
                       <?php } ?>
                     <?php } ?>
-                    <?php if (empty($project_id)) { ?>
-                      <option value="" selected="selected" class="dropdown-manu form-control">Select project</option>
-                    <?php } ?>
                   </select>
                 </div>
-
               </div>
               <?php if ($user_group_id == 1) { ?>
                 <div class="col-sm-4">
                   <div class="form-group" style="padding: 0;">
                     <label class="control-label" for="input-user_id">User</label>
                     <select name="user_id" id="user_id" class="dropdown form-control">
+                    <?php if ($user_id == 0) { //echo $project_id;exit;?>
+                      <option value="" selected="selected" class="dropdown-manu form-control">Please select</option>
+                    <?php } else { //echo $project_id;exit; ?>
+                      <option value="" class="dropdown-manu form-control">Please select</option>
+                    <?php } ?>
                       <?php foreach ($username as $skey => $svalue) { //echo "<pre>";print_r($user_id);exit; 
                       ?>
                         <?php if ($skey == $user_id) { ?>
@@ -84,9 +90,6 @@
                           </option>
                         <?php } ?>
                       <?php } ?>
-                      <?php if (empty($user_id)) { ?>
-                      <option value="" selected="selected" class="dropdown-manu form-control">Select project</option>
-                    <?php } ?>
                     </select>
                   </div>
                 </div>
@@ -96,6 +99,11 @@
               <div class="form-group" style="padding: 0;">
                 <label class="control-label" for="input-project">Status</label>
                 <select name="status" id="status" class="dropdown form-control">
+                  <?php if (!$work_status) { //echo $project_id;exit;?>
+                    <option value="" selected="selected" class="dropdown-manu form-control">Please select</option>
+                  <?php } else { //echo $project_id;exit; ?>
+                    <option value="" class="dropdown-manu form-control">Please select</option>
+                  <?php } ?>
                   <?php foreach ($work_status as $skey => $svalue) { //echo "<pre>";print_r($user_id);exit; 
                   ?>
                     <?php if ($skey == $status) { ?>
@@ -108,9 +116,6 @@
                       </option>
                     <?php } ?>
                   <?php } ?>
-                   <?php if (empty($status)) { ?>
-                      <option value="" selected="selected" class="dropdown-manu form-control">Select project</option>
-                    <?php } ?>
                 </select>
               </div>
             </div>

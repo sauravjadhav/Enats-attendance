@@ -274,10 +274,10 @@ class ControllerCatalogTask extends Controller
 
         // echo "<pre>";print_r($results);exit;
         foreach ($results as $result) {
-            $user_id = $result['user_id'];
-            $user = $this->db->query("SELECT username FROM oc_user WHERE user_id = $user_id")->row;
-            $project_id = $result['project_id'];
-            $project = $this->db->query("SELECT project_name FROM oc_project WHERE project_id = $project_id")->row;
+            $user_id1 = $result['user_id'];
+            $user = $this->db->query("SELECT username FROM oc_user WHERE user_id = $user_id1")->row;
+            $project_id1 = $result['project_id'];
+            $project = $this->db->query("SELECT project_name FROM oc_project WHERE project_id = $project_id1")->row;
 
             if (!empty($result['project_start_time'])) {
                 $project_start_time = date('g:i A', strtotime($result['project_start_time']));
@@ -424,6 +424,7 @@ class ControllerCatalogTask extends Controller
         $data['order'] = $order;
 
         $data['project_id'] = $project_id;
+        // echo"<pre>";print_r($data);exit;
         $data['user_id'] = $user_id;
         $data['status'] = $status;
 
