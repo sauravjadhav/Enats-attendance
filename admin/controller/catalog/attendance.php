@@ -218,7 +218,7 @@ class ControllerCatalogAttendance extends Controller {
 				'name'            => $result['name'],
 				'office_in_time'  => $result['office_in_time'],
 				'time'       => $result['time'],
-				'date'       => $result['date'],
+				'date'       => date("d-m-Y",strtotime($result['date'])),
 				'edit'            => $this->url->link('catalog/attendance/edit', 'token=' . $this->session->data['token'] . '&attendance_id=' . $result['attendance_id'] . $url, true)
 			);
 		}

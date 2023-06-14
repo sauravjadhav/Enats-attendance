@@ -195,8 +195,8 @@ class ControllerCatalogProject extends Controller {
 				'contact_person'        => $result['contact_person'],
 				'phone'   		        => $result['phone'],
 				'email'                 => $result['email'],
-				'project_start_date'    => $result['project_start_date'],
-				'project_end_date'      => $result['project_end_date'],
+				'project_start_date'    => date("d-m-Y",strtotime($result['project_start_date'])),
+				'project_end_date'      => date("d-m-Y",strtotime($result['project_end_date'])),
 				'edit'            => $this->url->link('catalog/project/edit', 'token=' . $this->session->data['token'] . '&project_id=' . $result['project_id'] . $url, true)
 			);
 		}

@@ -249,10 +249,10 @@ class ControllerCatalogEmployee extends Controller {
 				'name'        => $result['name'],
 				'name'        => $result['name'],
 				'numbers'     => $result['numbers'],
-				'doje'        => $result['doje'],
+				'doje'        =>date("d-m-Y",strtotime($result['doje'])),
 				'email'       => $result['email'],
 				'address'     => $result['address'],
-				'dob'         => $result['dob'],
+				'dob'         => date("d-m-Y",strtotime($result['dob'])),
 				'edit'        => $this->url->link('catalog/employee/edit', 'token=' . $this->session->data['token'] . '&employee_id=' . $result['employee_id'] . $url, true)
 			);
 		}

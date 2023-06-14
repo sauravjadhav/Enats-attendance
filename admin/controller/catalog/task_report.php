@@ -149,14 +149,14 @@ class Controllercatalogtaskreport  extends Controller {
 			$project_id = $task['project_id'];
 			$project = $this->db->query("SELECT project_name FROM oc_project WHERE project_id = $project_id")->row;
 			$data['tasks'][] = array(
-				'date' 	        		    => $task['date_time'],
+				'date' 	        		    =>date("d-m-Y",strtotime($task['date_time'])),
 				'project_name'          	=> $project['project_name'],
 				'username'          		=> $task['username'],
 				'user'          		    => $user['username'],
 				'remark'      				=> $task['remark'],
 				'subject'          		    => $task['subject'],
 				'project_start_time'      	=> $task['project_start_time'],
-				'start_date'      	        => $task['date'],
+				'start_date'      	        => date("d-m-Y",strtotime($task['date'])),
 				'project_end_time'        	=> $task['project_end_time'],
 				'task'   		        	=> $task['task'],
 				'status'                	=> $task['status'],
