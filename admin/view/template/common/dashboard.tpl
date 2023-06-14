@@ -1,4 +1,4 @@
-<?php echo $header; ?><?php echo $column_left; ?>
+<?php echo $header; ?><?php echo $column_left; ?> 
 <div id="content">
   <div class="page-header">
     <div class="container-fluid">
@@ -11,6 +11,15 @@
     </div>
   </div>
   <div class="container-fluid">
+
+    <?php if (!empty($bduser)) { ?>
+      <?php foreach($bduser as $bd){?>
+        <div class="alert alert-success"><i class="fa fa-birthday-cake"></i>Its <?php echo $bd['name']; ?>'s birthday | joining date <?php echo $bd['doje']?>
+         <button type="button" class="close" data-dismiss="alert">&times;</button>
+       </div>
+      <?php }?>
+    <?php } ?>
+
     <?php if (!empty($user_data)) { ?>
       <?php foreach($user as $bd){?>
         <div class="modal fade" id="birthdayPopup_<?php echo $bd['user_id']; ?>" tabindex="-1" role="dialog" aria-labelledby="birthdayPopupLabel" aria-hidden="true">
