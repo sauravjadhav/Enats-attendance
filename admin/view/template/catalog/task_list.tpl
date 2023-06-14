@@ -49,8 +49,7 @@
                     <?php echo $entry_project; ?>
                   </label>
                   <select name="project_id" id="project_id" class="dropdown-header form-control">
-                    <?php foreach ($project as $skey => $svalue) { //echo "<pre>";print_r($project);exit;
-                    ?>
+                    <?php foreach ($project as $skey => $svalue) { ?>
                       <?php if ($skey == $project_id) { ?>
                         <option value="<?php echo $skey ?>" class="dropdown-manu form-control" selected="selected">
                           <?php echo $svalue; ?>
@@ -61,9 +60,12 @@
                         </option>
                       <?php } ?>
                     <?php } ?>
-                    <option value="" selected="selected" class="dropdown-manu form-control">Select project</option>
+                    <?php if (empty($project_id)) { ?>
+                      <option value="" selected="selected" class="dropdown-manu form-control">Select project</option>
+                    <?php } ?>
                   </select>
                 </div>
+
               </div>
               <?php if ($user_group_id == 1) { ?>
                 <div class="col-sm-4">
@@ -82,7 +84,9 @@
                           </option>
                         <?php } ?>
                       <?php } ?>
-                      <option value="" selected="selected" class="dropdown-manu form-control">Select User</option>
+                      <?php if (empty($user_id)) { ?>
+                      <option value="" selected="selected" class="dropdown-manu form-control">Select project</option>
+                    <?php } ?>
                     </select>
                   </div>
                 </div>
@@ -104,7 +108,9 @@
                       </option>
                     <?php } ?>
                   <?php } ?>
-                  <option value="" selected="selected" class="dropdown-manu form-control">Select Status</option>
+                   <?php if (empty($status)) { ?>
+                      <option value="" selected="selected" class="dropdown-manu form-control">Select project</option>
+                    <?php } ?>
                 </select>
               </div>
             </div>
