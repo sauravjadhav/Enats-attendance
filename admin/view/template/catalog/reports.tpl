@@ -46,7 +46,7 @@
             <tr>
               <td class="text-left">Name</td>
               <?php foreach ($attendances_header as $header) { ?>
-                <td class="text-left"><?php echo $header['date'] ?></td>
+                <td class="text-left"><?php echo date('d-m-y', strtotime($header['date'])); ?></td>
               <?php }?>
             </tr>
           </thead>
