@@ -129,7 +129,6 @@ class Controllercatalogtaskreport  extends Controller {
 		$filter_data = array(
 			'project_id' => $project_id,
 			'user_id' => $user_id,
-			'status' => $status,
 			'fromdate'  => $fromdate,    
 			'todate'  => $todate,    
 			'sort'  => $sort,
@@ -176,7 +175,6 @@ class Controllercatalogtaskreport  extends Controller {
 
 		$data['project_id'] = $project_id;
 		$data['user_id'] = $user_id;
-		$data['status'] = $status;
 		$data['fromdate'] = $fromdate;
 		$data['todate'] = $todate;
 		$data['archive'] = $this->url->link('catalog/task_report/archive', 'token=' . $this->session->data['token'] . $url, true);
@@ -188,16 +186,16 @@ class Controllercatalogtaskreport  extends Controller {
 	}
 
    public function archive() {
-        $year = date('Y');
-        $create_table_query = $this->db->query("CREATE TABLE IF NOT EXISTS `oc_task_".$year."` LIKE oc_task;");
-        $last_month_start = date($year . '-m-01', strtotime('-1 month'));
-        $last_month_end = date($year . '-m-t', strtotime('-1 month'));
-        // echo"<pre>";print_r($last_month_start,$last_month_end);exit;
-        $insert_data = $this->db->query("INSERT IGNORE INTO `oc_task_" . $year . "` SELECT * FROM `oc_task` WHERE `date` BETWEEN '" . $last_month_start . "' AND '" . $last_month_end . "' AND `status` = 'done';");
-        $delete_last_data = $this->db->query("DELETE FROM `oc_task` WHERE `date` BETWEEN '" . $last_month_start . "' AND '" . $last_month_end . "' AND `status` = 'done';");
-        $this->response->redirect($this->url->link('catalog/arc_task_report', 'token=' . $this->session->data['token'], true));
-        // echo "<pre>";print_r($this->session->data);exit;
-    }
+	$year = date('Y');
+	$create_table_query = $this->db->query("CREATE TABLE IF NOT EXISTS `oc_task_".$year."` LIKE oc_task;");
+	// $last_month_start = date($year . '-m-01', strtotime('-1 month'));
+	$last_month_end = date($year . '-m-t', strtotime('-1 month'));
+	$insert_data = $this->db->query("INSERT IGNORE INTO `oc_task_" . $year . "` SELECT * FROM `oc_task`WHERE CAST(`date_time` AS DATE) <= '" . $last_month_end . "' AND `status` = 'done';");
+	$delete_last_data = $this->db->query("DELETE FROM `oc_task` WHERE CAST(`date_time` AS DATE) <= '" . $last_month_end . "' AND `status` = 'done';");
+	// echo "<pre>";print_r($delete_last_data);exit;
+	$this->response->redirect($this->url->link('catalog/arc_task_report', 'token=' . $this->session->data['token'], true));
+	// echo "<pre>";print_r($this->session->data);exit;
+}
 
 
 	public function export() {
