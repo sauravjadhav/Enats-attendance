@@ -61,12 +61,44 @@ class Controllercatalogtaskreport  extends Controller {
 			$project_id = 0;
 		}
 
+		 if (isset($this->request->get['status'])) {
+            $status = $this->request->get['status'];
+
+            $work_status = array(
+                'assigned' => 'assigned',
+                'pending' => 'pending',
+                'done' => 'done',
+                'left' => 'left',
+                'working' => 'working',
+                'c/f-working' => 'c/f-working',
+                'transfer' => 'transfer'
+            );
+
+            $data['work_status'] = $work_status;
+        } else {
+            $work_status = array(
+                'assigned' => 'assigned',
+                'pending' => 'pending',
+                'done' => 'done',
+                'left' => 'left',
+                'working' => 'working',
+                'c/f-working' => 'c/f-working',
+                'transfer' => 'transfer'
+            );
+            $status = '';
+            $data['work_status'] = $work_status;
+        }
+
 		if (isset($this->request->get['fromdate'])) {
 			$fromdate = $this->request->get['fromdate'];
 			$url .= '&fromdate='.$fromdate;
 		} else {
 			$fromdate = '';
 		}
+
+		if (isset($this->request->get['status'])) {
+            $url .= '&status=' . $this->request->get['status'];
+        }
 
 		if (isset($this->request->get['todate'])) {
 			$todate = $this->request->get['todate'];
@@ -129,6 +161,7 @@ class Controllercatalogtaskreport  extends Controller {
 		$filter_data = array(
 			'project_id' => $project_id,
 			'user_id' => $user_id,
+			'status' => $status,
 			'fromdate'  => $fromdate,    
 			'todate'  => $todate,    
 			'sort'  => $sort,
@@ -222,6 +255,10 @@ class Controllercatalogtaskreport  extends Controller {
 		  $to_date = date('Y-m-d H:i:s', strtotime($this->request->get['todate']));
 		  $task_data .= " AND DATE(date_time) = '" . $this->db->escape($to_date) . "'";
 		}
+
+		if (!empty($this->request->get['status'])) {
+				$task_data .= " AND status LIKE '" . $this->db->escape($this->request->get['status']) . "%'";
+			}
 
 		$task_data .= " ORDER BY date_time ASC";
 		// echo "<pre>";print_r($task_data);exit;

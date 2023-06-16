@@ -65,19 +65,27 @@
                 </select>
               </div>
             </div>
-            <div class="col-sm-4">
+             <div class="col-sm-4">
               <div class="form-group" style="padding: 0;">
-                <label class="control-label" for="input-user_id">Status</label>
+                <label class="control-label" for="input-project">Status</label>
                 <select name="status" id="status" class="dropdown form-control">
-                  <?php foreach ($status as $skey => $svalue) { //echo "<pre>";print_r($status_id);exit; 
+                  <?php if (!$work_status) { //echo $project_id;exit;?>
+                    <option value="" selected="selected" class="dropdown-manu form-control">Please select</option>
+                  <?php } else { //echo $project_id;exit; ?>
+                    <option value="" class="dropdown-manu form-control">Please select</option>
+                  <?php } ?>
+                  <?php foreach ($work_status as $skey => $svalue) { //echo "<pre>";print_r($user_id);exit; 
                   ?>
-                    <?php if ($skey == $status_id) { ?>
-                      <option value="<?php echo $skey ?>" class="dropdown-manu form-control" selected="selected"><?php echo $svalue; ?></option>
+                    <?php if ($skey == $status) { ?>
+                      <option value="<?php echo $skey ?>" class="dropdown-manu form-control" selected="selected">
+                        <?php echo $svalue; ?>
+                      </option>
                     <?php } else { ?>
-                      <option value="<?php echo $skey ?>" class="dropdown-manu form-control"><?php echo $svalue ?></option>
+                      <option value="<?php echo $skey ?>" class="dropdown-manu form-control">
+                        <?php echo $svalue ?>
+                      </option>
                     <?php } ?>
                   <?php } ?>
-                  <option value="" selected="selected" class="dropdown-manu form-control">Select status</option>
                 </select>
               </div>
             </div>
@@ -148,6 +156,12 @@
 
     if (user_id) {
       url += '&user_id=' + encodeURIComponent(user_id);
+    }
+
+    var status = $('select[name=\'status\']').val();
+
+    if (status) {
+      url += '&status=' + encodeURIComponent(status);
     }
 
     var fromdate = $('input[name=\'fromdate\']').val();

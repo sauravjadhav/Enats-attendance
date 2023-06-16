@@ -34,6 +34,10 @@ class ModelCatalogTaskReport extends Model {
       $sql .= " AND DATE(date_time) = '" . $this->db->escape($to_date) . "'";
     }
 
+    if (!empty($data['status'])) {
+        $sql .= " AND status LIKE '" . $this->db->escape($data['status']) . "%'";
+      }
+
     $sort_data = array(
       'project_id',
       'user_id',
