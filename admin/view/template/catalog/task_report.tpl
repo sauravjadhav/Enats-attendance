@@ -65,6 +65,22 @@
                 </select>
               </div>
             </div>
+            <div class="col-sm-4">
+              <div class="form-group" style="padding: 0;">
+                <label class="control-label" for="input-user_id">Status</label>
+                <select name="status" id="status" class="dropdown form-control">
+                  <?php foreach ($status as $skey => $svalue) { //echo "<pre>";print_r($status_id);exit; 
+                  ?>
+                    <?php if ($skey == $status_id) { ?>
+                      <option value="<?php echo $skey ?>" class="dropdown-manu form-control" selected="selected"><?php echo $svalue; ?></option>
+                    <?php } else { ?>
+                      <option value="<?php echo $skey ?>" class="dropdown-manu form-control"><?php echo $svalue ?></option>
+                    <?php } ?>
+                  <?php } ?>
+                  <option value="" selected="selected" class="dropdown-manu form-control">Select status</option>
+                </select>
+              </div>
+            </div>
             <div class="col-sm-3" style="text-align: start;">
               <button type="button" id="button-filter" class="btn btn-primary"><i class="fa fa-search"></i> <?php echo $button_filter; ?></button>
             </div>

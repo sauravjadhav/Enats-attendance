@@ -295,7 +295,7 @@ class ControllerCatalogTask extends Controller
                 'task_id'                     => $result['task_id'],
                 'remark'                     => $result['remark'],
                 'project'                      => $project['project_name'],
-                'date_time'                      =>date("d-m-Y",strtotime($result['date_time'])),
+                'date_time' => date("d-m-Y H:i:s", strtotime($result['date_time'])),
                 'start_date'                      =>date("d-m-Y",strtotime($result['date'])),
                 'user'                         => $result['username'],
                 'subject'                         => $result['subject'],
